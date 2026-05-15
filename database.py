@@ -4,8 +4,12 @@ class Database():
     def __init__(self):
         self.connect = sqlite3.connect("app.db")
         self.cursor = self.connect.cursor()
+        self.ceate_tables()
 
-#ceate the table that contain the client data
+    def ceate_tables(self):
+        #username_01,password_01,firstname,lastname,level,phone_number,username_02,password_02
+        vals = [(0,"أولى متوسط"),(1,"ثانية متوسط"),(2,"ثالثة متوسط"),(3,"رابعة متوسط"),(4,"أولى ثانوي"),(5,"ثانية ثانوي"),(6,"ثالثة ثانوي"),]
+        #ceate the table that contain the client data
         self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS table_01(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,10 +23,19 @@ class Database():
         password_02 TEXT UNIQUE
         )
         """)
-        #username_01,password_01,firstname,lastname,level,phone_number,username_02,password_02
-        
         self.connect.commit()
 
+
+        #create the level lookup table
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS level_lookup(
+        level_index INTEGER UNIQUE NOT NULL,
+        level_text TEXT     
+        )"""
+        )
+        insertlvl_sql = "INSERT INTO level_lookup (level_index, level_text) VALUES (?,?)"
+
+
+    
     def tablequery(self):
         query = self.cursor.execute("""
         SELECT table_01.lastname, table_01.firstname, level_lookup.level_text, table_01.username_01, table_01.password_01, table_01.username_02, table_01.password_02, table_01.phone_number
