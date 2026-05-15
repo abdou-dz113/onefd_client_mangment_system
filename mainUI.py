@@ -23,13 +23,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.update_table(data)
 
     def update_table(self,data):
-        self.table01.setRowCount(0)
-        self.table01.setRowCount(len(data))
-        self.table01.setColumnCount(len(data[0]))
-        for i, row in enumerate(data):
-            for c, cell in enumerate(row):
-                item = QtWidgets.QTableWidgetItem(str(cell))
-                self.table01.setItem(i,c,item)
+        data_row_count = len(data)
+        data_column_count = len(data[0])
+        if data_row_count > 0 and data_column_count ==8:
+            self.table01.setRowCount(0)
+            self.table01.setRowCount(data_row_count)
+            self.table01.setColumnCount(data_column_count)
+            for i, row in enumerate(data):
+                for c, cell in enumerate(row):
+                    item = QtWidgets.QTableWidgetItem(str(cell))
+                    self.table01.setItem(i,c,item)
 
 
     def insert(self):
@@ -48,11 +51,29 @@ class MainWindow(QtWidgets.QMainWindow):
     def clear(self):    
         for widget in self.findChildren((QtWidgets.QLineEdit,)):
             widget.clear()
-        self.level.setCurrentIndex(-1)
+        self.initUI()
     
-    def search(self,expestion):
+    def get_input(self):
+        active_widgets =[]
+        for widget in self.findChildren((QtWidgets.QLineEdit, QtWidgets.QComboBox)):
+            widget_id = widget.objectName()
+            #Check for comboboxs
+            if isinstance(widget, QtWidgets.QComboBox):
+                level_val = widget.currentIndex()
+                if level_val >=0:
+                    print(f"{widget_id}: {level_val}")
+            #check for line text edits
+            if isinstance(widget, QtWidgets.QLineEdit):
+                text_val = widget.text().strip()
+                if text_val:
+                    print(f"{widget_id}: {text_val}")
+        
+
+    def search(self):
+
+        stext = self.username_01.text()
         expestion = self.lastname.text()
-        search_table = self.db.search(expestion)
+        search_table = self.db.search(stext)
         self.update_table(search_table)
 
 app = QtWidgets.QApplication(sys.argv)

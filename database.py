@@ -25,7 +25,6 @@ class Database():
         """)
         self.connect.commit()
 
-
         #create the level lookup table
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS level_lookup(
         level_index INTEGER UNIQUE NOT NULL,
@@ -54,12 +53,57 @@ class Database():
         except sqlite3.Error as e:
             print(f"Database error code: {e}")
 
-    def search(self,expestion):
+    def search_old(self,expestion):
         search_term = f"%{expestion}%"
         self.cursor.execute("SELECT * FROM table_01 WHERE lastname LIKE  ? ",(search_term,))
         result = self.cursor.fetchall()
         return result
+    def search(self,scon, *sarg):
+        stext = f"%{scon}%"
+        sql = """
+        SELECT 
+            t.lastname, 
+            t.firstname,
+            l.level_text, 
+            t.username_01,
+            t.password_01,
+            t.username_02, 
+            t.password_02,
+            t.phone_number 
+        FROM table_01 t
+        INNER JOIN level_lookup l ON t.level = l.level_index
+        """
+        search_con = " t.username_01 LIKE ?"
+
+        sql = sql + "WHERE" + search_con 
+
+        self.cursor.execute(sql,(stext,))
+        results = self.cursor.fetchall()
+        return results
+        
 
 if __name__ == "__main__":
     db=Database()
+    t = "أ"
+    stext = f"%{t}%"
+    sql = """
+    SELECT 
+        t.lastname, 
+        t.firstname,
+        l.level_text, 
+        t.username_01,
+        t.password_01,
+        t.username_02, 
+        t.password_02,
+        t.phone_number 
+    FROM table_01 t
+    INNER JOIN level_lookup l ON t.level = l.level_index
+    """
+    search_con = " t.firstname LIKE ?"
 
+    sql = sql + "WHERE" + search_con 
+
+    results = db.cursor.execute(sql,(stext,))
+
+    for row in results.fetchall():
+        print (row)
