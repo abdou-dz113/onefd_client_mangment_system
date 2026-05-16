@@ -64,23 +64,23 @@ class MainWindow(QtWidgets.QMainWindow):
                     is_input_valid = False
                     self.widget_map[widget].setProperty("hasError", "true")                                 
                 else:
-                    is_input_valid = True
                     self.widget_map[widget].setProperty("hasError", "false")
            
             if not value:
                 print(widget,"is empty")
                 is_input_valid = False
-                self.widget_map[widget].setProperty("hasError", "true")
+
             
             self.redraw_widget(self.widget_map[widget])
+
         if not is_input_valid:
             print("Please fill the empty field")
             return
 
     def redraw_widget(self,widget):
-        self.widget.style().unpolish(self.widget)
-        self.widget.style().polish(self.widget)
-        self.widget.update()
+        widget.style().unpolish(widget)
+        widget.style().polish(widget)
+        widget.update()
 
 
 
@@ -100,6 +100,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def clear(self):    
         for widget in self.widgets:
             widget.setProperty("hasError","false")
+            widget.setStyleSheet("")
             self.redraw_widget(widget)
             if not widget.objectName() == "level":
                 widget.clear()
