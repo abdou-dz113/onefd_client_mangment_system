@@ -44,11 +44,20 @@ class Database():
         data = query.fetchall()
         return data
 
-    def insert(self,user1,pass1,lname,fname,lvl,pn,user2,pass2):
+    def insert(self,input_dict):
         try:
             self.cursor.execute(
                 """INSERT INTO table_01 (username_01,password_01,firstname,lastname,level,phone_number,username_02,password_02) VALUES (?,?,?,?,?,?,?,?)"""
-                , (user1,pass1,lname,fname,lvl,pn,user2,pass2))
+                , (
+                    input_dict["username_01"],
+                    input_dict["password_01"],
+                    input_dict["firstname"],
+                    input_dict["lastname"],
+                    input_dict["level"],
+                    input_dict["phone_number"],
+                    input_dict["username_02"],
+                    input_dict["password_02"]
+                ))
             self.connect.commit()
         except sqlite3.Error as e:
             print(f"Database error code: {e}")

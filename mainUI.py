@@ -17,7 +17,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.search_button.clicked.connect(self.search)
     
     def initUI(self):
-        self.restwindow()
+        self.reset_window()
         self.inputs_frame.setStyleSheet("""
             QLineEdit[hasError='true']{
                 border: 2px solid #FF4D4D;
@@ -26,9 +26,13 @@ class MainWindow(QtWidgets.QMainWindow):
             QLineEdit{
             
             }
+            QLineComboBox[hasError='true']{
+                border: 2px solid #FF4D4D;
+            
+            }
         """)
 
-    def restwindow(self):
+    def reset_window(self):
         self.loadtable()
         self.level.setCurrentIndex(-1)
         
@@ -58,7 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
         is_input_valid = True
 
         for widget, value in inputs.items():
-            if widget.strip() =='level':
+            if widget =='level':                
                 if value < 0:
                     print(widget,"is empty")
                     is_input_valid = False
@@ -66,16 +70,22 @@ class MainWindow(QtWidgets.QMainWindow):
                 else:
                     self.widget_map[widget].setProperty("hasError", "false")
            
-            if not value:
-                print(widget,"is empty")
+            if not value and  not widget == 'level':
+                #print(widget,"is empty")
                 is_input_valid = False
                 self.widget_map[widget].setProperty("hasError", "true")
+            else:
+                self.widget_map[widget].setProperty("hasError", "false")
+
+
             
             self.redraw_widget(self.widget_map[widget])
 
         if not is_input_valid:
             print("Please fill the empty field")
             return
+        self.db.insert(inputs)
+        self.reset_window()
 
     def redraw_widget(self,widget):
         widget.style().unpolish(widget)
@@ -104,7 +114,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.redraw_widget(widget)
             if not widget.objectName() == "level":
                 widget.clear()
-        return self.restwindow()
+        return self.reset_window()
         
 
     
