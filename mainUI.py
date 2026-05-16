@@ -69,7 +69,7 @@ class MainWindow(QtWidgets.QMainWindow):
             if not value:
                 print(widget,"is empty")
                 is_input_valid = False
-
+                self.widget_map[widget].setProperty("hasError", "true")
             
             self.redraw_widget(self.widget_map[widget])
 
