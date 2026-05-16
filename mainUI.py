@@ -10,6 +10,7 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi("main.ui", self)
         self.db = Database() 
         self.widgets = self.findChildren((QLineEdit, QComboBox))
+        self.widget_map = {w.objectName():w for w in self.widgets}
         self.initUI()
         self.add_button.clicked.connect(self.insert)
         self.clear_button.clicked.connect(self.clear)
@@ -17,6 +18,15 @@ class MainWindow(QtWidgets.QMainWindow):
     
     def initUI(self):
         self.restwindow()
+        self.inputs_frame.setStyleSheet("""
+            QLineEdit[hasError='true']{
+                border: 2px solid #FF4D4D;
+            
+            }
+            QLineEdit{
+            
+            }
+        """)
 
     def restwindow(self):
         self.loadtable()
@@ -43,19 +53,35 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.table01.setItem(i,c,item)
 
     def insert(self):
-        input = self.get_input()
-        input_names = [i[0] for i in input]
-        
-        
-        if not input:
-            return
-        else:
-            for widget in self.widgets:
-                if widget.objectName() not in input_names and not widget.objectName()=="QComboBox":
-                    widget.setStyleSheet("background-color: #fa5a5f;")
+        inputs = self.get_input()
+        empty_widgets = []
+        is_input_valid = True
 
-
+        for widget, value in inputs.items():
+            if widget.strip() =='level':
+                if value < 0:
+                    print(widget,"is empty")
+                    is_input_valid = False
+                    self.widget_map[widget].setProperty("hasError", "true")                                 
+                else:
+                    is_input_valid = True
+                    self.widget_map[widget].setProperty("hasError", "false")
+           
+            if not value:
+                print(widget,"is empty")
+                is_input_valid = False
+                self.widget_map[widget].setProperty("hasError", "true")
             
+            self.redraw_widget(self.widget_map[widget])
+        if not is_input_valid:
+            print("Please fill the empty field")
+            return
+
+    def redraw_widget(self,widget):
+        self.widget.style().unpolish(self.widget)
+        self.widget.style().polish(self.widget)
+        self.widget.update()
+
 
 
     def insert2(self):
@@ -73,7 +99,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def clear(self):    
         for widget in self.widgets:
-            widget.setStyleSheet("")
+            widget.setProperty("hasError","false")
+            self.redraw_widget(widget)
             if not widget.objectName() == "level":
                 widget.clear()
         return self.restwindow()
@@ -81,27 +108,23 @@ class MainWindow(QtWidgets.QMainWindow):
 
     
     def get_input(self):
-        active_widgets =[]
         widget_dict = {}
         for widget in self.widgets:
             widget_id = widget.objectName()
-            widget.setStyleSheet("background-color: white;")
+            widget.setStyleSheet("")
             #Check for comboboxs
             if isinstance(widget, QtWidgets.QComboBox):
-                level_val = widget.currentIndex()
-                widget_dict[widget_id] = level_val
-                if level_val >=0:
-                    active_widgets.append((widget_id, level_val))
+
+                widget_dict[widget_id] = widget.currentIndex()
+
             #check for line text edits
             if isinstance(widget, QtWidgets.QLineEdit):
                 widget_dict[widget_id] = widget.text()
-                text_val = widget.text().strip()
-                if text_val:
-                    active_widgets.append((widget_id,text_val))
+
         
         print(widget_dict)
         
-        return active_widgets 
+        return widget_dict
 
     def search(self):
 
