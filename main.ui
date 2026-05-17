@@ -446,6 +446,9 @@
       <layout class="QHBoxLayout" name="horizontalLayout_11">
        <item>
         <widget class="QTableWidget" name="table01">
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
          <property name="layoutDirection">
           <enum>Qt::RightToLeft</enum>
          </property>
