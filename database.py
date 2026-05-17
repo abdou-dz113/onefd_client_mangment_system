@@ -45,6 +45,7 @@ class Database():
         return data
 
     def insert(self,input_dict):
+        """insert data to sql table: table_01"""
         try:
             self.cursor.execute(
                 """INSERT INTO table_01 (username_01,password_01,firstname,lastname,level,phone_number,username_02,password_02) VALUES (?,?,?,?,?,?,?,?)"""
@@ -62,12 +63,8 @@ class Database():
         except sqlite3.Error as e:
             print(f"Database error code: {e}")
 
-    def search_old(self,expestion):
-        search_term = f"%{expestion}%"
-        self.cursor.execute("SELECT * FROM table_01 WHERE lastname LIKE  ? ",(search_term,))
-        result = self.cursor.fetchall()
-        return result
-    def search(self,scon, *sarg):
+
+    def search(self,sarg):
         stext = f"%{scon}%"
         sql = """
         SELECT 
@@ -82,6 +79,8 @@ class Database():
         FROM table_01 t
         INNER JOIN level_lookup l ON t.level = l.level_index
         """
+
+        print(search_arg)
         search_con = " t.username_01 LIKE ?"
 
         sql = sql + "WHERE" + search_con 

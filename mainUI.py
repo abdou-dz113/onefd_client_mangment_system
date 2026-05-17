@@ -1,6 +1,6 @@
 import sys
 from PyQt6 import QtWidgets, uic
-from PyQt6.QtWidgets import (QLineEdit,QComboBox)
+from PyQt6.QtWidgets import (QLineEdit,QComboBox,QHeaderView)
 from database import Database
 
 
@@ -31,6 +31,7 @@ class MainWindow(QtWidgets.QMainWindow):
             
             }
         """)
+        self.table01.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
     def reset_window(self):
         self.loadtable()
@@ -40,6 +41,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def loadtable(self):
         data = self.db.tablequery()
         self.update_table(data)
+        
 
     def update_table(self,data):
         data_row_count = len(data)
@@ -57,6 +59,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.table01.setItem(i,c,item)
 
     def insert(self):
+        
         inputs = self.get_input()
         empty_widgets = []
         is_input_valid = True
@@ -87,6 +90,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.db.insert(inputs)
         self.reset_window()
 
+
+
+
     def redraw_widget(self,widget):
         widget.style().unpolish(widget)
         widget.style().polish(widget)
@@ -94,23 +100,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-    def insert2(self):
-        username_01=self.username_01.text()
-        password_01=self.password_01.text()
-        firstname=self.firstname.text()
-        lastname=self.lastname.text()
-        level=self.level.currentIndex()
-        phone_number=self.phone_number.text()
-        username_02=self.username_02.text()
-        password_02=self.password_02.text()
-
-        self.db.insert(username_01,password_01,firstname,lastname,level,phone_number,username_02,password_02)
-        self.loadtable()
-
     def clear(self):    
         for widget in self.widgets:
             widget.setProperty("hasError","false")
-            widget.setStyleSheet("")
             self.redraw_widget(widget)
             if not widget.objectName() == "level":
                 widget.clear()
@@ -122,11 +114,10 @@ class MainWindow(QtWidgets.QMainWindow):
         widget_dict = {}
         for widget in self.widgets:
             widget_id = widget.objectName()
-            widget.setStyleSheet("")
             #Check for comboboxs
             if isinstance(widget, QtWidgets.QComboBox):
-
-                widget_dict[widget_id] = widget.currentIndex()
+                widget_index = widget.currentIndex()
+                widget_dict[widget_id] = widget_index
 
             #check for line text edits
             if isinstance(widget, QtWidgets.QLineEdit):
@@ -138,10 +129,8 @@ class MainWindow(QtWidgets.QMainWindow):
         return widget_dict
 
     def search(self):
-
-        stext = self.username_01.text()
-        expestion = self.lastname.text()
-        search_table = self.db.search(stext)
+        inputs = self.get_input()
+        search_table = self.db.search(inputs)
         self.update_table(search_table)
 
 app = QtWidgets.QApplication(sys.argv)
