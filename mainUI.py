@@ -27,7 +27,7 @@ class MainWindow(QtWidgets.QMainWindow):
             QLineEdit{
             
             }
-            QLineComboBox[hasError='true']{
+            QComboBox[hasError='true']{
                 border: 2px solid #FF4D4D;
             
             }
@@ -38,7 +38,6 @@ class MainWindow(QtWidgets.QMainWindow):
         widget.style().unpolish(widget)
         widget.style().polish(widget)
         widget.update()
-
 
 
     def clear(self):    
@@ -100,7 +99,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def validate_input(self,get_filled=False):
         """
-        use True to use in search function
+        checks for empty input fields
+        get_filled=True : return {field name: input} of any filled input
+        get_filled=False : return inputs only if all filled
         """
         inputs = self.get_input()
         is_input_valid = True
@@ -121,6 +122,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def validate_ui(self,valid_inputs):
+        """
+        visualy show if input is not valid or emprty when you click insert
+        """
         if not valid_inputs:
             for widget_name, widget_id in self.widget_map.items():
                 widget_id.setProperty("hasError","true")
@@ -145,7 +149,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-    def search(self):
+    def search(self):       
         inputs = self.validate_input(True)
         search_table = self.db.search(inputs)
         self.update_table(search_table)

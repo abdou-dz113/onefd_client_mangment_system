@@ -62,25 +62,6 @@ class Database():
             self.connect.commit()
         except sqlite3.Error as e:
             print(f"Database error code: {e}")
-    def search(self,inputs):
-        
-        sql = """
-        SELECT 
-            t.lastname, 
-            t.firstname,
-            l.level_text, 
-            t.username_01,
-            t.password_01,
-            t.username_02, 
-            t.password_02,
-            t.phone_number 
-        FROM table_01 t
-        INNER JOIN level_lookup l ON t.level = l.level_index
-        WHERE
-        """
-        print(inputs)
-        search_con = [widget for widget in inputs.keys()]
-        print(search_con)
 
 
     def search(self, sarg):
@@ -102,47 +83,10 @@ class Database():
         params = [f"%{val}%" for val in sarg.values()]
 
         sql = table_select + " WHERE " + conditions
-        print(sql)
         self.cursor.execute(sql, params)
         return self.cursor.fetchall()
         
 
 if __name__ == "__main__":
     db=Database()
-    t = "أ"
-    stext = f"%{t}%"
-    sql = """
-    SELECT 
-        t.lastname, 
-        t.firstname,
-        l.level_text, 
-        t.username_01,
-        t.password_01,
-        t.username_02, 
-        t.password_02,
-        t.phone_number 
-    FROM table_01 t
-    INNER JOIN level_lookup l ON t.level = l.level_index
-    WHERE (username_01,password_01,firstname) LIKE  (?,?,?)
-    """
 
-    sql = """
-        SELECT 
-        t.lastname, 
-        t.firstname,
-        l.level_text, 
-        t.username_01,
-        t.password_01,
-        t.username_02, 
-        t.password_02,
-        t.phone_number 
-    FROM table_01 t
-    INNER JOIN level_lookup l ON t.level = l.level_index    
-    
-    """
-    sql = sql + " WHERE t.username_01 LIKE '%u%'" + " UNION " + sql +  " WHERE t.password_01 LIKE '%p%'"
-   
-    results = db.cursor.execute(sql)
-
-    for row in results.fetchall():
-        print (row)
