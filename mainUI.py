@@ -113,7 +113,7 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 is_input_valid = False
         
-        if valid_inputs:
+        if valid_inputs.values:
             if is_input_valid:
                 return valid_inputs
             elif get_filled:
@@ -151,6 +151,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def search(self):       
         inputs = self.validate_input(True)
+        if not inputs:
+            return
         search_table = self.db.search(inputs)
         self.update_table(search_table)
 

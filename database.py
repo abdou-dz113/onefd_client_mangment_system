@@ -8,30 +8,32 @@ class Database():
 
     def ceate_tables(self):
         #username_01,password_01,firstname,lastname,level,phone_number,username_02,password_02
-        vals = [(0,"أولى متوسط"),(1,"ثانية متوسط"),(2,"ثالثة متوسط"),(3,"رابعة متوسط"),(4,"أولى ثانوي"),(5,"ثانية ثانوي"),(6,"ثالثة ثانوي"),]
         #ceate the table that contain the client data
         self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS table_01(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username_01 TEXT UNIQUE,
-        password_01 TEXT UNIQUE,
+        password_01 TEXT ,
         firstname TEXT,
         lastname TEXT,
         level INTEGER,
         phone_number TEXT,
         username_02 TEXT UNIQUE,
-        password_02 TEXT UNIQUE
+        password_02 TEXT 
         )
         """)
         self.connect.commit()
 
         #create the level lookup table
+        vals = [(0,"أولى متوسط"),(1,"ثانية متوسط"),(2,"ثالثة متوسط"),(3,"رابعة متوسط"),(4,"أولى ثانوي"),(5,"ثانية ثانوي"),(6,"ثالثة ثانوي"),]
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS level_lookup(
-        level_index INTEGER UNIQUE NOT NULL,
+        level_index INTEGER UNIQUE ,
         level_text TEXT     
         )"""
         )
-        insertlvl_sql = "INSERT INTO level_lookup (level_index, level_text) VALUES (?,?)"
+        insertlvl_sql = "INSERT OR IGNORE INTO level_lookup (level_index, level_text) VALUES (?,?)"
+        self.cursor.executemany(insertlvl_sql,vals)
+        self.connect.commit()
 
 
     
