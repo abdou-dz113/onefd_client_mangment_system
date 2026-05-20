@@ -32,8 +32,41 @@ class MainWindow(QtWidgets.QMainWindow):
             
             }
         """)
+        self.table01.setHorizontalHeaderLabels([
+                                                "id",
+                                                "اللقب",
+                                                "الاسم",
+                                                "المستوى",
+                                                "اسم مستخدم الحساب",
+                                                "كلمة مرور الحساب",
+                                                "اسم مستخدم المعلام",
+                                                "كلمة مرور المعلام",
+                                                "رقم الهاتف"])
         self.table01.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.table01.setColumnHidden(0,True)
 
+  
+    def loadtable(self):
+        data = self.db.tablequery()
+        self.update_table(data)
+        
+
+    def update_table(self,data):
+        data_row_count = len(data)
+        if not data:
+            self.table01.setRowCount(0)
+            return
+        data_column_count = len(data[0])
+        if data_row_count > 0 and data_column_count >0:
+            self.table01.setRowCount(0)
+            self.table01.setRowCount(data_row_count)
+            self.table01.setColumnCount(data_column_count)
+            for i, row in enumerate(data):
+                for c, cell in enumerate(row):
+                    item = QtWidgets.QTableWidgetItem(str(cell))
+                    self.table01.setItem(i,c,item)
+
+ 
     def edit_client(self):
         self.client_edit_window= QMainWindow()
         uic.loadUi("edit_client.ui",self.client_edit_window)
@@ -79,8 +112,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         if index.isValid():
  
-            lname = self.table01.item(index.row(),0).text()
-            frname = self.table01.item(index.row(),1).text()
+            lname = self.table01.item(index.row(),1).text()
+            frname = self.table01.item(index.row(),2).text()
             search = self.db.search({"firstname":frname,"lastname":lname})
 
             edit_action = menu.addAction(f"تعديل  [{lname} {frname}]")
@@ -127,28 +160,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.reset_window()
                 self.show_dialog("Message","Client has been deleted ")
 
-  
-
-    def loadtable(self):
-        data = self.db.tablequery()
-        self.update_table(data)
-        
-
-    def update_table(self,data):
-        data_row_count = len(data)
-        if not data:
-            self.table01.setRowCount(0)
-            return
-        data_column_count = len(data[0])
-        if data_row_count > 0 and data_column_count >0:
-            self.table01.setRowCount(0)
-            self.table01.setRowCount(data_row_count)
-            self.table01.setColumnCount(data_column_count)
-            for i, row in enumerate(data):
-                for c, cell in enumerate(row):
-                    item = QtWidgets.QTableWidgetItem(str(cell))
-                    self.table01.setItem(i,c,item)
- 
     def get_input(self):
         widget_dict = {}
         for widget in self.widgets:
@@ -224,8 +235,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.loadtable()
             self.clear()
         else:
-            self.show_dialog("Error Message","Please fill all the red fields")
-        
+            self.show_dialog("Error Message","Please fill all the input fields")
+            
 
 
 

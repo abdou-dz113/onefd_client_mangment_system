@@ -39,9 +39,18 @@ class Database():
     
     def tablequery(self):
         query = self.cursor.execute("""
-        SELECT table_01.lastname, table_01.firstname, level_lookup.level_text, table_01.username_01, table_01.password_01, table_01.username_02, table_01.password_02, table_01.phone_number
-        FROM table_01
-        JOIN level_lookup ON table_01.level = level_lookup.level_index
+            SELECT 
+                    t.id,
+                    t.lastname,
+                    t.firstname,
+                    l.level_text,
+                    t.username_01,
+                    t.password_01,
+                    t.username_02,
+                    t.password_02,
+                    t.phone_number
+            FROM table_01 t
+            INNER JOIN level_lookup l ON t.level = l.level_index
         """)
         data = query.fetchall()
         return data
@@ -69,6 +78,7 @@ class Database():
     def search(self, sarg):
         table_select = """
         SELECT 
+            t.id,
             t.lastname, 
             t.firstname,
             l.level_text, 
