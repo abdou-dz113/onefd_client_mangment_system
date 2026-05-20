@@ -87,7 +87,14 @@ class Database():
         sql = table_select + " WHERE " + conditions
         self.cursor.execute(sql, params)
         return self.cursor.fetchall()
-        
+
+    def delete(self,last_name,first_name):
+        sql = """DELETE FROM table_01 WHERE lastname = ? AND firstname = ? """
+        try:
+            self.cursor.execute(sql,(last_name,first_name))
+            self.connect.commit() 
+        except sqlite3.Error as error:
+            print(error)  
 
 if __name__ == "__main__":
     db=Database()

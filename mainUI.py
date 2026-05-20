@@ -1,6 +1,6 @@
 import sys
 from PyQt6 import QtWidgets, uic
-from PyQt6.QtWidgets import (QLineEdit,QComboBox,QHeaderView,QMenu)
+from PyQt6.QtWidgets import (QLineEdit,QComboBox,QHeaderView,QMenu,QApplication,QMessageBox,QMainWindow)
 from database import Database
 
 
@@ -15,8 +15,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.add_button.clicked.connect(self.insert)
         self.clear_button.clicked.connect(self.clear)
         self.search_button.clicked.connect(self.search)
+        self.table01.customContextMenuRequested.connect(self.show_context_menu)
         
-    
     def initUI(self):
         self.reset_window()
         self.inputs_frame.setStyleSheet("""
@@ -33,6 +33,24 @@ class MainWindow(QtWidgets.QMainWindow):
             }
         """)
         self.table01.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+
+    def edit_client(self):
+        self.client_edit_window= QMainWindow()
+        uic.loadUi("edit_client.ui",self.client_edit_window)
+        self.client_edit_window.show()
+
+    def show_dialog(self,title,message):
+        msg = QMessageBox()
+        msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+        msg.setWindowTitle(title)
+        msg.setText(message)
+        result = msg.exec()
+        if result == QMessageBox.StandardButton.Ok:
+            return True
+        elif result == QMessageBox.StandardButton.Cancel:
+            return False
+
+
 
     def redraw_widget(self,widget):
         widget.style().unpolish(widget)
@@ -54,6 +72,63 @@ class MainWindow(QtWidgets.QMainWindow):
         self.level.setCurrentIndex(-1)
         
 
+    def show_context_menu(self,position):
+        menu = QMenu()
+        index = self.table01.indexAt(position)
+        item = self.table01.item(0,1)
+
+        if index.isValid():
+ 
+            lname = self.table01.item(index.row(),0).text()
+            frname = self.table01.item(index.row(),1).text()
+            search = self.db.search({"firstname":frname,"lastname":lname})
+
+            edit_action = menu.addAction(f"تعديل  [{lname} {frname}]")
+            delete_action = menu.addAction(f"حذف {lname} {frname}")
+            copy_login_username = menu.addAction(f"Copy Login Username ")
+            copy_login_password = menu.addAction(f"Copy Login password ")
+            copy_devoir_username = menu.addAction(f"Copy e-devoir username ")
+            copy_devoir_password = menu.addAction(f"Copy e-devoir password ")
+        else:
+            return
+        
+        action = menu.exec(self.table01.viewport().mapToGlobal(position))
+        item_names  =   ['lastname',
+                        'firstname',
+                        'level',
+                        'username_01',
+                        'password_01',
+                        'username_02',
+                        'password_02',
+                        'phone_number']
+        
+        item_dict = dict(zip(item_names,search[0]))
+
+        #print(item_dict)
+        clipboard = QApplication.clipboard()
+        if action == edit_action:
+            self.edit_client()
+        elif action == delete_action:
+            self.delete_client(lname,frname)
+        elif action == copy_login_username:
+            clipboard.setText(item_dict.get("username_01"))
+        elif action == copy_login_password:
+            clipboard.setText(item_dict.get("password_01"))
+        elif action == copy_devoir_username:
+            clipboard.setText(item_dict.get("username_02"))
+        elif action == copy_devoir_password:
+            clipboard.setText(item_dict.get("password_02"))            
+        
+    def delete_client(self, last_name,first_name):
+            window_title = "Delete client From database"
+            message = f"Are you sure you want to delete: [{last_name} {first_name}]"
+            if self.show_dialog(window_title,message):
+                self.db.delete(last_name,first_name)
+                self.reset_window()
+                self.show_dialog("Message","Client has been deleted ")
+
+  
+
     def loadtable(self):
         data = self.db.tablequery()
         self.update_table(data)
@@ -73,7 +148,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 for c, cell in enumerate(row):
                     item = QtWidgets.QTableWidgetItem(str(cell))
                     self.table01.setItem(i,c,item)
-  
+ 
     def get_input(self):
         widget_dict = {}
         for widget in self.widgets:
@@ -118,6 +193,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 return valid_inputs
             elif get_filled:
                 return valid_inputs
+        
+        
 
 
 
@@ -145,6 +222,9 @@ class MainWindow(QtWidgets.QMainWindow):
         if valid:
             self.db.insert(valid)
             self.loadtable()
+            self.clear()
+        else:
+            self.show_dialog("Error Message","Please fill all the red fields")
         
 
 
@@ -156,7 +236,9 @@ class MainWindow(QtWidgets.QMainWindow):
         search_table = self.db.search(inputs)
         self.update_table(search_table)
 
-app = QtWidgets.QApplication(sys.argv)
-window = MainWindow()
-window.show()
-sys.exit(app.exec())
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())
