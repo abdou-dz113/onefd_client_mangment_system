@@ -1,6 +1,7 @@
 import sys
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import (QLineEdit,QComboBox,QHeaderView,QMenu,QApplication,QMessageBox,QMainWindow)
+from PyQt6.QtCore import Qt
 from database import Database
 
 
@@ -16,6 +17,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.clear_button.clicked.connect(self.clear)
         self.search_button.clicked.connect(self.search)
         self.table01.customContextMenuRequested.connect(self.show_context_menu)
+        self.table01.cellDoubleClicked.connect(self.on_row_double_click)
         
     def initUI(self):
         self.reset_window()
@@ -66,11 +68,45 @@ class MainWindow(QtWidgets.QMainWindow):
                     item = QtWidgets.QTableWidgetItem(str(cell))
                     self.table01.setItem(i,c,item)
 
- 
+    def get_from_id(self,row_id):
+        self.db.id_search()
+        data = self.db.search({"id":row_id,})
+        self.fill_edit_client(data)
+    
+    def fill_edit_client(self,data):
+        print(data)
+        data=data[0]
+        forms = self.client_edit_window.info_frame.findChildren((QLineEdit,QComboBox))
+        forms_map = {widget.objectName():widget for widget in forms}
+        new_dect = {
+        'last_name':data[1],
+        'first_name':data[2],
+        'level':data[3],
+        'username_01':data[4],
+        'password_01':data[5],
+        'form_number':data[4][8:],
+        'username_02':data[6],
+        'password_02':data[7],
+        'ins_number':data[6][:11],
+        'phone_number':data[8]}
+        
+        self.client_edit_window.id_label.setText(f"Client ID: {data[0]}")
+        
+        for widget,value in new_dect.items():
+            if isinstance(forms_map[widget],QComboBox):
+                forms_map[widget].setCurrentIndex(int(value))
+            else:
+                forms_map[widget].setText(value)
+   
+    def edit_client_if_changed(self):
+        pass
+    
     def edit_client(self):
         self.client_edit_window= QMainWindow()
         uic.loadUi("edit_client.ui",self.client_edit_window)
+        self.client_edit_window.setWindowModality(Qt.WindowModality.ApplicationModal)
         self.client_edit_window.show()
+    
 
     def show_dialog(self,title,message):
         msg = QMessageBox()
@@ -104,6 +140,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.loadtable()
         self.level.setCurrentIndex(-1)
         
+    def on_row_double_click(self,row,column):
+        pass
 
     def show_context_menu(self,position):
         menu = QMenu()
@@ -111,10 +149,10 @@ class MainWindow(QtWidgets.QMainWindow):
         item = self.table01.item(0,1)
 
         if index.isValid():
- 
+            row_id = self.table01.item(index.row(),0).text()
             lname = self.table01.item(index.row(),1).text()
             frname = self.table01.item(index.row(),2).text()
-            search = self.db.search({"firstname":frname,"lastname":lname})
+            search = self.db.search({"id":row_id,"firstname":frname,"lastname":lname})
 
             edit_action = menu.addAction(f"تعديل  [{lname} {frname}]")
             delete_action = menu.addAction(f"حذف {lname} {frname}")
@@ -126,7 +164,8 @@ class MainWindow(QtWidgets.QMainWindow):
             return
         
         action = menu.exec(self.table01.viewport().mapToGlobal(position))
-        item_names  =   ['lastname',
+        item_names  =   ["id",
+                        'lastname',
                         'firstname',
                         'level',
                         'username_01',
@@ -141,6 +180,7 @@ class MainWindow(QtWidgets.QMainWindow):
         clipboard = QApplication.clipboard()
         if action == edit_action:
             self.edit_client()
+            self.get_from_id(row_id)
         elif action == delete_action:
             self.delete_client(lname,frname)
         elif action == copy_login_username:
@@ -199,15 +239,12 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 is_input_valid = False
         
-        if valid_inputs.values:
+        if valid_inputs.values():
             if is_input_valid:
                 return valid_inputs
             elif get_filled:
                 return valid_inputs
         
-        
-
-
 
     def validate_ui(self,valid_inputs):
         """

@@ -5,7 +5,21 @@ class Database():
         self.connect = sqlite3.connect("app.db")
         self.cursor = self.connect.cursor()
         self.ceate_tables()
-
+        self.table_select = """
+        SELECT 
+            t.id,
+            t.lastname,
+            t.firstname,
+            l.level_text,
+            t.username_01,
+            t.password_01,
+            t.username_02,
+            t.password_02,
+            t.phone_number
+            FROM table_01 t 
+            INNER JOIN level_lookup l ON t.level = l.level_index   
+        """
+    
     def ceate_tables(self):
         #username_01,password_01,firstname,lastname,level,phone_number,username_02,password_02
         #ceate the table that contain the client data
@@ -38,20 +52,7 @@ class Database():
 
     
     def tablequery(self):
-        query = self.cursor.execute("""
-            SELECT 
-                    t.id,
-                    t.lastname,
-                    t.firstname,
-                    l.level_text,
-                    t.username_01,
-                    t.password_01,
-                    t.username_02,
-                    t.password_02,
-                    t.phone_number
-            FROM table_01 t
-            INNER JOIN level_lookup l ON t.level = l.level_index
-        """)
+        query = self.cursor.execute(self.table_select)
         data = query.fetchall()
         return data
 
@@ -75,28 +76,7 @@ class Database():
             print(f"Database error code: {e}")
 
 
-    def search(self, sarg):
-        table_select = """
-        SELECT 
-            t.id,
-            t.lastname, 
-            t.firstname,
-            l.level_text, 
-            t.username_01,
-            t.password_01,
-            t.username_02, 
-            t.password_02,
-            t.phone_number 
-        FROM table_01 t
-        INNER JOIN level_lookup l ON t.level = l.level_index
-        """
 
-        conditions = " AND ".join(f"t.{col} LIKE ?" for col in sarg)
-        params = [f"%{val}%" for val in sarg.values()]
-
-        sql = table_select + " WHERE " + conditions
-        self.cursor.execute(sql, params)
-        return self.cursor.fetchall()
 
     def delete(self,last_name,first_name):
         sql = """DELETE FROM table_01 WHERE lastname = ? AND firstname = ? """
@@ -105,7 +85,61 @@ class Database():
             self.connect.commit() 
         except sqlite3.Error as error:
             print(error)  
+ 
+    def search(self,search_params):
+        conditions = []
+        values = []
 
+        if type(search_params) == type(dict()):
+            for widget, value in search_params.items():
+                if widget == "level" or widget == "id":
+                    con = f"t.{widget} = ?"
+                    val = str(value)
+                else:
+                    con = f"t.{widget} LIKE ?"
+                    val =f"%{value}%"
+                
+
+                conditions.append(con) 
+                values.append(val)
+
+            sql = self.table_select + "WHERE "+" AND ".join(conditions)
+            self.cursor.execute(sql,values)
+            results = self.cursor.fetchall()
+            self.table_select = """
+            SELECT 
+                t.id,
+                t.lastname,
+                t.firstname,
+                l.level_text,
+                t.username_01,
+                t.password_01,
+                t.username_02,
+                t.password_02,
+                t.phone_number
+                FROM table_01 t 
+                INNER JOIN level_lookup l ON t.level = l.level_index   
+            """
+            return results
+
+
+
+    def id_search(self):
+        self.table_select = """
+        SELECT 
+            t.id,
+            t.lastname, 
+            t.firstname,
+            t.level, 
+            t.username_01,
+            t.password_01,
+            t.username_02, 
+            t.password_02,
+            t.phone_number 
+        FROM table_01 t   
+        """
+
+        
 if __name__ == "__main__":
     db=Database()
 

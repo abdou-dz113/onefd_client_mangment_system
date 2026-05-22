@@ -19,7 +19,14 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_6">
     <item>
-     <widget class="QWidget" name="widget_18" native="true">
+     <widget class="QLabel" name="id_label">
+      <property name="text">
+       <string>Client ID: </string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QWidget" name="info_frame" native="true">
       <layout class="QGridLayout" name="gridLayout">
        <item row="3" column="0">
         <widget class="QWidget" name="widget_19" native="true">
@@ -80,7 +87,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox">
+           <widget class="QComboBox" name="level">
             <property name="currentIndex">
              <number>-1</number>
             </property>
@@ -232,9 +239,6 @@
              <property name="bottomMargin">
               <number>0</number>
              </property>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_8"/>
-             </item>
              <item>
               <widget class="QPushButton" name="pushButton_2">
                <property name="text">
@@ -404,6 +408,9 @@
           </item>
           <item>
            <widget class="QComboBox" name="devoir04">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="accessibleName">
              <string>0</string>
             </property>
