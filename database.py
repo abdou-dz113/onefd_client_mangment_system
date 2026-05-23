@@ -4,8 +4,8 @@ class Database():
     def __init__(self):
         self.connect = sqlite3.connect("app.db")
         self.cursor = self.connect.cursor()
-        self.ceate_tables()
-        self.table_select = """
+        self.create_tables()
+        self.table_select_text = """
         SELECT 
             t.id,
             t.lastname,
@@ -15,14 +15,28 @@ class Database():
             t.password_01,
             t.username_02,
             t.password_02,
-            t.phone_number
+            t.phone_number,
+            t.devoir_01,
+            t.devoir_02,
+            t.devoir_03,
+            t.devoir_04,
+            t.devoir_05
             FROM table_01 t 
             INNER JOIN level_lookup l ON t.level = l.level_index   
         """
-    
-    def ceate_tables(self):
+    def table_select(self,level_names=True):
+        if level_names:
+            table_select =  self.table_select_text
+            return table_select
+        else:
+           table_select =   self.table_select_text.replace("l.level_text,","t.level,")
+           table_select =   table_select.replace("INNER JOIN level_lookup l ON t.level = l.level_index","")
+           return table_select
+
+
+    def create_tables(self):
         #username_01,password_01,firstname,lastname,level,phone_number,username_02,password_02
-        #ceate the table that contain the client data
+        #create the table that contain the client data
         self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS table_01(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,7 +47,12 @@ class Database():
         level INTEGER,
         phone_number TEXT,
         username_02 TEXT UNIQUE,
-        password_02 TEXT 
+        password_02 TEXT,
+        devoir_01 INTGER DEFAULT 0,
+        devoir_02 INTGER DEFAULT 0,
+        devoir_03 INTGER DEFAULT 0,
+        devoir_04 INTGER DEFAULT 0,
+        devoir_05 INTGER DEFAULT 0                     
         )
         """)
         self.connect.commit()
@@ -52,7 +71,7 @@ class Database():
 
     
     def tablequery(self):
-        query = self.cursor.execute(self.table_select)
+        query = self.cursor.execute(self.table_select_text)
         data = query.fetchall()
         return data
 
@@ -86,7 +105,8 @@ class Database():
         except sqlite3.Error as error:
             print(error)  
  
-    def search(self,search_params):
+    def search(self,search_params,level_text=True):
+        table_select = self.table_select(level_text)
         conditions = []
         values = []
 
@@ -99,47 +119,25 @@ class Database():
                     con = f"t.{widget} LIKE ?"
                     val =f"%{value}%"
                 
-
                 conditions.append(con) 
                 values.append(val)
 
-            sql = self.table_select + "WHERE "+" AND ".join(conditions)
+            sql = table_select + "WHERE "+" AND ".join(conditions)
             self.cursor.execute(sql,values)
             results = self.cursor.fetchall()
-            self.table_select = """
-            SELECT 
-                t.id,
-                t.lastname,
-                t.firstname,
-                l.level_text,
-                t.username_01,
-                t.password_01,
-                t.username_02,
-                t.password_02,
-                t.phone_number
-                FROM table_01 t 
-                INNER JOIN level_lookup l ON t.level = l.level_index   
-            """
             return results
 
 
 
     def id_search(self):
-        self.table_select = """
-        SELECT 
-            t.id,
-            t.lastname, 
-            t.firstname,
-            t.level, 
-            t.username_01,
-            t.password_01,
-            t.username_02, 
-            t.password_02,
-            t.phone_number 
-        FROM table_01 t   
-        """
+       pass
 
         
 if __name__ == "__main__":
     db=Database()
+    db.cursor.execute("UPDATE table_01 SET devoir_01 = 3 WHERE id = 1")
+    db.connect.commit()
+
+
+
 

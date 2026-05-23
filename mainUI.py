@@ -12,12 +12,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.db = Database() 
         self.widgets = self.findChildren((QLineEdit, QComboBox))
         self.widget_map = {w.objectName():w for w in self.widgets}
+        self.client_edit_window= QMainWindow()
         self.initUI()
         self.add_button.clicked.connect(self.insert)
         self.clear_button.clicked.connect(self.clear)
         self.search_button.clicked.connect(self.search)
         self.table01.customContextMenuRequested.connect(self.show_context_menu)
-        self.table01.cellDoubleClicked.connect(self.on_row_double_click)
+   
         
     def initUI(self):
         self.reset_window()
@@ -47,6 +48,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.table01.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.table01.setColumnHidden(0,True)
 
+        uic.loadUi("edit_client.ui",self.client_edit_window)
+        self.client_edit_window.setWindowModality(Qt.WindowModality.ApplicationModal)
+
   
     def loadtable(self):
         data = self.db.tablequery()
@@ -54,11 +58,11 @@ class MainWindow(QtWidgets.QMainWindow):
         
 
     def update_table(self,data):
-        data_row_count = len(data)
         if not data:
             self.table01.setRowCount(0)
             return
-        data_column_count = len(data[0])
+        data_row_count = len(data)
+        data_column_count = len(data[0])-5
         if data_row_count > 0 and data_column_count >0:
             self.table01.setRowCount(0)
             self.table01.setRowCount(data_row_count)
@@ -69,15 +73,12 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.table01.setItem(i,c,item)
 
     def get_from_id(self,row_id):
-        self.db.id_search()
-        data = self.db.search({"id":row_id,})
+        data = self.db.search({"id":row_id,},level_text=False)
         self.fill_edit_client(data)
     
     def fill_edit_client(self,data):
-        print(data)
         data=data[0]
-        forms = self.client_edit_window.info_frame.findChildren((QLineEdit,QComboBox))
-        forms_map = {widget.objectName():widget for widget in forms}
+
         new_dect = {
         'last_name':data[1],
         'first_name':data[2],
@@ -88,24 +89,53 @@ class MainWindow(QtWidgets.QMainWindow):
         'username_02':data[6],
         'password_02':data[7],
         'ins_number':data[6][:11],
-        'phone_number':data[8]}
+        'phone_number':data[8],
+        'devoir_01':data[9],
+        'devoir_02':data[10],
+        'devoir_03':data[11],
+        'devoir_04':data[12],
+        'devoir_05':data[13]
+        }
         
         self.client_edit_window.id_label.setText(f"Client ID: {data[0]}")
         
         for widget,value in new_dect.items():
-            if isinstance(forms_map[widget],QComboBox):
-                forms_map[widget].setCurrentIndex(int(value))
+            if isinstance(self.edit_forms_map[widget],QComboBox):
+                self.edit_forms_map[widget].setCurrentIndex(int(value))
             else:
-                forms_map[widget].setText(value)
+                self.edit_forms_map[widget].setText(value)
    
-    def edit_client_if_changed(self):
+    def if_changed_cinf(self,old_info):
+        
+        value_changed = False
+        new_info = {}
+        for name, widget in self.edit_forms_map.items():
+            if isinstance(widget, QComboBox):
+                index = widget.currentIndex()
+                if old_info[name] != index:
+                    value_changed = True
+                    new_info[name] = index
+            elif isinstance(widget, QLineEdit):
+                text= widget.text()
+                if old_info[name] != text:
+                    value_changed = True
+                    new_info[name] = text
+        
+        return value_changed,new_info
+
+
+
+
+
+    def save_edit(self):
         pass
     
     def edit_client(self):
-        self.client_edit_window= QMainWindow()
-        uic.loadUi("edit_client.ui",self.client_edit_window)
-        self.client_edit_window.setWindowModality(Qt.WindowModality.ApplicationModal)
+         #Disable main window clicks
         self.client_edit_window.show()
+        self.edit_forms = self.client_edit_window.info_frame.findChildren((QLineEdit,QComboBox))
+        self.edit_forms_map = {widget.objectName():widget for widget in self.edit_forms}
+        self.client_edit_window.save_button.clicked.connect(self.if_changed_cinf)
     
 
     def show_dialog(self,title,message):
