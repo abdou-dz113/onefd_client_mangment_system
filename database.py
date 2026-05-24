@@ -135,9 +135,8 @@ class Database():
         
 if __name__ == "__main__":
     db=Database()
-    db.cursor.execute("UPDATE table_01 SET devoir_01 = 3 WHERE id = 1")
-    db.connect.commit()
 
+    
 
 
 

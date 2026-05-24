@@ -72,39 +72,57 @@ class MainWindow(QtWidgets.QMainWindow):
                     item = QtWidgets.QTableWidgetItem(str(cell))
                     self.table01.setItem(i,c,item)
 
+    
+    def edit_client(self,client_id):
+         #Disable main window clicks
+        info_dect = self.get_from_id(client_id)
+        self.client_edit_window.show()
+        self.edit_forms = self.client_edit_window.info_frame.findChildren((QLineEdit,QComboBox))
+        self.edit_forms_map = {widget.objectName():widget for widget in self.edit_forms}
+        self.client_edit_window.id_label.setText(f"Client ID: {client_id}")
+        self.fill_edit_client(info_dect)
+        
+
+        self.client_edit_window.save_button.clicked.connect(lambda:self.if_changed_cinf(info_dect))
+    
+
     def get_from_id(self,row_id):
         data = self.db.search({"id":row_id,},level_text=False)
-        self.fill_edit_client(data)
-    
-    def fill_edit_client(self,data):
-        data=data[0]
+        if not data:
+            return
 
-        new_dect = {
-        'last_name':data[1],
-        'first_name':data[2],
-        'level':data[3],
-        'username_01':data[4],
-        'password_01':data[5],
-        'form_number':data[4][8:],
-        'username_02':data[6],
-        'password_02':data[7],
-        'ins_number':data[6][:11],
-        'phone_number':data[8],
-        'devoir_01':data[9],
-        'devoir_02':data[10],
-        'devoir_03':data[11],
-        'devoir_04':data[12],
-        'devoir_05':data[13]
-        }
+        data=data[0]
+        info_dect = {
+                    'last_name':data[1],
+                    'first_name':data[2],
+                    'level':data[3],
+                    'username_01':data[4],
+                    'password_01':data[5],
+                    'form_number':data[4][8:],
+                    'username_02':data[6],
+                    'password_02':data[7],
+                    'ins_number':data[6][:11],
+                    'phone_number':data[8],
+                    'devoir_01':data[9],
+                    'devoir_02':data[10],
+                    'devoir_03':data[11],
+                    'devoir_04':data[12],
+                    'devoir_05':data[13]
+                    }
+        return info_dect
         
-        self.client_edit_window.id_label.setText(f"Client ID: {data[0]}")
-        
-        for widget,value in new_dect.items():
+    
+    def fill_edit_client(self,info_dect):
+        if not info_dect:
+            return
+              
+        for widget,value in info_dect.items():
             if isinstance(self.edit_forms_map[widget],QComboBox):
                 self.edit_forms_map[widget].setCurrentIndex(int(value))
             else:
                 self.edit_forms_map[widget].setText(value)
    
+ 
     def if_changed_cinf(self,old_info):
         
         value_changed = False
@@ -120,7 +138,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 if old_info[name] != text:
                     value_changed = True
                     new_info[name] = text
-        
+        if value_changed:
+            print("value changed")
         return value_changed,new_info
 
 
@@ -129,14 +148,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def save_edit(self):
         pass
-    
-    def edit_client(self):
-         #Disable main window clicks
-        self.client_edit_window.show()
-        self.edit_forms = self.client_edit_window.info_frame.findChildren((QLineEdit,QComboBox))
-        self.edit_forms_map = {widget.objectName():widget for widget in self.edit_forms}
-        self.client_edit_window.save_button.clicked.connect(self.if_changed_cinf)
-    
 
     def show_dialog(self,title,message):
         msg = QMessageBox()
@@ -209,8 +220,8 @@ class MainWindow(QtWidgets.QMainWindow):
         #print(item_dict)
         clipboard = QApplication.clipboard()
         if action == edit_action:
-            self.edit_client()
-            self.get_from_id(row_id)
+            self.edit_client(row_id)
+
         elif action == delete_action:
             self.delete_client(lname,frname)
         elif action == copy_login_username:
