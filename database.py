@@ -129,8 +129,20 @@ class Database():
 
 
 
-    def id_search(self):
-       pass
+    def update(self,client_id,new_info):
+        table_select= """UPDATE table_01 SET """
+        conditions = []
+        for name, value in new_info.items():
+           if name not in ('ins_number','form_number'):
+                conditions.append(name +" = \'"+str(value)+"\' ")
+       
+        sql = table_select + ", ".join(conditions) + f" WHERE id = {client_id}"
+        try:
+            self.cursor.execute(sql)
+            self.connect.commit()
+        except:
+            return
+
 
         
 if __name__ == "__main__":

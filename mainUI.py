@@ -51,7 +51,7 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi("edit_client.ui",self.client_edit_window)
         self.client_edit_window.setWindowModality(Qt.WindowModality.ApplicationModal)
 
-  
+    
     def loadtable(self):
         data = self.db.tablequery()
         self.update_table(data)
@@ -74,17 +74,17 @@ class MainWindow(QtWidgets.QMainWindow):
 
     
     def edit_client(self,client_id):
-         #Disable main window clicks
+         #Disable main window clicks↓↓↓
         info_dect = self.get_from_id(client_id)
         self.client_edit_window.show()
         self.edit_forms = self.client_edit_window.info_frame.findChildren((QLineEdit,QComboBox))
         self.edit_forms_map = {widget.objectName():widget for widget in self.edit_forms}
         self.client_edit_window.id_label.setText(f"Client ID: {client_id}")
         self.fill_edit_client(info_dect)
-        
 
-        self.client_edit_window.save_button.clicked.connect(lambda:self.if_changed_cinf(info_dect))
-    
+        
+        self.client_edit_window.save_button.clicked.connect(lambda:self.save_edit(info_dect))
+        self.client_edit_window.cancel_button.clicked.connect(self.client_edit_window.close)
 
     def get_from_id(self,row_id):
         data = self.db.search({"id":row_id,},level_text=False)
@@ -93,8 +93,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         data=data[0]
         info_dect = {
-                    'last_name':data[1],
-                    'first_name':data[2],
+                    'client_id':data[0],
+                    'lastname':data[1],
+                    'firstname':data[2],
                     'level':data[3],
                     'username_01':data[4],
                     'password_01':data[5],
@@ -109,6 +110,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     'devoir_04':data[12],
                     'devoir_05':data[13]
                     }
+       
         return info_dect
         
     
@@ -117,9 +119,11 @@ class MainWindow(QtWidgets.QMainWindow):
             return
               
         for widget,value in info_dect.items():
+            if widget == 'client_id':
+                continue
             if isinstance(self.edit_forms_map[widget],QComboBox):
                 self.edit_forms_map[widget].setCurrentIndex(int(value))
-            else:
+            elif isinstance(self.edit_forms_map[widget],QLineEdit):
                 self.edit_forms_map[widget].setText(value)
    
  
@@ -138,17 +142,24 @@ class MainWindow(QtWidgets.QMainWindow):
                 if old_info[name] != text:
                     value_changed = True
                     new_info[name] = text
+        
         if value_changed:
-            print("value changed")
-        return value_changed,new_info
+            return new_info
 
 
 
 
 
-    def save_edit(self):
-        pass
-
+    def save_edit(self,old_info):
+        new_info = self.if_changed_cinf(old_info)
+       
+        if new_info:
+            self.db.update(old_info["client_id"],new_info)
+            print("data saved")
+            self.client_edit_window.close()
+        else:
+           print("no change")
+ 
     def show_dialog(self,title,message):
         msg = QMessageBox()
         msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)

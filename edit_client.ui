@@ -148,7 +148,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="first_name"/>
+           <widget class="QLineEdit" name="firstname"/>
           </item>
          </layout>
         </widget>
@@ -180,7 +180,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="last_name"/>
+           <widget class="QLineEdit" name="lastname"/>
           </item>
          </layout>
         </widget>
