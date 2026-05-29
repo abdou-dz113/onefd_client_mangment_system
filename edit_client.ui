@@ -19,188 +19,38 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_6">
     <item>
-     <widget class="QLabel" name="id_label">
-      <property name="text">
-       <string>Client ID: </string>
+     <widget class="QWidget" name="client_id_frame" native="true">
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+border: None;
+background-color: #00000000;
+color: #000000;
+}</string>
       </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="id_label">
+         <property name="text">
+          <string>Client ID: </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="client_id">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
     <item>
      <widget class="QWidget" name="info_frame" native="true">
       <layout class="QGridLayout" name="gridLayout">
-       <item row="3" column="1">
-        <widget class="QWidget" name="widget_12" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_10">
-          <item>
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>كلمة المرور (المعلام)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="password_02"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QWidget" name="widget_17" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_15">
-          <item>
-           <widget class="QLabel" name="label_15">
-            <property name="text">
-             <string>رقم الهاتف</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="phone_number"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QWidget" name="widget_20" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_17">
-          <item>
-           <widget class="QLabel" name="label_11">
-            <property name="text">
-             <string>مجلد الزبون</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QWidget" name="widget_5" native="true">
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QPushButton" name="pushButton_2">
-               <property name="text">
-                <string>افتح</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="5" column="2">
-        <widget class="QWidget" name="widget_4" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <widget class="QPushButton" name="pushButton_3">
-            <property name="text">
-             <string>سحب النقاط</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton">
-            <property name="text">
-             <string>سحب الاستدعاء</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QWidget" name="widget_15" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_13">
-          <item>
-           <widget class="QLabel" name="label_13">
-            <property name="text">
-             <string>اسم المستخدم (حساب التسجيل)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="username_01"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QWidget" name="widget_14" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_12">
-          <item>
-           <widget class="QLabel" name="label_12">
-            <property name="text">
-             <string>الاسم</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="firstname"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QWidget" name="widget_7" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>رقم الاستمارة</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="form_number"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QWidget" name="widget_10" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_8">
-          <item>
-           <widget class="QLabel" name="label_8">
-            <property name="text">
-             <string>اللقب</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lastname"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QWidget" name="widget_16" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_14">
-          <item>
-           <widget class="QLabel" name="label_14">
-            <property name="text">
-             <string>اسم المستخدم (المعلام)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="username_02"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item row="1" column="0">
         <widget class="QWidget" name="widget" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -256,6 +106,22 @@
          </layout>
         </widget>
        </item>
+       <item row="5" column="1">
+        <widget class="QWidget" name="widget_17" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_15">
+          <item>
+           <widget class="QLabel" name="label_15">
+            <property name="text">
+             <string>رقم الهاتف</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="phone_number"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="3" column="0">
         <widget class="QWidget" name="widget_19" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_16">
@@ -268,6 +134,54 @@
           </item>
           <item>
            <widget class="QLineEdit" name="ins_number"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QWidget" name="widget_10" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item>
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>اللقب</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lastname"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QWidget" name="widget_15" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_13">
+          <item>
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>اسم المستخدم (حساب التسجيل)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="username_01"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QWidget" name="widget_16" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_14">
+          <item>
+           <widget class="QLabel" name="label_14">
+            <property name="text">
+             <string>اسم المستخدم (المعلام)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="username_02"/>
           </item>
          </layout>
         </widget>
@@ -324,7 +238,7 @@
                <property name="layoutDirection">
                 <enum>Qt::RightToLeft</enum>
                </property>
-               <property name="placeholderText" stdset="0">
+               <property name="placeholderText">
                 <string/>
                </property>
                <item>
@@ -334,17 +248,17 @@
                </item>
                <item>
                 <property name="text">
+                 <string>منجز غير مدفوع</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>مدفوع غير منحز</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>منجز</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>منجز غير مدفوع</string>
+                 <string>منجز مدفوع</string>
                 </property>
                </item>
               </widget>
@@ -357,7 +271,7 @@
                <property name="layoutDirection">
                 <enum>Qt::RightToLeft</enum>
                </property>
-               <property name="placeholderText" stdset="0">
+               <property name="placeholderText">
                 <string/>
                </property>
                <item>
@@ -367,17 +281,17 @@
                </item>
                <item>
                 <property name="text">
+                 <string>منجز غير مدفوع</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>مدفوع غير منحز</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>منجز</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>منجز غير مدفوع</string>
+                 <string>منجز مدفوع</string>
                 </property>
                </item>
               </widget>
@@ -390,7 +304,7 @@
                <property name="layoutDirection">
                 <enum>Qt::RightToLeft</enum>
                </property>
-               <property name="placeholderText" stdset="0">
+               <property name="placeholderText">
                 <string/>
                </property>
                <item>
@@ -400,33 +314,30 @@
                </item>
                <item>
                 <property name="text">
+                 <string>منجز غير مدفوع</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>مدفوع غير منحز</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>منجز</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>منجز غير مدفوع</string>
+                 <string>منجز مدفوع</string>
                 </property>
                </item>
               </widget>
              </item>
              <item>
               <widget class="QComboBox" name="devoir_04">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
                <property name="accessibleName">
                 <string>0</string>
                </property>
                <property name="layoutDirection">
                 <enum>Qt::RightToLeft</enum>
                </property>
-               <property name="placeholderText" stdset="0">
+               <property name="placeholderText">
                 <string/>
                </property>
                <item>
@@ -436,17 +347,17 @@
                </item>
                <item>
                 <property name="text">
+                 <string>منجز غير مدفوع</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>مدفوع غير منحز</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>منجز</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>منجز غير مدفوع</string>
+                 <string>منجز مدفوع</string>
                 </property>
                </item>
               </widget>
@@ -459,7 +370,7 @@
                <property name="layoutDirection">
                 <enum>Qt::RightToLeft</enum>
                </property>
-               <property name="placeholderText" stdset="0">
+               <property name="placeholderText">
                 <string/>
                </property>
                <item>
@@ -469,23 +380,132 @@
                </item>
                <item>
                 <property name="text">
+                 <string>منجز غير مدفوع</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
                  <string>مدفوع غير منحز</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>منجز</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>منجز غير مدفوع</string>
+                 <string>منجز مدفوع</string>
                 </property>
                </item>
               </widget>
              </item>
             </layout>
            </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QWidget" name="widget_4" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="text">
+             <string>سحب النقاط</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>سحب الاستدعاء</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QWidget" name="widget_7" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>رقم الاستمارة</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="form_number"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QWidget" name="widget_20" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_17">
+          <item>
+           <widget class="QLabel" name="label_11">
+            <property name="text">
+             <string>مجلد الزبون</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="widget_5" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="pushButton_2">
+               <property name="text">
+                <string>افتح</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QWidget" name="widget_12" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_10">
+          <item>
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>كلمة المرور (المعلام)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="password_02"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QWidget" name="widget_14" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_12">
+          <item>
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>الاسم</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="firstname"/>
           </item>
          </layout>
         </widget>

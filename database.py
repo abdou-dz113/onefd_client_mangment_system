@@ -1,5 +1,16 @@
 import sqlite3
 
+
+
+_db_instance = None
+
+def get_db():
+    global _db_instance
+    if _db_instance is None:
+            _db_instance = Database()
+    return _db_instance
+
+
 class Database():
     def __init__(self):
         self.connect = sqlite3.connect("app.db")
@@ -24,6 +35,8 @@ class Database():
             FROM table_01 t 
             INNER JOIN level_lookup l ON t.level = l.level_index   
         """
+
+
     def table_select(self,level_names=True):
         if level_names:
             table_select =  self.table_select_text
@@ -52,7 +65,9 @@ class Database():
         devoir_02 INTGER DEFAULT 0,
         devoir_03 INTGER DEFAULT 0,
         devoir_04 INTGER DEFAULT 0,
-        devoir_05 INTGER DEFAULT 0                     
+        devoir_05 INTGER DEFAULT 0,
+        form_number TEXT,
+        ins_number TEXT                     
         )
         """)
         self.connect.commit()
@@ -91,19 +106,23 @@ class Database():
                     input_dict["password_02"]
                 ))
             self.connect.commit()
+            return True
         except sqlite3.Error as e:
             print(f"Database error code: {e}")
+            return False
 
 
 
 
-    def delete(self,last_name,first_name):
-        sql = """DELETE FROM table_01 WHERE lastname = ? AND firstname = ? """
+    def delete(self,client_id):
+        sql = """DELETE FROM table_01 WHERE id = ? """
         try:
-            self.cursor.execute(sql,(last_name,first_name))
-            self.connect.commit() 
+            self.cursor.execute(sql,(client_id))
+            self.connect.commit()
+            return True 
         except sqlite3.Error as error:
-            print(error)  
+            print(error)
+            return  
  
     def search(self,search_params,level_text=True):
         table_select = self.table_select(level_text)
@@ -127,7 +146,11 @@ class Database():
             results = self.cursor.fetchall()
             return results
 
-
+    def search_by_id(self,client_id):
+        sql = self.table_select_text + " WHERE  id = " + str(client_id)
+        self.cursor.execute(sql)
+        result = self.cursor.fetchone()
+        return result
 
     def update(self,client_id,new_info):
         table_select= """UPDATE table_01 SET """
@@ -140,15 +163,15 @@ class Database():
         try:
             self.cursor.execute(sql)
             self.connect.commit()
-        except:
-            return
+        except sqlite3.Error as e:
+            return print(e)
 
 
         
 if __name__ == "__main__":
     db=Database()
-
-    
+    db.cursor.execute("""ALTER TABLE table_01 ADD COLUMN ins_number TEXT """)
+    db.connect.commit()
 
 
 

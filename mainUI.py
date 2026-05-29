@@ -2,14 +2,34 @@ import sys
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import (QLineEdit,QComboBox,QHeaderView,QMenu,QApplication,QMessageBox,QMainWindow)
 from PyQt6.QtCore import Qt
-from database import Database
+from PyQt6.QtGui import QBrush,QColor
+from services import client_service as cs
+
+headers_labels = ["id","lastname","firstname","level","username_01","password_01","username_02","password_02","phone_number","devoir_01","devoir_02","devoir_03","devoir_04","devoir_05",]
+
+progress_dict= {
+    0:("غير منجز","#c0392b"),
+    1:("منجز غير مدفوع","#e67e22"),
+    2:("مدفوع غير منجز","#5b8fa8"),
+    3:("منجز مدفوع","#27ae60"),
+}
+
+def get_table_item(row_num,col_num,col_val):
+    if col_num>8:
+        item = QtWidgets.QTableWidgetItem(str(progress_dict.get(col_val)[0]))
+        item.setBackground(QBrush(QColor(progress_dict.get(col_val)[1])))
+        item.setForeground(QBrush(QColor("#f9f7f3")))
+        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        return item
+    else:
+        item = QtWidgets.QTableWidgetItem(str(col_val))
+        return item
 
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi("main.ui", self)
-        self.db = Database() 
         self.widgets = self.findChildren((QLineEdit, QComboBox))
         self.widget_map = {w.objectName():w for w in self.widgets}
         self.client_edit_window= QMainWindow()
@@ -18,7 +38,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.clear_button.clicked.connect(self.clear)
         self.search_button.clicked.connect(self.search)
         self.table01.customContextMenuRequested.connect(self.show_context_menu)
-   
+    
         
     def initUI(self):
         self.reset_window()
@@ -35,134 +55,97 @@ class MainWindow(QtWidgets.QMainWindow):
             
             }
         """)
-        self.table01.setHorizontalHeaderLabels([
-                                                "id",
-                                                "اللقب",
-                                                "الاسم",
-                                                "المستوى",
-                                                "اسم مستخدم الحساب",
-                                                "كلمة مرور الحساب",
-                                                "اسم مستخدم المعلام",
-                                                "كلمة مرور المعلام",
-                                                "رقم الهاتف"])
+        self.table_header_labels = ["id","اللقب","الاسم","المستوى","اسم مستخدم الحساب","كلمة مرور الحساب","اسم مستخدم المعلام","كلمة مرور المعلام","رقم الهاتف","فرض 1","فرض 2","فرض 3","فرض 4","فرض 5",]
+        self.table01.setHorizontalHeaderLabels(self.table_header_labels)
         self.table01.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        self.table01.setColumnHidden(0,True)
-
         uic.loadUi("edit_client.ui",self.client_edit_window)
         self.client_edit_window.setWindowModality(Qt.WindowModality.ApplicationModal)
+        self.hide_columns(True)
 
+    def hide_columns(self,con):
+        if con:
+            column_to_hide = (0,4,5,6,7)
+            for column in column_to_hide:
+                self.table01.setColumnHidden(column,True)
+            
     
     def loadtable(self):
-        data = self.db.tablequery()
+        data = cs.table_query()
         self.update_table(data)
-        
 
     def update_table(self,data):
         if not data:
             self.table01.setRowCount(0)
             return
         data_row_count = len(data)
-        data_column_count = len(data[0])-5
+        data_column_count = len(data[0])
         if data_row_count > 0 and data_column_count >0:
             self.table01.setRowCount(0)
             self.table01.setRowCount(data_row_count)
             self.table01.setColumnCount(data_column_count)
             for i, row in enumerate(data):
                 for c, cell in enumerate(row):
-                    item = QtWidgets.QTableWidgetItem(str(cell))
+                    item = get_table_item(i,c,cell)
                     self.table01.setItem(i,c,item)
+
+    def update_row(self, row_num, new_data):
+        for col_num, col_val in enumerate(new_data):
+            item = get_table_item(row_num,col_num,col_val)
+            self.table01.setItem(row_num,col_num,item)
 
     
     def edit_client(self,client_id):
          #Disable main window clicks↓↓↓
-        info_dect = self.get_from_id(client_id)
+        info_dict = cs.get_from_id(client_id)
         self.client_edit_window.show()
-        self.edit_forms = self.client_edit_window.info_frame.findChildren((QLineEdit,QComboBox))
+        self.edit_forms = self.client_edit_window.findChildren((QLineEdit,QComboBox))
         self.edit_forms_map = {widget.objectName():widget for widget in self.edit_forms}
-        self.client_edit_window.id_label.setText(f"Client ID: {client_id}")
-        self.fill_edit_client(info_dect)
+        #self.client_edit_window.id_label.setText(f"Client ID: {client_id}")
+        self.fill_edit_client(info_dict)
+        try:
+            self.client_edit_window.save_button.clicked.disconnect()
+        except:
+            pass
 
         
-        self.client_edit_window.save_button.clicked.connect(lambda:self.save_edit(info_dect))
+        self.client_edit_window.save_button.clicked.connect(lambda:self.save_edit(info_dict))
         self.client_edit_window.cancel_button.clicked.connect(self.client_edit_window.close)
 
-    def get_from_id(self,row_id):
-        data = self.db.search({"id":row_id,},level_text=False)
-        if not data:
-            return
 
-        data=data[0]
-        info_dect = {
-                    'client_id':data[0],
-                    'lastname':data[1],
-                    'firstname':data[2],
-                    'level':data[3],
-                    'username_01':data[4],
-                    'password_01':data[5],
-                    'form_number':data[4][8:],
-                    'username_02':data[6],
-                    'password_02':data[7],
-                    'ins_number':data[6][:11],
-                    'phone_number':data[8],
-                    'devoir_01':data[9],
-                    'devoir_02':data[10],
-                    'devoir_03':data[11],
-                    'devoir_04':data[12],
-                    'devoir_05':data[13]
-                    }
-       
-        return info_dect
-        
     
-    def fill_edit_client(self,info_dect):
-        if not info_dect:
+    def fill_edit_client(self,info_dict):
+        if not info_dict:
             return
               
-        for widget,value in info_dect.items():
-            if widget == 'client_id':
-                continue
+        for widget,value in info_dict.items():
+
             if isinstance(self.edit_forms_map[widget],QComboBox):
                 self.edit_forms_map[widget].setCurrentIndex(int(value))
             elif isinstance(self.edit_forms_map[widget],QLineEdit):
-                self.edit_forms_map[widget].setText(value)
+                self.edit_forms_map[widget].setText(str(value))
    
- 
-    def if_changed_cinf(self,old_info):
-        
-        value_changed = False
-        new_info = {}
-        for name, widget in self.edit_forms_map.items():
-            if isinstance(widget, QComboBox):
-                index = widget.currentIndex()
-                if old_info[name] != index:
-                    value_changed = True
-                    new_info[name] = index
-            elif isinstance(widget, QLineEdit):
-                text= widget.text()
-                if old_info[name] != text:
-                    value_changed = True
-                    new_info[name] = text
-        
-        if value_changed:
-            return new_info
-
-
 
 
 
     def save_edit(self,old_info):
-        new_info = self.if_changed_cinf(old_info)
-       
-        if new_info:
-            self.db.update(old_info["client_id"],new_info)
-            print("data saved")
+        new_info = self.get_input(is_main_window=False)
+        changed_info = cs.if_changed(old_info, new_info)
+        save = cs.save_edit(changed_info)
+        if save:
+            print("Changes saved.")
             self.client_edit_window.close()
+            row_info = cs.search_by_id(old_info.get("client_id"))
+            self.current_row = self.table01.currentRow()
+            self.update_row(self.current_row,row_info)
         else:
-           print("no change")
+            print("no changes saved.")
  
-    def show_dialog(self,title,message):
+    def row_changed(self,row_id):
+        pass
+
+    def show_dialog(self,title,message,cancel_button=True):
         msg = QMessageBox()
-        msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+        msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel if cancel_button else QMessageBox.StandardButton.Ok)
         msg.setWindowTitle(title)
         msg.setText(message)
         result = msg.exec()
@@ -199,14 +182,13 @@ class MainWindow(QtWidgets.QMainWindow):
         menu = QMenu()
         index = self.table01.indexAt(position)
         item = self.table01.item(0,1)
-
         if index.isValid():
-            row_id = self.table01.item(index.row(),0).text()
+            client_id = self.table01.item(index.row(),0).text()
             lname = self.table01.item(index.row(),1).text()
             frname = self.table01.item(index.row(),2).text()
-            search = self.db.search({"id":row_id,"firstname":frname,"lastname":lname})
-
+            search = cs.get_from_id(client_id)
             edit_action = menu.addAction(f"تعديل  [{lname} {frname}]")
+            """delete """
             delete_action = menu.addAction(f"حذف {lname} {frname}")
             copy_login_username = menu.addAction(f"Copy Login Username ")
             copy_login_password = menu.addAction(f"Copy Login password ")
@@ -214,47 +196,32 @@ class MainWindow(QtWidgets.QMainWindow):
             copy_devoir_password = menu.addAction(f"Copy e-devoir password ")
         else:
             return
-        
         action = menu.exec(self.table01.viewport().mapToGlobal(position))
-        item_names  =   ["id",
-                        'lastname',
-                        'firstname',
-                        'level',
-                        'username_01',
-                        'password_01',
-                        'username_02',
-                        'password_02',
-                        'phone_number']
-        
-        item_dict = dict(zip(item_names,search[0]))
 
         #print(item_dict)
         clipboard = QApplication.clipboard()
         if action == edit_action:
-            self.edit_client(row_id)
+            self.edit_client(client_id)
 
         elif action == delete_action:
-            self.delete_client(lname,frname)
+            self.delete_client(client_id,lname,frname)
         elif action == copy_login_username:
-            clipboard.setText(item_dict.get("username_01"))
+            clipboard.setText(search.get("username_01"))
         elif action == copy_login_password:
-            clipboard.setText(item_dict.get("password_01"))
+            clipboard.setText(search.get("password_01"))
         elif action == copy_devoir_username:
-            clipboard.setText(item_dict.get("username_02"))
+            clipboard.setText(search.get("username_02"))
         elif action == copy_devoir_password:
-            clipboard.setText(item_dict.get("password_02"))            
+            clipboard.setText(search.get("password_02"))            
         
-    def delete_client(self, last_name,first_name):
-            window_title = "Delete client From database"
-            message = f"Are you sure you want to delete: [{last_name} {first_name}]"
-            if self.show_dialog(window_title,message):
-                self.db.delete(last_name,first_name)
-                self.reset_window()
-                self.show_dialog("Message","Client has been deleted ")
 
-    def get_input(self):
+    def get_input(self,is_main_window= True):
+        if is_main_window:
+            forms = self.widgets
+        else:
+            forms = self.edit_forms
         widget_dict = {}
-        for widget in self.widgets:
+        for widget in forms:
             widget_id = widget.objectName()
             #Check for comboboxs
             if isinstance(widget, QtWidgets.QComboBox):
@@ -265,39 +232,10 @@ class MainWindow(QtWidgets.QMainWindow):
             if isinstance(widget, QtWidgets.QLineEdit):
                 widget_dict[widget_id] = widget.text()
         
-        return widget_dict
+        return widget_dict 
 
      
-    def is_valid(self,key,value):
-        if key == "level":
-            if value >=0:
-                return True
-        else:
-            return bool(value)
-
-    def validate_input(self,get_filled=False):
-        """
-        checks for empty input fields
-        get_filled=True : return {field name: input} of any filled input
-        get_filled=False : return inputs only if all filled
-        """
-        inputs = self.get_input()
-        is_input_valid = True
-        valid_inputs = {}
-        
-        for widget, value in inputs.items():
-            if self.is_valid(widget, value):
-                valid_inputs[widget] = value
-            else:
-                is_input_valid = False
-        
-        if valid_inputs.values():
-            if is_input_valid:
-                return valid_inputs
-            elif get_filled:
-                return valid_inputs
-        
-
+    
     def validate_ui(self,valid_inputs):
         """
         visualy show if input is not valid or emprty when you click insert
@@ -317,24 +255,30 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def insert(self):
-        valid = self.validate_input()
-        self.validate_ui(self.validate_input(True))
+        inputs = self.get_input()
+        valid, filled_forms  = cs.validate_input(inputs)
+        self.validate_ui(filled_forms)
         if valid:
-            self.db.insert(valid)
+            result = cs.insert(filled_forms)
             self.loadtable()
             self.clear()
         else:
             self.show_dialog("Error Message","Please fill all the input fields")
             
-
-
-
     def search(self):       
-        inputs = self.validate_input(True)
-        if not inputs:
-            return
-        search_table = self.db.search(inputs)
-        self.update_table(search_table)
+        inputs = self.get_input()
+        search_table = cs.search(inputs)
+        if search_table:
+            self.update_table(search_table)
+
+    def delete_client(self, client_id, last_name, first_name):
+            window_title = "Delete client From database"
+            message = f"Are you sure you want to delete: [{last_name} {first_name}]"
+            if self.show_dialog(window_title,message):
+                result = cs.delete(client_id)
+                if result:
+                    self.reset_window()
+                    self.show_dialog("Message","Client has been deleted ",cancel_button=False)
 
 
 if __name__ == "__main__":

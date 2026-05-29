@@ -2,5 +2,5 @@ myenv/
 app.db
 __pycache__/
 *.pyc
-test.py
 backup/
+test*
