@@ -218,6 +218,7 @@ border-bottom: 2px solid #202739;
             <property name="font">
              <font>
               <pointsize>12</pointsize>
+              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -642,7 +643,7 @@ border-radius: 10px;
           <enum>QFrame::Raised</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="dashboard">
           <property name="styleSheet">
@@ -692,7 +693,7 @@ border-radius: 20px;
                <number>8</number>
               </property>
               <item row="2" column="1">
-               <widget class="QComboBox" name="comboBox">
+               <widget class="QComboBox" name="level_input_1">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -732,20 +733,20 @@ border-radius: 20px;
                </widget>
               </item>
               <item row="3" column="0">
-               <widget class="QLabel" name="label_5">
+               <widget class="QLabel" name="login_password_label_1">
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string>Login Password</string>
                 </property>
                </widget>
               </item>
               <item row="4" column="0">
-               <widget class="QLineEdit" name="lineEdit_3"/>
+               <widget class="QLineEdit" name="login_password_1"/>
               </item>
               <item row="8" column="0">
-               <widget class="QLineEdit" name="lineEdit_5"/>
+               <widget class="QLineEdit" name="firstname_1"/>
               </item>
               <item row="0" column="0" colspan="2">
-               <widget class="QWidget" name="widget_3" native="true">
+               <widget class="QWidget" name="client_info_header1" native="true">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -762,14 +763,14 @@ border-bottom: 2px solid #e3e6e9;
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_4">
                  <item>
-                  <widget class="QLabel" name="label_17">
+                  <widget class="QLabel" name="client_info_label_1">
                    <property name="styleSheet">
                     <string notr="true">QLabel{
 border: None;
 }</string>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string>Client info</string>
                    </property>
                   </widget>
                  </item>
@@ -777,15 +778,15 @@ border: None;
                </widget>
               </item>
               <item row="6" column="0">
-               <widget class="QLineEdit" name="lineEdit_4"/>
+               <widget class="QLineEdit" name="lastname_1"/>
               </item>
               <item row="6" column="1">
                <widget class="QLineEdit" name="lineEdit_7"/>
               </item>
               <item row="1" column="0">
-               <widget class="QLabel" name="label">
+               <widget class="QLabel" name="login_username_label_1">
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string>Login Username</string>
                 </property>
                </widget>
               </item>
@@ -793,12 +794,12 @@ border: None;
                <widget class="QLineEdit" name="lineEdit_6"/>
               </item>
               <item row="2" column="0">
-               <widget class="QLineEdit" name="lineEdit_2"/>
+               <widget class="QLineEdit" name="login_username_1"/>
               </item>
               <item row="7" column="0">
-               <widget class="QLabel" name="label_11">
+               <widget class="QLabel" name="firstname_label">
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string>First Name</string>
                 </property>
                </widget>
               </item>
@@ -834,6 +835,7 @@ border-bottom: 2px solid #4f46e5;
                    </property>
                    <property name="font">
                     <font>
+                     <weight>50</weight>
                      <bold>false</bold>
                      <stylestrategy>PreferAntialias</stylestrategy>
                     </font>
@@ -870,6 +872,7 @@ color: #ffffff;
                    </property>
                    <property name="font">
                     <font>
+                     <weight>50</weight>
                      <bold>false</bold>
                     </font>
                    </property>
@@ -899,6 +902,7 @@ color: #ffffff;
                    </property>
                    <property name="font">
                     <font>
+                     <weight>50</weight>
                      <bold>false</bold>
                     </font>
                    </property>
@@ -934,21 +938,21 @@ color: #ffffff;
               <item row="5" column="1">
                <widget class="QLabel" name="label_14">
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string>Exams Password</string>
                 </property>
                </widget>
               </item>
               <item row="7" column="1">
                <widget class="QLabel" name="label_15">
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string>Phone Number</string>
                 </property>
                </widget>
               </item>
               <item row="3" column="1">
                <widget class="QLabel" name="label_13">
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string>Exams User Name</string>
                 </property>
                </widget>
               </item>
@@ -1011,16 +1015,16 @@ color: #ffffff;
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLabel" name="label_12">
+               <widget class="QLabel" name="level_label">
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string>Level</string>
                 </property>
                </widget>
               </item>
               <item row="5" column="0">
-               <widget class="QLabel" name="label_10">
+               <widget class="QLabel" name="lastname_label_1">
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string>Last Name</string>
                 </property>
                </widget>
               </item>
@@ -1049,7 +1053,7 @@ color: #ffffff;
                <number>4</number>
               </property>
               <item>
-               <widget class="QWidget" name="widget_2" native="true">
+               <widget class="QWidget" name="clients_list_header_1" native="true">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -1077,14 +1081,14 @@ border-bottom: 2px solid #e3e6e9;
                   <number>17</number>
                  </property>
                  <item>
-                  <widget class="QLabel" name="label_28">
+                  <widget class="QLabel" name="client_list_label_1">
                    <property name="styleSheet">
                     <string notr="true">QLabel{
 border: None;
 }</string>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string>Clients List</string>
                    </property>
                   </widget>
                  </item>
@@ -1102,7 +1106,7 @@ border: None;
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QLabel" name="client_num_label">
+                  <widget class="QLabel" name="client_num_label_1">
                    <property name="styleSheet">
                     <string notr="true">.QLabel{
 border: 1px solid #e3e6e9;
@@ -2025,7 +2029,7 @@ QLineEdit {
         </spacer>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit">
+        <widget class="QLineEdit" name="quick_search_input">
          <property name="minimumSize">
           <size>
            <width>200</width>
@@ -2035,7 +2039,7 @@ QLineEdit {
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="quick_search_button">
          <property name="text">
           <string/>
          </property>
