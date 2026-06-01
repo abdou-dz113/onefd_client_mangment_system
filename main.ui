@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1053</width>
-    <height>676</height>
+    <width>963</width>
+    <height>685</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,6 +35,7 @@
          <property name="font">
           <font>
            <pointsize>18</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -383,6 +384,107 @@
      </widget>
     </item>
     <item>
+     <widget class="QWidget" name="captcha_fram" native="true">
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="verticalSpacing">
+        <number>2</number>
+       </property>
+       <item row="1" column="0">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::MinimumExpanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="4">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineEdit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>get info</string>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_10">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>120</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>120</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="resources/icons.qrc">:/newPrefix/e:/Users/PC/Downloads/85243fc0-1178-11ee-8ab6-b7d494809eaf.gif</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
      <widget class="QWidget" name="buttons_frame" native="true">
       <property name="minimumSize">
        <size>
@@ -428,6 +530,12 @@
         <widget class="QPushButton" name="pushButton_4">
          <property name="text">
           <string>Fill from site</string>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -524,8 +632,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1053</width>
-     <height>22</height>
+     <width>963</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings">
@@ -543,6 +651,41 @@
    </property>
   </action>
  </widget>
- <resources/>
- <connections/>
+ <resources>
+  <include location="resources/icons.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>captcha_fram</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>649</x>
+     <y>401</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>661</x>
+     <y>358</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>captcha_fram</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>537</x>
+     <y>354</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>611</x>
+     <y>307</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

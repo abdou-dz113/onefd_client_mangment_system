@@ -627,7 +627,7 @@ padding: 1px 12px;
 }
 
 QComboBox::drop-down{
-image: url(:/icons/icons/ic--baseline-arrow-drop-down.svg);
+image: url(:/newPrefix/ic--baseline-arrow-drop-down.svg);
 width: 20px;
 height: 20px;
 }
@@ -643,7 +643,7 @@ border-radius: 10px;
           <enum>QFrame::Raised</enum>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="dashboard">
           <property name="styleSheet">
@@ -1140,7 +1140,7 @@ color: #c5c7c9;
                  <enum>Qt::ScrollBarAsNeeded</enum>
                 </property>
                 <property name="rowCount">
-                 <number>1</number>
+                 <number>2</number>
                 </property>
                 <attribute name="horizontalHeaderCascadingSectionResizes">
                  <bool>false</bool>
@@ -1151,6 +1151,11 @@ color: #c5c7c9;
                 <attribute name="verticalHeaderVisible">
                  <bool>false</bool>
                 </attribute>
+                <row>
+                 <property name="text">
+                  <string>New Row</string>
+                 </property>
+                </row>
                 <row/>
                </widget>
               </item>
@@ -1163,7 +1168,9 @@ color: #c5c7c9;
          </widget>
          <widget class="QWidget" name="new_client">
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">QWidget#new_client{
+border: 1px solid #eaecef;
+}</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_6" columnstretch="2,1,0,0,1,2">
            <item row="6" column="0" colspan="3">
@@ -1548,6 +1555,14 @@ text-align: center;
                <width>0</width>
                <height>50</height>
               </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">.QWidget{
+background-color: #fdfdfd;
+border-top-left-radius: 20px;
+border-top-right-radius: 20px;
+border-bottom: 2px solid #e3e6e9;
+}</string>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
