@@ -2,7 +2,7 @@ import io
 from PIL import Image
 import requests
 from bs4 import BeautifulSoup
-import json
+import settings as s
 
 url = "https://inscriptic.onefd.edu.dz/preinscription/auth/login"
 url2 = "https://inscriptic.onefd.edu.dz/preinscription/Inscriptic"
@@ -67,65 +67,35 @@ class WebLogin():
         
 
     def get_captcha(self,):
-        r = self.request
-        soup = BeautifulSoup(r.content, "html.parser")
-        parent_div = soup.find("div", class_="image refresh")
-        captcha_tag = parent_div.find("img")
-        captcha_url = captcha_tag["src"]
-        captcha_raw = requests.get(captcha_url, stream=True)
-        return captcha_raw.content
-
-    def get_info(self):
-        r = self.session.get(url2, headers=custom_header)
-        soup = BeautifulSoup(r.content,"html.parser")
         try:
-            first_parent = soup.find("div",class_="row form-group")
-            print(first_parent)
-            try:
-                last_name_tag = first_parent.find("input",id="nom")
-                first_name_tag = first_parent.find("input",id="prenom")
-                level_tag = first_parent.find("input",id="icode")
-                print(last_name_tag)
-                print(first_name_tag)
-                print(level_tag)
-            except Exception as e:
-                print(e)
-
+            r = self.request
+            soup = BeautifulSoup(r.content, "html.parser")
+            parent_div = soup.find("div", class_="image refresh")
+            captcha_tag = parent_div.find("img")
+            captcha_url = captcha_tag["src"]
+            captcha_raw = requests.get(captcha_url, stream=True)
+            return captcha_raw.content
         except Exception as e:
             print(e)
 
-def test1():
-    login = WebLogin()
-    login.request()
-    image = Image.open(io.BytesIO(login.get_captcha()))
-    image.show()
-    username = input("username: ")
-    password = input("password: ")
-    captcha = input("captcha: ")
-    r = login.login(username,password,captcha)
-    if r.ok:
-        print("--- logged in ---")
-        r2 = login.session.get(url6,headers= custom_header)
-        if r2.status_code == 200:
-            data = r2.json()
-            client_data_html = data.get("valid")
-            soup = BeautifulSoup(client_data_html,"html.parser")
-            inputs = {}
-            for group in soup.select(".form-group"):
-                label = group.find("label")
-                inp = group.find("input")
-                if label and inp:
-                    print(
-                        label.get_text(strip=True),
-                        "\t:\t",
-                        inp.get("value", "")
-                    )
-                with open("res.html","w",encoding="utf-8") as file:
-                    file.write(soup.prettify())
-def test2():
-    with open("res.html","r",encoding="utf-8") as file:
-        soup = BeautifulSoup(file, "html.parser")
-    
+    def get_info(self):
+        form_map = s.site_form_map
+        site_vals = {}
+        try:
+            request = self.session.get(url6, headers=custom_header)
+            if request.ok:
+                soup = BeautifulSoup(request,"html-parser")
+                for group in soup.select(".form-group"):
+                    label = group.find("label")
+                    inp   = group.find("input")
+                    if label and inp:
+                        field_name = label.get_text(strip=True)
+                        field_value= inp.get("value")
+                        site_vals.update({form_map.get(field_name):field_value})
+                return site_vals
+        except Exception as e:
+            print(e)
+
     
 if __name__ == "__main__":
-    test2()
+    pass

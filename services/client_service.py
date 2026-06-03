@@ -9,7 +9,7 @@ def table_query():
     if result:
         return result
     else:
-        return ["There is Nothing to show.",]
+        return None
 
 def is_valid(key,value):
         if key == "level":

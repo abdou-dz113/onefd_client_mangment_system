@@ -147,11 +147,22 @@ class TabelWidget(QTableWidget):
             self.setColumnHidden(column,hide)
 
     def fill_table(self, data_matrix):
-        
-        self.setRowCount(len(data_matrix))
-        
-        self.setSortingEnabled(False)
+        if not data_matrix:
+            text = "There is nothing to show."
+            print(text)
+            self.setRowCount(1)
+            self.setColumnCount(2)
+            item = QTableWidgetItem(str(text))
+            item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter)
+            self.setItem(0,1,item)
+            self.horizontalHeader().setVisible(False)
+            return
 
+
+
+        self.setRowCount(len(data_matrix))
+        self.horizontalHeader().setVisible(True)
+        self.setSortingEnabled(False)
         for row_idx, row_data in enumerate(data_matrix):
             for col_idx, col_data in enumerate(row_data):
                 table_item = QTableWidgetItem(str(col_data))

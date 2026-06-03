@@ -303,13 +303,14 @@ class MainWindow(QtWidgets.QMainWindow):
             print(site_data)
     
     def get_captcha(self):
-        self.site_s.request()
+        #self.site_s.request()
         image_req = self.site_s.get_captcha()
-        if image_req.status_code== 200:
+        if image_req:
             image = Image.open(io.BytesIO(image_req.content))
             image_q = ImageQt.ImageQt(image)
             pixmap  =  QPixmap.fromImage(image_q)
             self.captcha_image.setPixmap(pixmap)
+        pass
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
