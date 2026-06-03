@@ -1,0 +1,55 @@
+$(document).ready(function () {
+
+
+    var select_jour = document.getElementById("jour");
+    var select_mois = document.getElementById("mois");
+    var select_annee = document.getElementById("annee");
+    var select_anneeins = document.getElementById("anneeins1");
+    var select_anneeins2 = document.getElementById("anneeins2");
+    var select_code_wilaya = document.getElementById("annexe1");
+    code_wilaya = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48"];
+    jour = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
+    mois = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+    for (var i = 0; i < jour.length; i++) {
+        var option = document.createElement("OPTION");
+        txt = document.createTextNode(jour[i]);
+        option.appendChild(txt);
+        option.setAttribute("value", jour[i]);
+        select_jour.insertBefore(option, select_jour.lastChild);
+    }
+    for (var i = 0; i < mois.length; i++) {
+        var option = document.createElement("OPTION"),
+            txt = document.createTextNode(mois[i]);
+        option.appendChild(txt);
+        option.setAttribute("value", mois[i]);
+        select_mois.insertBefore(option, select_mois.lastChild);
+    }
+    for (var i = 2015; i > 1933; i--) {
+        var option = document.createElement("OPTION"),
+            txt = document.createTextNode(i);
+        option.appendChild(txt);
+        option.setAttribute("value", i);
+        select_annee.insertBefore(option, select_annee.lastChild);
+
+    }
+
+    for (var i = 2001; i < 2026; i++) {
+        var option = document.createElement("OPTION"),
+            txt = document.createTextNode(i);
+        option.appendChild(txt);
+        option.setAttribute("value", i);
+        select_anneeins2.insertBefore(option, select_anneeins2.lastChild);
+    }
+    for (var i = 2001; i < 2026; i++) {
+        var option = document.createElement("OPTION"),
+            txt = document.createTextNode(i);
+        option.appendChild(txt);
+        option.setAttribute("value", i);
+        select_anneeins.insertBefore(option, select_anneeins.lastChild);
+
+    }
+
+
+
+});
+

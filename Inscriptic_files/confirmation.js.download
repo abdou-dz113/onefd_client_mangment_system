@@ -1,0 +1,117 @@
+        
+
+
+           
+   //$(document).ready(function () {
+   document.addEventListener("DOMContentLoaded", function () {
+	   
+	   	//==========================================================================	
+             /*jQuery("#form_conf").validationEngine({ 'custom_error_messages': {
+				'#enpr': {
+                'required': {
+                    'message': "أدخل رقم الإستمارة "
+				}
+                },
+			 
+				
+				'#jour': {
+                'required': {
+                    'message': "أدخل اليوم الذي ولدت فيه "
+				}
+                },
+				'#mois': {
+                'required': {
+                    'message': "أدخل  الشهر الذي ولدت فية "
+				}
+                },
+				'#annee': {
+                'required': {
+                    'message': "أدخل السنة التي ولدت فيها "
+				}
+                },
+
+				'#captcha': {
+                'required': {
+                    'message': " أكتب الأحرف الموجودة في الصورة"
+                },
+				
+                } 
+        }
+        });
+  //==========================================================================         
+        $("#valid").click(function (event) {
+              event.preventDefault();
+             var valid = $("#form_conf").validationEngine('validate');
+			//  valid = true;
+        if (valid == true) {  */
+		    $("#ajax_loader").show();
+        	var form=  $("#form_conf");
+                        $.ajax({
+                            type: 'POST',
+                            url: base_url+'Confirmation_preinscriptic/wel',
+                            dataType: 'json',
+                            data: form.serialize(),
+							
+                            success: function (res) {
+							$("#ajax_loader").hide();
+                              if (res.success == 0  ) {
+					
+						     /*swal.fire({
+												  title: 'نعتذر!',
+												  html: '<h4 style="font-weight:bold;font-size:20px;color:red" > * '+ res.valid_error + '</h4>',
+												  type: 'error',
+												  confirmButtonText: 'إغلاق'
+												});	*/	
+								Swal.fire({
+											title: 'نعتذر!',
+											html: '<h4 style="font-weight:bold;font-size:20px;color:red"> * ' + res.valid_error + '</h4>',
+											type: 'error',              // ✅ "icon" au lieu de "type"
+											confirmButtonText: 'إغلاق'
+											}).then((result) => {
+											if (result.value || result.isConfirmed) {
+												window.location.href = '/preinscription';
+											}
+											});					  
+                             }
+							 if(res.success == 1){
+								
+								  $('#refresh5').html(''); 
+								 $('#refresh5').html(res.valid); 
+								 $('html, body').animate({ scrollTop: 0 }, 0);
+							 }
+							 if(res.success == 2){
+								 
+								  $('#refresh5').html(''); 
+								 $('#refresh5').html(res.valid); 
+								 $('html, body').animate({ scrollTop: 0 }, 0);
+							 }
+							  if (res.captcha !== null  ) {
+							  $('#captcha').val('');
+							  $('.image').html(res.captcha);
+							  }
+                            },
+							error: function(jqXHR,textStatus, errorThrown){
+                                               $("#ajax_loader").hide();
+							  swal.fire({
+												  title: 'نعتذر!',
+												  html: '<h4 style="font-weight:bold;font-size:20px;color:red" > * الملقم لا يستجيب  . أعد المحاولة !!!. </h4>',
+												  type: 'error',
+												  confirmButtonText: 'إغلاق'
+												});
+}
+                        });
+						// return true;
+        //}else{
+        //    return false;
+        //}
+		
+               
+  					 });
+ 				   
+ //});// end   $(document).ready(function 
+
+//==========================================================================	    
+
+
+//==========================================================================	
+	

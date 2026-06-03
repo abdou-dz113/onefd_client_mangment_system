@@ -98,7 +98,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.table01.setColumnCount(data_column_count)
             for i, row in enumerate(data):
                 for c, cell in enumerate(row):
-                    item = get_table_item(i,c,cell)
+                    item = QtWidgets.QTableWidgetItem(str(cell))
                     self.table01.setItem(i,c,item)
 
     def update_row(self, row_num, new_data):

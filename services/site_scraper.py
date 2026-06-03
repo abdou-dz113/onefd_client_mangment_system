@@ -2,14 +2,20 @@ import io
 from PIL import Image
 import requests
 from bs4 import BeautifulSoup
+import json
 
 url = "https://inscriptic.onefd.edu.dz/preinscription/auth/login"
 url2 = "https://inscriptic.onefd.edu.dz/preinscription/Inscriptic"
 url3 = "https://inscriptic.onefd.edu.dz/preinscription/Inscriptic/action"
 url4 = "https://inscriptic.onefd.edu.dz/preinscription/download_pdf/imp_cert_inscription"
 url5 = "https://inscriptic.onefd.edu.dz/preinscription/Auth/logout"
+url6 = "https://inscriptic.onefd.edu.dz/preinscription/Confirmation_preinscriptic/wel"
 
-custom_header = {"user-agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.3"}
+custom_header = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "X-Requested-With": "XMLHttpRequest",
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    }
 
 # session = requests.Session()
 # r1 = session.get(url, headers=custom_header)
@@ -69,8 +75,26 @@ class WebLogin():
         captcha_raw = requests.get(captcha_url, stream=True)
         return captcha_raw.content
 
+    def get_info(self):
+        r = self.session.get(url2, headers=custom_header)
+        soup = BeautifulSoup(r.content,"html.parser")
+        try:
+            first_parent = soup.find("div",class_="row form-group")
+            print(first_parent)
+            try:
+                last_name_tag = first_parent.find("input",id="nom")
+                first_name_tag = first_parent.find("input",id="prenom")
+                level_tag = first_parent.find("input",id="icode")
+                print(last_name_tag)
+                print(first_name_tag)
+                print(level_tag)
+            except Exception as e:
+                print(e)
 
-if __name__ == "__main__":
+        except Exception as e:
+            print(e)
+
+def test1():
     login = WebLogin()
     login.request()
     image = Image.open(io.BytesIO(login.get_captcha()))
@@ -80,8 +104,28 @@ if __name__ == "__main__":
     captcha = input("captcha: ")
     r = login.login(username,password,captcha)
     if r.ok:
-        r2 = login.session.get(url2,headers=custom_header)
-        print(r2.text)
-
+        print("--- logged in ---")
+        r2 = login.session.get(url6,headers= custom_header)
+        if r2.status_code == 200:
+            data = r2.json()
+            client_data_html = data.get("valid")
+            soup = BeautifulSoup(client_data_html,"html.parser")
+            inputs = {}
+            for group in soup.select(".form-group"):
+                label = group.find("label")
+                inp = group.find("input")
+                if label and inp:
+                    print(
+                        label.get_text(strip=True),
+                        "\t:\t",
+                        inp.get("value", "")
+                    )
+                with open("res.html","w",encoding="utf-8") as file:
+                    file.write(soup.prettify())
+def test2():
+    with open("res.html","r",encoding="utf-8") as file:
+        soup = BeautifulSoup(file, "html.parser")
     
-
+    
+if __name__ == "__main__":
+    test2()

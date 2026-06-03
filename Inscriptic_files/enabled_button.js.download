@@ -1,0 +1,21 @@
+$("#valid_attes").click(function() {
+
+    $("#form_attes").submit();
+    $("#valid_attes").attr("disabled", "disabled");
+    $("#cmpt").show();
+    $("#cmpt").innerText = 50;
+    var intter = setInterval(countdown, 1000);
+
+    function countdown() {
+
+        var i = document.getElementById('cmpt');
+        i.innerHTML = parseInt(i.innerHTML) - 1;
+        if (parseInt(i.innerHTML) <= 0) {
+            clearInterval(intter);
+            $("#valid_attes").removeAttr("disabled");
+            $("#cmpt").innerText = 50;
+            $("#cmpt").hide();
+        }
+    }
+
+});

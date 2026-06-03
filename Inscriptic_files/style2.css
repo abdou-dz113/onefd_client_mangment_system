@@ -1,0 +1,327 @@
+@font-face {
+    font-family: 'ae_AlArabiya';
+    src: url('../fonts/ae_AlArabiya.ttf');
+    src: url('../fonts/ae_AlArabiya.eot?') format('embedded-opentype'),
+    
+        url('../fonts/ae_AlArabiya.ttf') format('truetype');
+		}
+@font-face {
+      font-family: 'JannaLT-Regular';
+    
+      src: local('JannaLT-Regular'), local('JannaLT-Regular'),
+          url('../fonts/JannaLT-Regular.eot?#iefix') format('embedded-opentype'),
+          url('../fonts/JannaLT-Regular.woff2') format('woff2'),
+          url('../fonts/JannaLT-Regular.woff') format('woff'),
+          url('../fonts/JannaLT-Regular.ttf') format('truetype');
+          font-weight: 400;
+     
+      font-style: normal;
+      font-display: swap;
+    }
+  @font-face {
+      font-family: 'Tajawal-Regular';
+    
+      src: local('Tajawal-Regular'), local('Tajawal-Regular'),
+          url('../fonts/Tajawal-Regular.eot?#iefix') format('embedded-opentype'),
+          url('../fonts/Tajawal-Regular.woff2') format('woff2'),
+          url('../fonts/Tajawal-Regular.woff') format('woff'),
+          url('../fonts/Tajawal-Regular.ttf') format('truetype');
+          font-weight: 400;
+     
+      font-style: normal;
+      font-display: swap;
+    }
+body
+{
+    
+    font-family: 'Tajawal-Regular' !important;
+     font-weight: bold;	
+    font-size: 18px;
+}
+.btn
+{
+    
+    font-family: 'Tajawal-Regular' !important;
+	color: white;
+    font-size: 18px;
+}
+
+.navbar-inverse {
+  color: white;
+  background-color: #004080;
+ 
+  border-color: #425766;
+ 
+}
+ 
+.navbar-inverse .navbar-brand {
+ 
+  color: #fff;
+ 
+}
+ 
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+ 
+  color: #AAD5FF;
+ 
+}
+ 
+.navbar-inverse .navbar-text {
+ 
+  color: #d7e2e9;
+ 
+}
+ 
+.navbar-inverse .navbar-nav > li > a {
+ 
+  color: #fff;
+ 
+}
+ 
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+ 
+  color: #fff;
+ 
+  background-color:#B05800;
+ 
+}
+ 
+.navbar-inverse .navbar-nav > li > .dropdown-menu {
+ font-family: 'Tajawal-Regular' !important;
+  background-color: #2894FF;
+ 
+}
+ 
+.navbar-inverse .navbar-nav > li > .dropdown-menu > li > a {
+  
+font-family: 'Tajawal-Regular' !important;
+	color: white;
+    font-size: 18px;
+ 
+ 
+}
+ 
+.navbar-inverse .navbar-nav > li > .dropdown-menu > li > a:hover,
+ 
+.navbar-inverse .navbar-nav > li > .dropdown-menu > li > a:focus {
+ 
+  color: #fff;
+ 
+  background-color: #004182;
+ 
+}
+ 
+.navbar-inverse .navbar-nav > li > .dropdown-menu > li > .divider {
+ 
+  background-color: #69899f;
+ 
+}
+ 
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+ 
+  color: #e5dbdb;
+ 
+  background-color: #B05800;
+ 
+}
+ 
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+ 
+  color: #e5dbdb;
+ 
+  background-color: #425766;
+ 
+}
+ 
+.navbar-inverse .navbar-toggle {
+ 
+  border-color: #425766;
+ 
+}
+ 
+.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+ 
+  background-color: #425766;
+ 
+}
+ 
+.navbar-inverse .navbar-toggle .icon-bar {
+ 
+  background-color: #d7e2e9;
+ 
+}
+ 
+.navbar-inverse .navbar-collapse,
+ 
+.navbar-inverse .navbar-form {
+ 
+  border-color: #d7e2e9;
+ 
+}
+ 
+.navbar-inverse .navbar-link {
+ 
+  color: #d7e2e9;
+ 
+}
+ 
+.navbar-inverse .navbar-link:hover {
+ 
+  color: #e5dbdb;
+ 
+}
+ 
+ 
+ 
+@media (max-width: 767px) {
+ 
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+ 
+    color: #d7e2e9;
+ 
+  }
+ 
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
+ 
+    color: #e5dbdb;
+ 
+  }
+ 
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a, .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus {
+ 
+    color: #e5dbdb;
+ 
+    background-color: #425766;
+ 
+  }
+
+ 
+}
+.modal-footer{
+	 background-color: #33ccff;
+}
+.modal-header{
+	 background-color: #ccff99;
+}
+.container.contenu {
+	margin-top:60px;
+	}
+.container.contenu_eleve {
+	margin-top:45px;
+	}
+.aa  { 
+  float: left; 
+}	
+
+	
+form {
+ background-color:#FAFAFA;
+ padding:5px;
+ width:auto;
+ }
+fieldset {
+ padding:0 20px 20px 20px;
+ margin-bottom:5px;
+ border:1px solid #DF3F3F;
+ }
+legend {
+ color:#DF3F3F;
+ font-weight:bold
+ }
+
+textarea, select, option {
+
+        color: #9900CC;
+        font-weight: bold
+
+ }
+ textarea, select {
+
+ padding:1px;
+ border:1px solid #F5C5C5;
+ border-radius:5px;
+ width:auto;
+ box-shadow:1px 1px 2px #C0C0C0 inset;
+ }
+ input.inputblock {
+	 color: #9900CC;
+     font-weight: bold;
+	 padding:1px;
+	 border:1px solid #F5C5C5;
+	 border-radius:5px;
+	 box-shadow:1px 1px 2px #C0C0C0 inset;
+	 height:37px;
+
+ }
+
+input[type=radio] {
+ background-color:transparent;
+ border:none;
+ width:auto;
+ }
+input[type=submit], input[type=reset] {
+ width:auto;
+ margin-left:5px;
+ box-shadow:1px 1px 1px #D83F3D;
+ cursor:pointer;
+ }
+ input.inputligne{
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+	color:#9900CC;
+	 width:100%;
+	 font-size: 18px !important;
+}
+
+ .auth{
+	 margin:10px;
+	 background: #f4f5ca66 !important;
+         }
+ #wel{
+	 background: rgb(38, 203, 49) !important;
+         }
+.well-2{
+	color: #4721a9;
+    font-size: 14px !important;
+	
+}	
+.titre{
+	color: red;
+    font-size: 20px !important;
+	
+}	 
+.breadcrumb{
+	font-size: 20px !important;
+}
+	
+
+#message{
+	text-align:center;
+	color :red;
+	margin:0 auto;
+	font-size: 22px !important;
+}
+#ajax_loader {
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  display: block;
+  opacity: 0.7;
+  background-color: #fff;
+  z-index: 99;
+  text-align: center;
+}
+
+#loading-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+}	  
+ 
+.cent{
+	 text-align: center;
+}
