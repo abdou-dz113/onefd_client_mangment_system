@@ -10,14 +10,13 @@ import resources_rc
 import settings as s
 from services import client_service as cs
 
+
 def debug_func(func,):
     def wrapper(*arg,**kwarg):
         print(f"running {func.__name__}")
         func(*arg)
         print(f"finshed running {func.__name__}")
     return wrapper
-
-
 
 
 class MainWindow(QMainWindow):
@@ -127,11 +126,13 @@ class TabelWidget(QTableWidget):
         super().__init__(parent)
         self.headers = headers
         self.init_table_settings()
+        
+        self.setStyleSheet(s.tabel_css)
 
     def init_table_settings(self):
         self.setColumnCount(len(self.headers))
         self.setHorizontalHeaderLabels(self.headers)
-        self.setAlternatingRowColors(True)
+        self.setAlternatingRowColors(False)
 
         horizontal_header = self.horizontalHeader()
         horizontal_header.setStretchLastSection(True)
@@ -139,12 +140,28 @@ class TabelWidget(QTableWidget):
         
         self.hide_columns(hide=True)
         self.verticalHeader().setVisible(False)
+        self.setShowGrid(False)
+        self.verticalHeader().setDefaultSectionSize(40)
 
 
     def hide_columns(self, hide=True):
         hiden_columns = (0,5,6,7,4)
         for column in hiden_columns:
             self.setColumnHidden(column,hide)
+
+    def item_gen(self,row_idx,col_idx,col_val):
+        exam_indexs = (9,10,11,12,13)
+        if col_idx in exam_indexs:
+            item = QTableWidgetItem(str(s.exams_progress_dict.get(col_val)[0]))
+            item.setBackground(QBrush(QColor(s.exams_progress_dict.get(col_val)[1])))
+            item.setForeground(QBrush(QColor("#f9f7f3")))
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            return item
+        else:
+            item = QTableWidgetItem(str(col_val))
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+            return item
+        
 
     def fill_table(self, data_matrix):
         if not data_matrix:
@@ -165,8 +182,7 @@ class TabelWidget(QTableWidget):
         self.setSortingEnabled(False)
         for row_idx, row_data in enumerate(data_matrix):
             for col_idx, col_data in enumerate(row_data):
-                table_item = QTableWidgetItem(str(col_data))
-                table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                table_item = self.item_gen(row_idx,col_idx,col_data)
                 self.setItem(row_idx, col_idx, table_item)
         
         self.setSortingEnabled(True)

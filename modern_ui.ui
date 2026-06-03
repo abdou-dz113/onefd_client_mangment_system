@@ -584,7 +584,7 @@ border-radius: 10px;
           <enum>QFrame::Raised</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="dashboard">
           <property name="styleSheet">
@@ -737,6 +737,31 @@ border-bottom: 2px solid #e3e6e9;
                   <number>17</number>
                  </property>
                  <item>
+                  <widget class="QLabel" name="label">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>5</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border:none;
+background-color: #4f46e5;
+border-radius: 2px;
+width:5px;</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QLabel" name="client_list_label_1">
                    <property name="styleSheet">
                     <string notr="true">QLabel{
@@ -826,6 +851,31 @@ border-bottom: 2px solid #e3e6e9;
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_4">
                  <item>
+                  <widget class="QLabel" name="label_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>5</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border:none;
+background-color: #4f46e5;
+border-radius: 2px;
+width:5px;</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QLabel" name="client_info_label_1">
                    <property name="styleSheet">
                     <string notr="true">QLabel{
@@ -870,6 +920,76 @@ border: None;
                  <property name="horizontalSpacing">
                   <number>9</number>
                  </property>
+                 <item row="2" column="1">
+                  <widget class="QComboBox" name="level_input_1">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="login_username_label_1">
+                   <property name="text">
+                    <string>Login Username</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="1">
+                  <widget class="QLabel" name="exams_password_label_1">
+                   <property name="text">
+                    <string>Exams Password</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QLineEdit" name="exams_password_input_1"/>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="login_password_label_1">
+                   <property name="text">
+                    <string>Login Password</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="1">
+                  <widget class="QLineEdit" name="phone_number_input"/>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="exams_username_input_1"/>
+                 </item>
                  <item row="9" column="0">
                   <widget class="QWidget" name="crud_buttons_frame" native="true">
                    <property name="styleSheet">
@@ -996,6 +1116,16 @@ color: #ffffff;
                    </layout>
                   </widget>
                  </item>
+                 <item row="5" column="0">
+                  <widget class="QLabel" name="lastname_label_1">
+                   <property name="text">
+                    <string>Last Name</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="0">
+                  <widget class="QLineEdit" name="firstname_input_1"/>
+                 </item>
                  <item row="4" column="0">
                   <widget class="QLineEdit" name="login_password_input_1"/>
                  </item>
@@ -1057,36 +1187,8 @@ color: #ffffff;
                    </layout>
                   </widget>
                  </item>
-                 <item row="4" column="1">
-                  <widget class="QLineEdit" name="exams_username_input_1"/>
-                 </item>
-                 <item row="7" column="0">
-                  <widget class="QLabel" name="firstname_label">
-                   <property name="text">
-                    <string>First Name</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="5" column="1">
-                  <widget class="QLabel" name="exams_password_label_1">
-                   <property name="text">
-                    <string>Exams Password</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="QLabel" name="exams_username_label_1">
-                   <property name="text">
-                    <string>Exams User Name</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="0">
-                  <widget class="QLabel" name="login_password_label_1">
-                   <property name="text">
-                    <string>Login Password</string>
-                   </property>
-                  </widget>
+                 <item row="2" column="0">
+                  <widget class="QLineEdit" name="login_username_input_1"/>
                  </item>
                  <item row="1" column="1">
                   <widget class="QLabel" name="level_label">
@@ -1095,16 +1197,20 @@ color: #ffffff;
                    </property>
                   </widget>
                  </item>
-                 <item row="8" column="1">
-                  <widget class="QLineEdit" name="phone_number_input"/>
+                 <item row="6" column="0">
+                  <widget class="QLineEdit" name="lastname_input_1"/>
                  </item>
-                 <item row="8" column="0">
-                  <widget class="QLineEdit" name="firstname_input_1"/>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="login_username_label_1">
+                 <item row="3" column="1">
+                  <widget class="QLabel" name="exams_username_label_1">
                    <property name="text">
-                    <string>Login Username</string>
+                    <string>Exams User Name</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="7" column="0">
+                  <widget class="QLabel" name="firstname_label">
+                   <property name="text">
+                    <string>First Name</string>
                    </property>
                   </widget>
                  </item>
@@ -1112,62 +1218,6 @@ color: #ffffff;
                   <widget class="QLabel" name="phone_number_label_1">
                    <property name="text">
                     <string>Phone Number</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QComboBox" name="level_input_1">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>28</height>
-                    </size>
-                   </property>
-                   <item>
-                    <property name="text">
-                     <string>New Item</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>New Item</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>New Item</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>New Item</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>New Item</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>New Item</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                 <item row="6" column="1">
-                  <widget class="QLineEdit" name="exams_password_input_1"/>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QLineEdit" name="login_username_input_1"/>
-                 </item>
-                 <item row="6" column="0">
-                  <widget class="QLineEdit" name="lastname_input_1"/>
-                 </item>
-                 <item row="5" column="0">
-                  <widget class="QLabel" name="lastname_label_1">
-                   <property name="text">
-                    <string>Last Name</string>
                    </property>
                   </widget>
                  </item>
@@ -1582,6 +1632,31 @@ border-bottom: 2px solid #e3e6e9;
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
+               <widget class="QLabel" name="label_10">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>5</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">border:none;
+background-color: #4f46e5;
+border-radius: 2px;
+width:5px;</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QLabel" name="label_24">
                 <property name="text">
                  <string>Client ID:</string>
@@ -1707,15 +1782,31 @@ border-bottom: 2px solid #e3e6e9;
 }</string>
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_9">
-                 <property name="leftMargin">
-                  <number>17</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>12</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>17</number>
-                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_5">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>5</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border:none;
+background-color: #4f46e5;
+border-radius: 2px;
+width:5px;</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
                  <item>
                   <widget class="QLabel" name="clients_list_lable_2">
                    <property name="styleSheet">
@@ -1844,16 +1935,32 @@ border-top-right-radius: 20px;
 border-bottom: 2px solid #e3e6e9;
 }</string>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_10">
-                 <property name="leftMargin">
-                  <number>17</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>12</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>17</number>
-                 </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <item>
+                  <widget class="QLabel" name="label_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>5</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border:none;
+background-color: #4f46e5;
+border-radius: 2px;
+width:5px;</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
                  <item>
                   <widget class="QLabel" name="label_30">
                    <property name="styleSheet">
@@ -1909,8 +2016,8 @@ background-color: #fdfdfd;
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>83</width>
-                   <height>30</height>
+                   <width>838</width>
+                   <height>711</height>
                   </rect>
                  </property>
                 </widget>
