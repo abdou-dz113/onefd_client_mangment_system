@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1175</width>
-    <height>811</height>
+    <height>922</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,7 +33,7 @@ border-radius: 50px;
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <layout class="QGridLayout" name="gridLayout" rowstretch="1,1" rowminimumheight="1,1">
+   <layout class="QGridLayout" name="gridLayout" rowstretch="1,0">
     <property name="sizeConstraint">
      <enum>QLayout::SetNoConstraint</enum>
     </property>
@@ -218,7 +218,6 @@ border-bottom: 2px solid #202739;
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -334,30 +333,56 @@ border-bottom: 2px solid #202739;
       </layout>
      </widget>
     </item>
-    <item row="0" column="1" rowspan="2">
-     <widget class="QFrame" name="icons_only">
+    <item row="0" column="3">
+     <widget class="QFrame" name="frame_3">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>50</height>
+       </size>
+      </property>
       <property name="styleSheet">
-       <string notr="true">QFrame{
-background-color: #0f1626;
-color: #ffffff;
+       <string notr="true">.QFrame{
+background-color: #FDFDFD;
+border: 2px solid  #FDFDFD;
 }
+
 QPushButton{
-background-color: #0f1626;
+border-radius: 4px ;
 border: None;
-color: white;
-border-top-left-radius: 10px;
-border-bottom-left-radius: 10px;
+background-color: None;
 padding: 6px 12px;
 margin: 0px;
 text-align: left;
 }
 
-QPushButton:hover{
-background-color: #202739;
+QPushButton::hover{
+background-color: #c5c7c9;
 }
 
-QPushButton:checked {
-    background-color: #4f46e5;
+QPushButton::pressed{
+padding: 2px 8px;
+margin: 4px 4px;
+background-color: #f8fafc;
+}
+
+QLineEdit {
+    border: 1px solid #e3e6e9;
+    border-radius: 10px;
+    background-color: #f8fafc;
+	padding: 4px 6px;
 }</string>
       </property>
       <property name="frameShape">
@@ -366,200 +391,72 @@ QPushButton:checked {
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QGridLayout" name="gridLayout_4">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <item row="8" column="1">
-        <widget class="QPushButton" name="exit_2">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="menu">
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-exit-to-app.svg</normalon>
-           <disabledon>:/icons/icons/ic--baseline-exit-to-app.svg</disabledon>
-          </iconset>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QPushButton" name="clients_2">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/newPrefix/ic--baseline-people-alt.svg</normalon>
-           <disabledon>:/icons/icons/ic--baseline-people-alt.svg</disabledon>
-          </iconset>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="dashboard_2">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/newPrefix/ic--baseline-space-dashboard.svg</normalon>
-           <disabledon>:/icons/icons/ic--baseline-dashboard.svg</disabledon>
-           <activeoff>:/icons/icons/ic--baseline-space-dashboard.svg</activeoff>
-          </iconset>
+           <normaloff>:/icons/icons/ic--outline-keyboard-double-arrow-left.svg</normaloff>
+           <normalon>:/newPrefix/ic--baseline-menu.svg</normalon>
+           <activeoff>:/newPrefix/ic--outline-keyboard-double-arrow-left.svg</activeoff>:/icons/icons/ic--outline-keyboard-double-arrow-left.svg</iconset>
          </property>
          <property name="checkable">
           <bool>true</bool>
          </property>
          <property name="checked">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="autoExclusive">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
-        <widget class="QPushButton" name="settings_2">
+       <item>
+        <widget class="QLabel" name="label_2">
          <property name="text">
           <string/>
          </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/newPrefix/ic--baseline-settings.svg</normalon>
-           <disabledon>:/icons/icons/ic--baseline-settings.svg</disabledon>
-          </iconset>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <spacer name="horizontalSpacer_3">
+       <item>
+        <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>10</width>
-           <height>10</height>
+           <width>351</width>
+           <height>20</height>
           </size>
          </property>
         </spacer>
        </item>
-       <item row="4" column="1">
-        <widget class="QPushButton" name="new_client_2">
+       <item>
+        <widget class="QLineEdit" name="quick_search_input">
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>40</height>
+           <width>200</width>
+           <height>0</height>
           </size>
          </property>
+         <property name="placeholderText">
+          <string>البحث بالأسم ، اللقب، اسم المستخدم ...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="quick_search_button">
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-person.svg</normalon>
-           <disabledon>:/icons/icons/ic--baseline-person.svg</disabledon>
+           <normalon>:/newPrefix/ic--baseline-search.svg</normalon>
           </iconset>
          </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>464</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="1">
-        <widget class="QWidget" name="widget" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>4</number>
-          </property>
-          <property name="bottomMargin">
-           <number>12</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_9">
-            <property name="minimumSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="pixmap">
-             <pixmap resource="resources/icons.qrc">:/newPrefix/icon.png</pixmap>
-            </property>
-            <property name="scaledContents">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </widget>
        </item>
       </layout>
@@ -573,20 +470,63 @@ QPushButton:checked {
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
+      <layout class="QGridLayout" name="gridLayout_9">
+       <property name="horizontalSpacing">
+        <number>6</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="styleSheet">
-          <string notr="true">QWidget#widget_7{
+          <string notr="true">QPushButton#drop_button{
+text-align: center;
+border-bottom-left-radius: 20px;
+border-bottom-right-radius: 20px;
+border-top-left-radius: 0;
+border-top-right-radius: 0;
+border: 1px solid #f8fafc;
 background-color: #fdfdfd;
-border-radius: 20px;
+margin-bottom: 10px; 
+height: 10px;
+
+}
+
+QPushButton#drop_button::hover{
+border: 1px solid #f8fafc;
+background-color: #f8fafc;
+}
+
+QPushButton#drop_button::pressed{
+background-color: #fdfdfd;
+margin-bottom: 10px; 
+padding-top: 0;
+height: 10px;
+}
+
+
+
+
+QWidget#widget_7{
+background-color: #fdfdfd;
+border-radius: 0;
 padding: 6px 12px;
+border-top-left-radius: 0;
+border-top-right-radius: 0;
 }
 
 QWidget#widget_6{
 background-color: #fdfdfd;
 border-radius: 20px;
 padding: 6px 12px;
+}
+QWidget#widget_77{
+background-color: #fdfdfd;
+border-radius: 20px;
+padding: 6px 12px;
+border-bottom-left-radius: 0;
+border-bottom-right-radius: 0;
 }
 QWidget#new_client{
 background-color: #fdfdfd;
@@ -637,6 +577,7 @@ background-color: #f8fafc;
 border: 1px solid #e3e6e9;
 border-radius: 10px;
 }
+
 </string>
          </property>
          <property name="frameShadow">
@@ -655,10 +596,7 @@ QWidget#widget_6{
 border: 1px solid #eaecef;
 }</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <property name="spacing">
-            <number>15</number>
-           </property>
+          <layout class="QGridLayout" name="gridLayout_10">
            <property name="leftMargin">
             <number>0</number>
            </property>
@@ -671,375 +609,84 @@ border: 1px solid #eaecef;
            <property name="bottomMargin">
             <number>0</number>
            </property>
-           <item>
-            <widget class="QWidget" name="widget_7" native="true">
+           <property name="verticalSpacing">
+            <number>0</number>
+           </property>
+           <item row="1" column="0">
+            <widget class="QWidget" name="drop_client_info" native="true">
              <property name="styleSheet">
-              <string notr="true">#QWidget{
-background-color: #ff0000;
-border-radius: 20px;
-}</string>
+              <string notr="true"/>
              </property>
-             <layout class="QGridLayout" name="gridLayout_5" columnminimumwidth="1,1">
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <property name="spacing">
+               <number>0</number>
+              </property>
               <property name="sizeConstraint">
                <enum>QLayout::SetDefaultConstraint</enum>
               </property>
               <property name="leftMargin">
-               <number>8</number>
+               <number>0</number>
               </property>
               <property name="topMargin">
-               <number>8</number>
+               <number>0</number>
               </property>
               <property name="rightMargin">
-               <number>8</number>
+               <number>0</number>
               </property>
               <property name="bottomMargin">
-               <number>8</number>
+               <number>0</number>
               </property>
-              <item row="2" column="1">
-               <widget class="QComboBox" name="level_input_1">
+              <item>
+               <widget class="QPushButton" name="drop_button">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>28</height>
+                  <height>20</height>
                  </size>
                 </property>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="login_password_label_1">
-                <property name="text">
-                 <string>Login Password</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLineEdit" name="login_password_input_1"/>
-              </item>
-              <item row="8" column="0">
-               <widget class="QLineEdit" name="firstname_input_1"/>
-              </item>
-              <item row="0" column="0" colspan="2">
-               <widget class="QWidget" name="client_info_header1" native="true">
-                <property name="minimumSize">
+                <property name="maximumSize">
                  <size>
-                  <width>0</width>
+                  <width>2600</width>
                   <height>50</height>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">QWidget{
-background-color: #fdfdfd;
-border-top-left-radius: 20px;
-border-top-right-radius: 20px;
-border-bottom: 2px solid #e3e6e9;
-}</string>
+                 <string notr="true"/>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_4">
-                 <item>
-                  <widget class="QLabel" name="client_info_label_1">
-                   <property name="styleSheet">
-                    <string notr="true">QLabel{
-border: None;
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>Client info</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="6" column="0">
-               <widget class="QLineEdit" name="lastname_input_1"/>
-              </item>
-              <item row="6" column="1">
-               <widget class="QLineEdit" name="exams_password_input_1"/>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="login_username_label_1">
                 <property name="text">
-                 <string>Login Username</string>
+                 <string/>
                 </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QLineEdit" name="exams_username_input_1"/>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLineEdit" name="login_username_input_1"/>
-              </item>
-              <item row="7" column="0">
-               <widget class="QLabel" name="firstname_label">
-                <property name="text">
-                 <string>First Name</string>
+                <property name="icon">
+                 <iconset resource="resources/icons.qrc">
+                  <normaloff>:/newPrefix/ic--baseline-keyboard-double-arrow-up.svg</normaloff>
+                  <normalon>:/newPrefix/ic--baseline-keyboard-double-arrow-down.svg</normalon>:/newPrefix/ic--baseline-keyboard-double-arrow-up.svg</iconset>
                 </property>
-               </widget>
-              </item>
-              <item row="8" column="1">
-               <widget class="QLineEdit" name="phone_number_input"/>
-              </item>
-              <item row="9" column="0">
-               <widget class="QWidget" name="crud_buttons_frame" native="true">
-                <property name="styleSheet">
-                 <string notr="true">QPushButton{
-text-align: center;
-}
-QPushButto::hover{
-background-color: #eaecef;
-border:None;
-border-bottom: 2px solid #4f46e5;
-}</string>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_7">
-                 <item>
-                  <widget class="QPushButton" name="add_button">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>95</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <weight>50</weight>
-                     <bold>false</bold>
-                     <stylestrategy>PreferAntialias</stylestrategy>
-                    </font>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QPushButton{
-background-color: #4f46e5;
-color: #ffffff;
-}</string>
-                   </property>
-                   <property name="text">
-                    <string>ADD</string>
-                   </property>
-                   <property name="icon">
-                    <iconset>
-                     <normalon>:/newPrefix/ic--baseline-add.svg</normalon>
-                    </iconset>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="refresh_button">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>95</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <weight>50</weight>
-                     <bold>false</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>Refresh</string>
-                   </property>
-                   <property name="icon">
-                    <iconset>
-                     <normalon>:/newPrefix/ic--baseline-refresh.svg</normalon>
-                    </iconset>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="search_button">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>95</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <weight>50</weight>
-                     <bold>false</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>Search</string>
-                   </property>
-                   <property name="icon">
-                    <iconset>
-                     <normalon>:/newPrefix/ic--baseline-search.svg</normalon>
-                    </iconset>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_9">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::MinimumExpanding</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>100</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="5" column="1">
-               <widget class="QLabel" name="exams_password_label_1">
-                <property name="text">
-                 <string>Exams Password</string>
-                </property>
-               </widget>
-              </item>
-              <item row="7" column="1">
-               <widget class="QLabel" name="phone_number_label_1">
-                <property name="text">
-                 <string>Phone Number</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QLabel" name="exams_username_label_1">
-                <property name="text">
-                 <string>Exams User Name</string>
-                </property>
-               </widget>
-              </item>
-              <item row="9" column="1">
-               <widget class="QWidget" name="widget_9" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_8">
-                 <item>
-                  <spacer name="horizontalSpacer_6">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::MinimumExpanding</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>100</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="get_from_site_button">
-                   <property name="minimumSize">
-                    <size>
-                     <width>95</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Site Fill</string>
-                   </property>
-                   <property name="icon">
-                    <iconset>
-                     <normalon>:/newPrefix/ic--baseline-download-done.svg</normalon>
-                    </iconset>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_10">
-                   <property name="minimumSize">
-                    <size>
-                     <width>95</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Print</string>
-                   </property>
-                   <property name="icon">
-                    <iconset>
-                     <normalon>:/newPrefix/ic--baseline-local-printshop.svg</normalon>
-                    </iconset>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="level_label">
-                <property name="text">
-                 <string>Level</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="0">
-               <widget class="QLabel" name="lastname_label_1">
-                <property name="text">
-                 <string>Last Name</string>
+                <property name="checkable">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
              </layout>
             </widget>
            </item>
-           <item>
+           <item row="2" column="0">
             <widget class="QWidget" name="widget_6" native="true">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>100</height>
+              </size>
+             </property>
              <property name="styleSheet">
               <string notr="true"/>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout">
+             <layout class="QVBoxLayout" name="dashboard_tabel_layout">
               <property name="spacing">
                <number>4</number>
               </property>
@@ -1057,6 +704,12 @@ color: #ffffff;
               </property>
               <item>
                <widget class="QWidget" name="clients_list_header_1" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -1128,35 +781,397 @@ color: #c5c7c9;
                 </layout>
                </widget>
               </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QWidget" name="widget_77" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>400</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#QWidget{
+background-color: #ff0000;
+border-radius: 20px;
+}</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <property name="spacing">
+               <number>0</number>
+              </property>
               <item>
-               <widget class="QTableWidget" name="clients_tabel_1">
+               <widget class="QWidget" name="client_info_header1" native="true">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>50</height>
+                 </size>
+                </property>
                 <property name="styleSheet">
-                 <string notr="true"/>
+                 <string notr="true">QWidget{
+background-color: #fdfdfd;
+border-top-left-radius: 20px;
+border-top-right-radius: 20px;
+border-bottom: 2px solid #e3e6e9;
+}</string>
                 </property>
-                <property name="verticalScrollBarPolicy">
-                 <enum>Qt::ScrollBarAlwaysOff</enum>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <item>
+                  <widget class="QLabel" name="client_info_label_1">
+                   <property name="styleSheet">
+                    <string notr="true">QLabel{
+border: None;
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>Client info</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_7" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="horizontalScrollBarPolicy">
-                 <enum>Qt::ScrollBarAsNeeded</enum>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>300</height>
+                 </size>
                 </property>
-                <property name="rowCount">
-                 <number>2</number>
-                </property>
-                <attribute name="horizontalHeaderCascadingSectionResizes">
-                 <bool>false</bool>
-                </attribute>
-                <attribute name="horizontalHeaderStretchLastSection">
-                 <bool>true</bool>
-                </attribute>
-                <attribute name="verticalHeaderVisible">
-                 <bool>false</bool>
-                </attribute>
-                <row>
-                 <property name="text">
-                  <string>New Row</string>
+                <layout class="QGridLayout" name="gridLayout_5">
+                 <property name="leftMargin">
+                  <number>18</number>
                  </property>
-                </row>
-                <row/>
+                 <property name="topMargin">
+                  <number>9</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>18</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>9</number>
+                 </property>
+                 <property name="horizontalSpacing">
+                  <number>9</number>
+                 </property>
+                 <item row="9" column="0">
+                  <widget class="QWidget" name="crud_buttons_frame" native="true">
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton{
+text-align: center;
+}
+QPushButto::hover{
+background-color: #eaecef;
+border:None;
+border-bottom: 2px solid #4f46e5;
+}</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_7">
+                    <item>
+                     <widget class="QPushButton" name="add_button">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>95</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <bold>false</bold>
+                        <stylestrategy>PreferAntialias</stylestrategy>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton{
+background-color: #4f46e5;
+color: #ffffff;
+}</string>
+                      </property>
+                      <property name="text">
+                       <string>ADD</string>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normalon>:/newPrefix/ic--baseline-add.svg</normalon>
+                       </iconset>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="refresh_button">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>95</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <bold>false</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>Refresh</string>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normalon>:/newPrefix/ic--baseline-refresh.svg</normalon>
+                       </iconset>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="search_button">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>95</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <bold>false</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>Search</string>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normalon>:/newPrefix/ic--baseline-search.svg</normalon>
+                       </iconset>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_9">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeType">
+                       <enum>QSizePolicy::MinimumExpanding</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>100</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLineEdit" name="login_password_input_1"/>
+                 </item>
+                 <item row="9" column="1">
+                  <widget class="QWidget" name="widget_9" native="true">
+                   <layout class="QHBoxLayout" name="horizontalLayout_6">
+                    <item>
+                     <spacer name="horizontalSpacer_6">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeType">
+                       <enum>QSizePolicy::MinimumExpanding</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>100</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="get_from_site_button">
+                      <property name="minimumSize">
+                       <size>
+                        <width>95</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Site Fill</string>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normalon>:/newPrefix/ic--baseline-download-done.svg</normalon>
+                       </iconset>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="pushButton_10">
+                      <property name="minimumSize">
+                       <size>
+                        <width>95</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Print</string>
+                      </property>
+                      <property name="icon">
+                       <iconset>
+                        <normalon>:/newPrefix/ic--baseline-local-printshop.svg</normalon>
+                       </iconset>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLineEdit" name="exams_username_input_1"/>
+                 </item>
+                 <item row="7" column="0">
+                  <widget class="QLabel" name="firstname_label">
+                   <property name="text">
+                    <string>First Name</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="1">
+                  <widget class="QLabel" name="exams_password_label_1">
+                   <property name="text">
+                    <string>Exams Password</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLabel" name="exams_username_label_1">
+                   <property name="text">
+                    <string>Exams User Name</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="login_password_label_1">
+                   <property name="text">
+                    <string>Login Password</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLabel" name="level_label">
+                   <property name="text">
+                    <string>Level</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="1">
+                  <widget class="QLineEdit" name="phone_number_input"/>
+                 </item>
+                 <item row="8" column="0">
+                  <widget class="QLineEdit" name="firstname_input_1"/>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="login_username_label_1">
+                   <property name="text">
+                    <string>Login Username</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="7" column="1">
+                  <widget class="QLabel" name="phone_number_label_1">
+                   <property name="text">
+                    <string>Phone Number</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QComboBox" name="level_input_1">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>New Item</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QLineEdit" name="exams_password_input_1"/>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLineEdit" name="login_username_input_1"/>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QLineEdit" name="lastname_input_1"/>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QLabel" name="lastname_label_1">
+                   <property name="text">
+                    <string>Last Name</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
              </layout>
@@ -1164,7 +1179,8 @@ color: #c5c7c9;
            </item>
           </layout>
           <zorder>widget_6</zorder>
-          <zorder>widget_7</zorder>
+          <zorder>widget_77</zorder>
+          <zorder>drop_client_info</zorder>
          </widget>
          <widget class="QWidget" name="new_client">
           <property name="styleSheet">
@@ -1893,8 +1909,8 @@ background-color: #fdfdfd;
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>838</width>
-                   <height>597</height>
+                   <width>83</width>
+                   <height>30</height>
                   </rect>
                  </property>
                 </widget>
@@ -1940,7 +1956,7 @@ background-color: #fdfdfd;
          </widget>
         </widget>
        </item>
-       <item>
+       <item row="1" column="0">
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -1959,56 +1975,30 @@ background-color: #fdfdfd;
       </layout>
      </widget>
     </item>
-    <item row="0" column="3">
-     <widget class="QFrame" name="frame_3">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>55</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>50</height>
-       </size>
-      </property>
+    <item row="0" column="1" rowspan="2">
+     <widget class="QFrame" name="icons_only">
       <property name="styleSheet">
-       <string notr="true">.QFrame{
-background-color: #FDFDFD;
-border: 2px solid  #FDFDFD;
+       <string notr="true">QFrame{
+background-color: #0f1626;
+color: #ffffff;
 }
-
 QPushButton{
-border-radius: 4px ;
+background-color: #0f1626;
 border: None;
-background-color: None;
+color: white;
+border-top-left-radius: 10px;
+border-bottom-left-radius: 10px;
 padding: 6px 12px;
 margin: 0px;
 text-align: left;
 }
 
-QPushButton::hover{
-background-color: #c5c7c9;
+QPushButton:hover{
+background-color: #202739;
 }
 
-QPushButton::pressed{
-padding: 2px 8px;
-margin: 4px 4px;
-background-color: #f8fafc;
-}
-
-QLineEdit {
-    border: 1px solid #e3e6e9;
-    border-radius: 10px;
-    background-color: #f8fafc;
-	padding: 4px 6px;
+QPushButton:checked {
+    background-color: #4f46e5;
 }</string>
       </property>
       <property name="frameShape">
@@ -2017,22 +2007,25 @@ QLineEdit {
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QPushButton" name="menu">
+      <layout class="QGridLayout" name="gridLayout_4">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <item row="8" column="1">
+        <widget class="QPushButton" name="exit_2">
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>:/icons/icons/ic--outline-keyboard-double-arrow-left.svg</normaloff>
-           <normalon>:/newPrefix/ic--baseline-menu.svg</normalon>
-           <activeoff>:/newPrefix/ic--outline-keyboard-double-arrow-left.svg</activeoff>:/icons/icons/ic--outline-keyboard-double-arrow-left.svg</iconset>
+           <normalon>:/newPrefix/ic--baseline-exit-to-app.svg</normalon>
+           <disabledon>:/icons/icons/ic--baseline-exit-to-app.svg</disabledon>
+          </iconset>
          </property>
          <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="checked">
           <bool>true</bool>
          </property>
          <property name="autoExclusive">
@@ -2040,49 +2033,174 @@ QLineEdit {
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>351</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="quick_search_input">
+       <item row="5" column="1">
+        <widget class="QPushButton" name="clients_2">
          <property name="minimumSize">
           <size>
-           <width>200</width>
-           <height>0</height>
+           <width>0</width>
+           <height>40</height>
           </size>
          </property>
-         <property name="placeholderText">
-          <string>البحث بالأسم ، اللقب، اسم المستخدم ...</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="quick_search_button">
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-search.svg</normalon>
+           <normalon>:/newPrefix/ic--baseline-people-alt.svg</normalon>
+           <disabledon>:/icons/icons/ic--baseline-people-alt.svg</disabledon>
           </iconset>
          </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="dashboard_2">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/newPrefix/ic--baseline-space-dashboard.svg</normalon>
+           <disabledon>:/icons/icons/ic--baseline-dashboard.svg</disabledon>
+           <activeoff>:/icons/icons/ic--baseline-space-dashboard.svg</activeoff>
+          </iconset>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QPushButton" name="settings_2">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/newPrefix/ic--baseline-settings.svg</normalon>
+           <disabledon>:/icons/icons/ic--baseline-settings.svg</disabledon>
+          </iconset>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>10</width>
+           <height>10</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="1">
+        <widget class="QPushButton" name="new_client_2">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/newPrefix/ic--baseline-person.svg</normalon>
+           <disabledon>:/icons/icons/ic--baseline-person.svg</disabledon>
+          </iconset>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>464</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="1">
+        <widget class="QWidget" name="widget" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>4</number>
+          </property>
+          <property name="bottomMargin">
+           <number>12</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_9">
+            <property name="minimumSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="resources/icons.qrc">:/newPrefix/icon.png</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -2230,12 +2348,12 @@ QLineEdit {
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>87</x>
-     <y>689</y>
+     <x>170</x>
+     <y>877</y>
     </hint>
     <hint type="destinationlabel">
-     <x>26</x>
-     <y>689</y>
+     <x>43</x>
+     <y>877</y>
     </hint>
    </hints>
   </connection>
@@ -2246,12 +2364,12 @@ QLineEdit {
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>94</x>
-     <y>727</y>
+     <x>177</x>
+     <y>911</y>
     </hint>
     <hint type="destinationlabel">
-     <x>45</x>
-     <y>727</y>
+     <x>62</x>
+     <y>911</y>
     </hint>
    </hints>
   </connection>
@@ -2262,12 +2380,12 @@ QLineEdit {
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>26</x>
-     <y>683</y>
+     <x>43</x>
+     <y>877</y>
     </hint>
     <hint type="destinationlabel">
-     <x>142</x>
-     <y>687</y>
+     <x>225</x>
+     <y>877</y>
     </hint>
    </hints>
   </connection>
@@ -2278,12 +2396,12 @@ QLineEdit {
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>27</x>
-     <y>714</y>
+     <x>44</x>
+     <y>911</y>
     </hint>
     <hint type="destinationlabel">
-     <x>166</x>
-     <y>734</y>
+     <x>249</x>
+     <y>911</y>
     </hint>
    </hints>
   </connection>
@@ -2294,8 +2412,8 @@ QLineEdit {
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>198</x>
-     <y>723</y>
+     <x>264</x>
+     <y>911</y>
     </hint>
     <hint type="destinationlabel">
      <x>192</x>
@@ -2310,12 +2428,28 @@ QLineEdit {
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>43</x>
-     <y>716</y>
+     <x>60</x>
+     <y>911</y>
     </hint>
     <hint type="destinationlabel">
      <x>41</x>
      <y>786</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>drop_button</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>widget_77</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>735</x>
+     <y>503</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1162</x>
+     <y>393</y>
     </hint>
    </hints>
   </connection>

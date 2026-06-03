@@ -1,9 +1,12 @@
 import sys
+import io
+from PIL import Image, ImageQt
 from PyQt6 import QtWidgets, uic
-from PyQt6.QtWidgets import (QLineEdit,QComboBox,QHeaderView,QMenu,QApplication,QMessageBox,QMainWindow)
+from PyQt6.QtWidgets import (QLineEdit,QComboBox,QHeaderView,QMenu,QApplication,QMessageBox,QMainWindow,)
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QBrush,QColor
+from PyQt6.QtGui import QBrush,QColor,QMovie,QPixmap
 from services import client_service as cs
+from services.site_scraper import WebLogin
 
 headers_labels = ["id","lastname","firstname","level","username_01","password_01","username_02","password_02","phone_number","devoir_01","devoir_02","devoir_03","devoir_04","devoir_05",]
 
@@ -33,13 +36,22 @@ class MainWindow(QtWidgets.QMainWindow):
         self.widgets = self.findChildren((QLineEdit, QComboBox))
         self.widget_map = {w.objectName():w for w in self.widgets}
         self.client_edit_window= QMainWindow()
+
         self.initUI()
+        self.loading_image()
         self.add_button.clicked.connect(self.insert)
         self.clear_button.clicked.connect(self.clear)
         self.search_button.clicked.connect(self.search)
+        self.fill_from_site_button.clicked.connect(self.get_captcha)
+        self.get_info_button.clicked.connect(self.fill_from_site)
         self.table01.customContextMenuRequested.connect(self.show_context_menu)
+        self.site_s = WebLogin()
     
-        
+    def loading_image(self):
+        self.movie = QMovie("resources\loading.gif")
+        self.captcha_image.setMovie(self.movie)
+        self.movie.start()
+
     def initUI(self):
         self.reset_window()
         self.inputs_frame.setStyleSheet("""
@@ -61,6 +73,7 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi("edit_client.ui",self.client_edit_window)
         self.client_edit_window.setWindowModality(Qt.WindowModality.ApplicationModal)
         self.hide_columns(True)
+        self.captcha_frame.setHidden(True)
 
     def hide_columns(self,con):
         if con:
@@ -280,6 +293,23 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.reset_window()
                     self.show_dialog("Message","Client has been deleted ",cancel_button=False)
 
+    def fill_from_site(self):
+        login_dict = self.get_input()
+        username = login_dict.get("username_01")
+        password = login_dict.get("password_01")
+        captcha = login_dict.get("captcha_input")
+        if all((username,password,captcha)):
+            site_data = self.site_s.login(username,password,captcha)
+            print(site_data)
+    
+    def get_captcha(self):
+        self.site_s.request()
+        image_req = self.site_s.get_captcha()
+        if image_req.status_code== 200:
+            image = Image.open(io.BytesIO(image_req.content))
+            image_q = ImageQt.ImageQt(image)
+            pixmap  =  QPixmap.fromImage(image_q)
+            self.captcha_image.setPixmap(pixmap)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

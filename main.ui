@@ -35,7 +35,6 @@
          <property name="font">
           <font>
            <pointsize>18</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -384,7 +383,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="captcha_fram" native="true">
+     <widget class="QWidget" name="captcha_frame" native="true">
       <layout class="QGridLayout" name="gridLayout">
        <property name="verticalSpacing">
         <number>2</number>
@@ -419,7 +418,7 @@
         </spacer>
        </item>
        <item row="1" column="1">
-        <widget class="QLineEdit" name="lineEdit">
+        <widget class="QLineEdit" name="captcha_input">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -428,14 +427,20 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>20</width>
+           <width>120</width>
            <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>120</width>
+           <height>16777215</height>
           </size>
          </property>
         </widget>
        </item>
        <item row="1" column="2">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="get_info_button">
          <property name="text">
           <string>get info</string>
          </property>
@@ -451,7 +456,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLabel" name="label_10">
+        <widget class="QLabel" name="captcha_image">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -470,14 +475,23 @@
            <height>30</height>
           </size>
          </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
          <property name="text">
           <string/>
          </property>
+         <property name="textFormat">
+          <enum>Qt::AutoText</enum>
+         </property>
          <property name="pixmap">
-          <pixmap resource="resources/icons.qrc">:/newPrefix/e:/Users/PC/Downloads/85243fc0-1178-11ee-8ab6-b7d494809eaf.gif</pixmap>
+          <pixmap>:/newPrefix/line-md--loading-alt-loop.svg</pixmap>
          </property>
          <property name="scaledContents">
-          <bool>true</bool>
+          <bool>false</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -527,7 +541,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="fill_from_site_button">
          <property name="text">
           <string>Fill from site</string>
          </property>
@@ -633,7 +647,7 @@
      <x>0</x>
      <y>0</y>
      <width>963</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings">
@@ -656,9 +670,9 @@
  </resources>
  <connections>
   <connection>
-   <sender>pushButton_4</sender>
+   <sender>fill_from_site_button</sender>
    <signal>clicked(bool)</signal>
-   <receiver>captcha_fram</receiver>
+   <receiver>captcha_frame</receiver>
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -672,9 +686,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton</sender>
+   <sender>get_info_button</sender>
    <signal>clicked(bool)</signal>
-   <receiver>captcha_fram</receiver>
+   <receiver>captcha_frame</receiver>
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">

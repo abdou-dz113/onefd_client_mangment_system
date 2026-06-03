@@ -24,6 +24,8 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi(s.mainwinui,self)
+        self.table_1 = TabelWidget(s.table_headers)
+        self.dashboard_tabel_layout.addWidget(self.table_1)
         self.initUi()
 
     def initUi(self):
@@ -48,19 +50,20 @@ class MainWindow(QMainWindow):
         self.clients_2.clicked.connect(self.open_clients)
         self.new_client_2.clicked.connect(self.open_new_client)
         self.settings_2.clicked.connect(self.open_settings)
-        self.table_setup()
+        self.drop_button.raise_()
         
         self.get_fields()
+        self.load_table()
 
     def open_dashboard(self):
         self.stackedWidget.setCurrentIndex(0)
         self.get_fields()
-        self.load_table()
+
    
     def open_clients(self):
         self.stackedWidget.setCurrentIndex(2)
         self.get_fields()
-        self.load_table()
+
     
     def open_new_client(self):
         self.stackedWidget.setCurrentIndex(1)
@@ -74,7 +77,7 @@ class MainWindow(QMainWindow):
     def get_fields(self):
         current_page = self.stackedWidget.currentWidget()
         if current_page:
-            self.current_table = current_page.findChild((QTableWidget))
+            # self.current_table = current_page.findChild((QTableWidget))
             self.widgets = current_page.findChildren((QLineEdit, QComboBox))
             self.widgets_map = {w.objectName():w for w in self.widgets}
     @debug_func
@@ -88,7 +91,7 @@ class MainWindow(QMainWindow):
     @debug_func
     def load_table(self):
         data = cs.table_query()
-        self.update_table(data,self.current_table)
+        self.table_1.fill_table(data)
 
     @debug_func
     def update_table(self, data, table):
@@ -119,7 +122,43 @@ class MainWindow(QMainWindow):
                     current_table.setItem(row_id,column_id,item)
 
 
+class TabelWidget(QTableWidget):
+    def __init__(self, headers, parent=None):
+        super().__init__(parent)
+        self.headers = headers
+        self.init_table_settings()
+
+    def init_table_settings(self):
+        self.setColumnCount(len(self.headers))
+        self.setHorizontalHeaderLabels(self.headers)
+        self.setAlternatingRowColors(True)
+
+        horizontal_header = self.horizontalHeader()
+        horizontal_header.setStretchLastSection(True)
+        horizontal_header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         
+        self.hide_columns(hide=True)
+        self.verticalHeader().setVisible(False)
+
+
+    def hide_columns(self, hide=True):
+        hiden_columns = (0,5,6,7,4)
+        for column in hiden_columns:
+            self.setColumnHidden(column,hide)
+
+    def fill_table(self, data_matrix):
+        
+        self.setRowCount(len(data_matrix))
+        
+        self.setSortingEnabled(False)
+
+        for row_idx, row_data in enumerate(data_matrix):
+            for col_idx, col_data in enumerate(row_data):
+                table_item = QTableWidgetItem(str(col_data))
+                table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                self.setItem(row_idx, col_idx, table_item)
+        
+        self.setSortingEnabled(True)
 
 if __name__ == "__main__":
     app = QApplication([])

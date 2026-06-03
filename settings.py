@@ -1,17 +1,2 @@
 mainwinui = "modern_ui.ui"
-table_headers = [
-    "id",
-    "Last Name",
-    "First Name",
-    "Level",
-    "Phone Number",
-    "Login Username",
-    "Login Password",
-    "Exams Username",
-    "Exams Password",
-    "Exame 01",
-    "Exame 02",
-    "Exame 03",
-    "Exame 04",
-    "Exame 05"
-]
+table_headers = ["id","Last Name","First Name","Level","Login Username","Login Password","Exams Username","Exams Password","Phone Number","Exame 01","Exame 02","Exame 03","Exame 04","Exame 05"]

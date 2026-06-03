@@ -8,6 +8,8 @@ def table_query():
     result = db.tablequery()
     if result:
         return result
+    else:
+        return ["There is Nothing to show.",]
 
 def is_valid(key,value):
         if key == "level":
