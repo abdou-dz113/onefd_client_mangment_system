@@ -73,7 +73,7 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi("edit_client.ui",self.client_edit_window)
         self.client_edit_window.setWindowModality(Qt.WindowModality.ApplicationModal)
         self.hide_columns(True)
-        self.captcha_frame.setHidden(True)
+        #self.captcha_frame.setHidden(True)
 
     def hide_columns(self,con):
         if con:
@@ -299,14 +299,19 @@ class MainWindow(QtWidgets.QMainWindow):
         password = login_dict.get("password_01")
         captcha = login_dict.get("captcha_input")
         if all((username,password,captcha)):
-            site_data = self.site_s.login(username,password,captcha)
+            self.site_s.login(username,password,captcha)
+            site_data = self.site_s.get_info()
             print(site_data)
+        if site_data:
+            self.widget_map.get("lastname").setText(site_data["last_name"])
+            self.widget_map.get("firstname").setText(site_data["first_name"])
+            
     
     def get_captcha(self):
         #self.site_s.request()
         image_req = self.site_s.get_captcha()
         if image_req:
-            image = Image.open(io.BytesIO(image_req.content))
+            image = Image.open(io.BytesIO(image_req))
             image_q = ImageQt.ImageQt(image)
             pixmap  =  QPixmap.fromImage(image_q)
             self.captcha_image.setPixmap(pixmap)

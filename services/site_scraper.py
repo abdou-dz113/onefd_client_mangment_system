@@ -2,7 +2,7 @@ import io
 from PIL import Image
 import requests
 from bs4 import BeautifulSoup
-import settings as s
+
 
 url = "https://inscriptic.onefd.edu.dz/preinscription/auth/login"
 url2 = "https://inscriptic.onefd.edu.dz/preinscription/Inscriptic"
@@ -17,6 +17,19 @@ custom_header = {
     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
     }
 
+
+site_form_map ={
+   "اللقب": "last_name",
+   "الإسم" : "first_name",
+   "العنوان": "addr",
+   "القسم": "level",
+   "رقم الإستمارة": "form_number",
+   "رقم التسجيل": "insc_number",
+   "رقم الترتيب": "num",
+   "نوع الدروس" : "lesson_type",
+   "اسم المستخدم :": "exams_username",
+   "كلمة المرور :":"exams_password",
+}
 # session = requests.Session()
 # r1 = session.get(url, headers=custom_header)
 
@@ -66,8 +79,9 @@ class WebLogin():
         return response
         
 
-    def get_captcha(self,):
+    def get_captcha(self):
         try:
+            self.request()
             r = self.request
             soup = BeautifulSoup(r.content, "html.parser")
             parent_div = soup.find("div", class_="image refresh")
@@ -79,12 +93,13 @@ class WebLogin():
             print(e)
 
     def get_info(self):
-        form_map = s.site_form_map
+        form_map = site_form_map
         site_vals = {}
         try:
             request = self.session.get(url6, headers=custom_header)
             if request.ok:
-                soup = BeautifulSoup(request,"html-parser")
+                html = request.json()["valid"]
+                soup = BeautifulSoup(html,"html.parser")
                 for group in soup.select(".form-group"):
                     label = group.find("label")
                     inp   = group.find("input")
@@ -98,4 +113,14 @@ class WebLogin():
 
     
 if __name__ == "__main__":
-    pass
+    login = WebLogin()
+    image_raw = login.get_captcha()
+    img = Image.open(io.BytesIO(image_raw))
+    img.show()
+    username = "user-03-00024"
+    password = "_mw0J*@x7Bq"
+    captcha  = input("enter the captcha: ")
+    logged_in = login.login(username,password,captcha)
+    if logged_in:
+        data = login.get_info()
+        print(data)

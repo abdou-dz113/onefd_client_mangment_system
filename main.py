@@ -149,7 +149,7 @@ class TabelWidget(QTableWidget):
         for column in hiden_columns:
             self.setColumnHidden(column,hide)
 
-    def item_gen(self,row_idx,col_idx,col_val):
+    def item_gen(self,col_idx,col_val):
         exam_indexs = (9,10,11,12,13)
         if col_idx in exam_indexs:
             item = QTableWidgetItem(str(s.exams_progress_dict.get(col_val)[0]))
@@ -182,7 +182,7 @@ class TabelWidget(QTableWidget):
         self.setSortingEnabled(False)
         for row_idx, row_data in enumerate(data_matrix):
             for col_idx, col_data in enumerate(row_data):
-                table_item = self.item_gen(row_idx,col_idx,col_data)
+                table_item = self.item_gen(col_idx,col_data)
                 self.setItem(row_idx, col_idx, table_item)
         
         self.setSortingEnabled(True)

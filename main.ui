@@ -35,6 +35,7 @@
          <property name="font">
           <font>
            <pointsize>18</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -647,7 +648,7 @@
      <x>0</x>
      <y>0</y>
      <width>963</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings">
@@ -668,38 +669,5 @@
  <resources>
   <include location="resources/icons.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>fill_from_site_button</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>captcha_frame</receiver>
-   <slot>show()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>649</x>
-     <y>401</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>661</x>
-     <y>358</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>get_info_button</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>captcha_frame</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>537</x>
-     <y>354</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>611</x>
-     <y>307</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

@@ -108,5 +108,36 @@ def insert(valid_inputs):
         result = db.insert(valid_inputs)
         return result
 
+def clean_site_data(input_dict):
+    site_data_map = {
+        "lastname":"last_name",
+        "firstname":"first_name",
+        "username_02":"exams_username",
+        "password_02":"exams_password",
+    }
+    levels_map = {104:0,
+                  204:1,
+                  304:2,
+                  404:3,
+                  111:4,
+                  112:4,
+                  211:5,
+                  212:5,
+                  213:5,
+                  214:5,
+                  215:5,
+                  311:6,
+                  312:6,
+                  314:6,
+                  315:6,
+                  316:6,}
+    new_dict = {}
+    if input_dict:
+        for key, val in site_data_map.items():
+            new_dict.update({val:input_dict.get(key)})
+        level_rf = "".join(c for c in input_dict.get("level") if c.isdigit())
+        level = levels_map.get(int(level_rf))
+        
+
 
         
