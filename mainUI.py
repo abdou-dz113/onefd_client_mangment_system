@@ -7,9 +7,24 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QBrush,QColor,QMovie,QPixmap
 from services import client_service as cs
 from services.site_scraper import WebLogin
+import threading
+from functools import wraps
 
 headers_labels = ["id","lastname","firstname","level","username_01","password_01","username_02","password_02","phone_number","devoir_01","devoir_02","devoir_03","devoir_04","devoir_05",]
-
+def make_threaded(func):
+    """
+    A decorator that automatically runs the decorated function 
+    in a separate background thread.
+    """
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        # Instantiate the thread with passed arguments
+        new_thread = threading.Thread(target=func, args=args, kwargs=kwargs)
+        # Start execution immediately
+        new_thread.start()
+        # Return the thread instance so the caller can join() it if needed
+        return new_thread
+    return wrapper
 progress_dict= {
     0:("غير منجز","#c0392b"),
     1:("منجز غير مدفوع","#e67e22"),
@@ -38,19 +53,21 @@ class MainWindow(QtWidgets.QMainWindow):
         self.client_edit_window= QMainWindow()
 
         self.initUI()
-        self.loading_image()
+        self.site_s = WebLogin()
+        
         self.add_button.clicked.connect(self.insert)
         self.clear_button.clicked.connect(self.clear)
         self.search_button.clicked.connect(self.search)
         self.fill_from_site_button.clicked.connect(self.get_captcha)
         self.get_info_button.clicked.connect(self.fill_from_site)
         self.table01.customContextMenuRequested.connect(self.show_context_menu)
-        self.site_s = WebLogin()
+        self.refrech_captcha_button.clicked.connect(self.refrech_captcha)
     
     def loading_image(self):
         self.movie = QMovie("resources\loading.gif")
         self.captcha_image.setMovie(self.movie)
         self.movie.start()
+        self.redraw_widget(self.captcha_image)
 
     def initUI(self):
         self.reset_window()
@@ -72,7 +89,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.table01.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         uic.loadUi("edit_client.ui",self.client_edit_window)
         self.client_edit_window.setWindowModality(Qt.WindowModality.ApplicationModal)
-        self.hide_columns(True)
+        self.hide_columns(False)
         #self.captcha_frame.setHidden(True)
 
     def hide_columns(self,con):
@@ -301,21 +318,38 @@ class MainWindow(QtWidgets.QMainWindow):
         if all((username,password,captcha)):
             self.site_s.login(username,password,captcha)
             site_data = self.site_s.get_info()
-            print(site_data)
+            site_data = cs.clean_site_data(site_data)
+        else:
+            return
+
         if site_data:
-            self.widget_map.get("lastname").setText(site_data["last_name"])
-            self.widget_map.get("firstname").setText(site_data["first_name"])
+            for widget_name, widget in self.widget_map.items():
+                if widget_name in ("username_01","password_01"):
+                    continue
+                if isinstance(widget,QLineEdit):
+                    widget.setText(str(site_data.get(widget_name)))
+                elif isinstance(widget,QComboBox):
+                    widget.setCurrentIndex(site_data.get("level"))
             
-    
-    def get_captcha(self):
-        #self.site_s.request()
-        image_req = self.site_s.get_captcha()
+
+    def get_captcha(self,*args, **kwargs):
+        self.loading_image()
+        image_req = target=self.site_s.get_captcha()
         if image_req:
             image = Image.open(io.BytesIO(image_req))
             image_q = ImageQt.ImageQt(image)
             pixmap  =  QPixmap.fromImage(image_q)
             self.captcha_image.setPixmap(pixmap)
-        pass
+        
+
+    def refrech_captcha(self,*args,**kwargs):
+        self.loading_image()
+        image_bytes = self.site_s.refresh_captcha()
+        if image_bytes:
+            image = Image.open(io.BytesIO(image_bytes))
+            image_q = ImageQt.ImageQt(image)
+            pixmap  =  QPixmap.fromImage(image_q)
+            self.captcha_image.setPixmap(pixmap)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

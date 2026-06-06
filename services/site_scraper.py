@@ -2,6 +2,8 @@ import io
 from PIL import Image
 import requests
 from bs4 import BeautifulSoup
+import time
+from functools import wraps
 
 
 url = "https://inscriptic.onefd.edu.dz/preinscription/auth/login"
@@ -10,6 +12,7 @@ url3 = "https://inscriptic.onefd.edu.dz/preinscription/Inscriptic/action"
 url4 = "https://inscriptic.onefd.edu.dz/preinscription/download_pdf/imp_cert_inscription"
 url5 = "https://inscriptic.onefd.edu.dz/preinscription/Auth/logout"
 url6 = "https://inscriptic.onefd.edu.dz/preinscription/Confirmation_preinscriptic/wel"
+refrech_captcha_url = "https://inscriptic.onefd.edu.dz/preinscription/aja_function/refresh_captcha"
 
 custom_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -30,36 +33,18 @@ site_form_map ={
    "اسم المستخدم :": "exams_username",
    "كلمة المرور :":"exams_password",
 }
-# session = requests.Session()
-# r1 = session.get(url, headers=custom_header)
 
-# soup = BeautifulSoup(r1.content, "html.parser")
+def expect_error(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print(f"function exited with the error: {e}")
+            return None
+    return wrapper
 
-# parent_div = soup.find("div", class_="image refresh")
-# captcha_tag = parent_div.find("img")
-# captcha_url = captcha_tag["src"]
-# captcha_raw = requests.get(captcha_url, stream=True)
-# print(captcha_url)
-# if captcha_raw.status_code == 200:
-#     image = Image.open(io.BytesIO(captcha_raw.content))
-#     image.show()
-
-# # username = input("USERNAME: ")
-# # password = input("PASSWORD: ")
-# captcha  = input("CAPTCHA: ")
-
-# payload= {
-#         "identity" :  "user-03-40260",
-#         "password" : "kc+56oLvR$N",
-#         "captcha"  :  captcha}
-    
-# response = session.post(url,data=payload)
-# if response.status_code == 200:
-#     r2 = session.get(url2)
-#     soup = BeautifulSoup(r2.content, "html.parser")
-#     name= soup.find(id="prenomlat")["value"]
-#     last_name= soup.find(id="nomlat")["value"]
-#     print(f"{name} : {last_name}")
+        
 
 
 class WebLogin():
@@ -91,6 +76,15 @@ class WebLogin():
             return captcha_raw.content
         except Exception as e:
             print(e)
+    
+    def refresh_captcha(self):
+
+        r = self.session.post(refrech_captcha_url, headers=custom_header)
+        if r.ok:
+            soup = BeautifulSoup(r.content,"html.parser")
+            img_url = soup.find("img")["src"]
+            image_raw = requests.get(img_url, stream=False)
+            return image_raw.content
 
     def get_info(self):
         form_map = site_form_map

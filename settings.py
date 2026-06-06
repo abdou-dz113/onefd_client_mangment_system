@@ -47,6 +47,8 @@ tabel_css = """
             padding: 6px 12px;
             font-size: 12px;
             font-weight: bold;
+            border-bottom: 1px solid #e3e6e9;
+            border-top: 1px solid #e3e6e9;
          }
          
          #QTableWidget::item {
@@ -57,5 +59,6 @@ tabel_css = """
             background-color: none;
 
          }
+
 
       """

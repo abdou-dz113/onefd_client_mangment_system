@@ -51,8 +51,12 @@ class MainWindow(QMainWindow):
         self.settings_2.clicked.connect(self.open_settings)
         self.drop_button.raise_()
         
+        self.add_button.clicked.connect(self.get_input)
+
         self.get_fields()
         self.load_table()
+    
+    
 
     def open_dashboard(self):
         self.stackedWidget.setCurrentIndex(0)
@@ -79,6 +83,7 @@ class MainWindow(QMainWindow):
             # self.current_table = current_page.findChild((QTableWidget))
             self.widgets = current_page.findChildren((QLineEdit, QComboBox))
             self.widgets_map = {w.objectName():w for w in self.widgets}
+       
     @debug_func
     def table_setup(self):
         self.clients_tabel_1.setHorizontalHeaderLabels(s.table_headers)
@@ -119,6 +124,18 @@ class MainWindow(QMainWindow):
                 for column_id, column in enumerate(data_row):
                     item = QTableWidgetItem(str(column))
                     current_table.setItem(row_id,column_id,item)
+
+    def get_input(self):
+        widgets_map = self.widgets_map
+        widget_values = {}
+        if widgets_map:
+            for widget_name, widget in widgets_map.items():
+                if isinstance(widget,QComboBox):
+                        value = widget.currentIndex()
+                elif isinstance(widget, QLineEdit):
+                        value = widget.text()
+                widget_values.update({widget_name:value})
+        print(widget_values)
 
 
 class TabelWidget(QTableWidget):
@@ -175,8 +192,6 @@ class TabelWidget(QTableWidget):
             self.horizontalHeader().setVisible(False)
             return
 
-
-
         self.setRowCount(len(data_matrix))
         self.horizontalHeader().setVisible(True)
         self.setSortingEnabled(False)
@@ -184,7 +199,6 @@ class TabelWidget(QTableWidget):
             for col_idx, col_data in enumerate(row_data):
                 table_item = self.item_gen(col_idx,col_data)
                 self.setItem(row_idx, col_idx, table_item)
-        
         self.setSortingEnabled(True)
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 from database import Database, get_db
+import re
 
 
 db = get_db()
@@ -115,29 +116,36 @@ def clean_site_data(input_dict):
         "username_02":"exams_username",
         "password_02":"exams_password",
     }
-    levels_map = {104:0,
-                  204:1,
-                  304:2,
-                  404:3,
-                  111:4,
-                  112:4,
-                  211:5,
-                  212:5,
-                  213:5,
-                  214:5,
-                  215:5,
-                  311:6,
-                  312:6,
-                  314:6,
-                  315:6,
-                  316:6,}
+    levels_map = {"104":0,
+                  "204":1,
+                  "304":2,
+                  "404":3,
+                  "111":4,
+                  "112":4,
+                  "122":4,
+                  "211":5,
+                  "212":5,
+                  "213":5,
+                  "214":5,
+                  "215":5,
+                  "311":6,
+                  "312":6,
+                  "314":6,
+                  "315":6,
+                  "316":6,}
     new_dict = {}
     if input_dict:
         for key, val in site_data_map.items():
-            new_dict.update({val:input_dict.get(key)})
-        level_rf = "".join(c for c in input_dict.get("level") if c.isdigit())
-        level = levels_map.get(int(level_rf))
+            new_dict.update({key:input_dict.get(val)})
+        #level_rf = "".join(c for c in input_dict.get("level") if c.isdigit())
+        level_text = input_dict.get("level")
+        match_obj = re.match(r"\d\d\d",level_text)
+        level_rf = str(match_obj.group())
+        print(level_rf)
+        level = levels_map.get(level_rf)
+
+        new_dict.update({"level":level})
+        print(new_dict)
+        return new_dict
         
 
-
-        
