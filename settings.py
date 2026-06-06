@@ -14,6 +14,17 @@ table_headers = ["id",
                "Exame 04",
                "Exame 05"]
 
+level_map ={
+    0:"أولى متوسط",
+    1:"ثانية متوسط",
+    2:"ثالثة متوسط",
+    3:"رابعة متوسط",
+    4:"أولى ثانوي",
+    5:"ثانية ثانوي",
+    6:"ثالثة ثانوي",
+    }
+
+
 site_form_map ={
    "اللقب": "last_name",
    "الإسم" : "first_name",
@@ -37,7 +48,6 @@ exams_progress_dict= {
 
 tabel_css = """
          QTabelWidget{
-         
 
          }
          QHeaderView::section:horizontal{
@@ -62,3 +72,4 @@ tabel_css = """
 
 
       """
+

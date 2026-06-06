@@ -104,6 +104,7 @@ class Database():
                     input_dict["phone_number"],
                     input_dict["username_02"],
                     input_dict["password_02"]
+                    
                 ))
             self.connect.commit()
             return True

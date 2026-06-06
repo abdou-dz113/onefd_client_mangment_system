@@ -26,20 +26,8 @@ class MainWindow(QMainWindow):
         self.table_1 = TabelWidget(s.table_headers)
         self.dashboard_tabel_layout.addWidget(self.table_1)
         self.initUi()
-
-    def initUi(self):
-        """
-        -- intial window setup -- 
-        """
-        self.icons_and_text.setHidden(True)
-        self.dashboard_1.setChecked(True)
-        self.stackedWidget.setCurrentIndex(0)
-
-        """
-            --side bar menu button signals--
-            first set small side bar buttons
-            second set  big side bar buttons
-        """
+        
+        #___ side bar menu buttons signal __________________
         self.dashboard_1.clicked.connect(self.open_dashboard)
         self.clients_1.clicked.connect(self.open_clients)
         self.new_client_1.clicked.connect(self.open_new_client)
@@ -49,38 +37,56 @@ class MainWindow(QMainWindow):
         self.clients_2.clicked.connect(self.open_clients)
         self.new_client_2.clicked.connect(self.open_new_client)
         self.settings_2.clicked.connect(self.open_settings)
-        self.drop_button.raise_()
         
-        self.add_button.clicked.connect(self.get_input)
+        #___ Dashboard buttons signal ______________________
+        self.add_button.clicked.connect(self.insert)
+        self.refresh_button.clicked.connect(self.reset_inputs)
+
+    def initUi(self):
+        #___ input vadlidation stylesheet _________________
+        self.inputs_frame.setStyleSheet("""
+                QLineEdit[hasError='true']{
+                border: 2px solid #FF4D4D;
+            }
+            QComboBox[hasError='true']{
+                border: 2px solid #FF4D4D;           
+            }
+                                        """)
+        #___ initial window setup __________________________
+        self.icons_and_text.setHidden(True)
+        self.dashboard_1.setChecked(True)
+        self.stackedWidget.setCurrentIndex(0)
+        #___ Dashboard level combobox setup ________________
+        self.level_input_1.clear()
+        self.level_input_1.addItems(s.level_map.values())
+        self.level_input_1.setCurrentIndex(-1)
+        
+        #___ client edit level combobox setup ______________
+        self.level_input_2.clear()
+        self.level_input_2.addItems(s.level_map.values())
+        self.level_input_2.setCurrentIndex(-1)
 
         self.get_fields()
         self.load_table()
-    
-    
 
+    #___ side bar menu buttons functions __________________
     def open_dashboard(self):
         self.stackedWidget.setCurrentIndex(0)
-        self.get_fields()
-
-   
+  
     def open_clients(self):
         self.stackedWidget.setCurrentIndex(2)
-        self.get_fields()
-
     
     def open_new_client(self):
         self.stackedWidget.setCurrentIndex(1)
-        self.get_fields()        
-   
+          
     def open_settings(self):
         self.stackedWidget.setCurrentIndex(3)
-        self.get_fields()
+  
     
     @debug_func
     def get_fields(self):
         current_page = self.stackedWidget.currentWidget()
         if current_page:
-            # self.current_table = current_page.findChild((QTableWidget))
             self.widgets = current_page.findChildren((QLineEdit, QComboBox))
             self.widgets_map = {w.objectName():w for w in self.widgets}
        
@@ -125,6 +131,31 @@ class MainWindow(QMainWindow):
                     item = QTableWidgetItem(str(column))
                     current_table.setItem(row_id,column_id,item)
 
+    def redraw_widget(self,widget):
+        widget.style().unpolish(widget)
+        widget.style().polish(widget)
+        widget.update()
+
+    def reset_inputs(self):
+        if self.widgets_map:
+            for widget_name, widget_obj in self.widgets_map.items():
+                if isinstance(widget_obj, QComboBox):
+                    widget_obj.setCurrentIndex(-1)
+                elif isinstance(widget_obj, QLineEdit):
+                    widget_obj.setText("")
+                widget_obj.setProperty("hasError","false")
+                self.redraw_widget(widget_obj)
+
+    def validate_ui(self,filled_froms):
+        if not filled_froms:
+            return
+        for widget_name, widget_obj in self.widgets_map.items():
+            if not widget_name in filled_froms.keys():
+                widget_obj.setProperty("hasError", "true")
+            else:
+                widget_obj.setProperty("hasError", "false")
+            self.redraw_widget(widget_obj)
+
     def get_input(self):
         widgets_map = self.widgets_map
         widget_values = {}
@@ -135,7 +166,22 @@ class MainWindow(QMainWindow):
                 elif isinstance(widget, QLineEdit):
                         value = widget.text()
                 widget_values.update({widget_name:value})
-        print(widget_values)
+        return widget_values
+    
+    def insert(self):
+        inputs = self.get_input()
+        valid, valid_inputs = cs.validate_input(inputs)
+        self.validate_ui(valid_inputs)
+        if valid:
+            resp = cs.insert(valid_inputs)
+            if resp:
+                print("data added")
+                self.reset_inputs()
+                self.load_table()
+            else:
+                print("error")
+
+
 
 
 class TabelWidget(QTableWidget):

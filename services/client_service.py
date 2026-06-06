@@ -13,8 +13,10 @@ def table_query():
         return None
 
 def is_valid(key,value):
-        if key == "level":
-            if value >=0:
+        if key == "level_input_1":
+            if int(value) >=0:
+                return True
+        elif key == "phone_number_input":
                 return True
         else:
             return bool(value)
@@ -99,14 +101,35 @@ def delete(client_id):
     result = db.delete(client_id)
     return result
 
+def maptodb(valid_inputs):
+    db_dict = {}
+    for key, value in valid_inputs.items():
+        if key == "login_username_input_1":
+            db_dict.update({"username_01":value})
+        elif key == "login_password_input_1":
+            db_dict.update({"password_01":value})
+        elif key == "lastname_input_1":
+            db_dict.update({"lastname":value})
+        elif key == "firstname_input_1":
+            db_dict.update({"firstname":value})
+        elif key == "phone_number_input":
+            db_dict.update({"phone_number":value})
+        elif key == "exams_password_input_1":
+            db_dict.update({"username_02":value})
+        elif key == "exams_username_input_1":
+            db_dict.update({"password_02":value})
+        elif key == "level_input_1":
+            db_dict.update({"level":value})
+    if db_dict:
+        return db_dict
+    else:
+        return valid_inputs
+
+
 def insert(valid_inputs):
     if isinstance(valid_inputs, dict):
-        form_number = valid_inputs.get("username_01")[8:]
-        ins_number  = valid_inputs.get("username_01")[:11]
-        valid_inputs.update({"form_number":form_number})
-        valid_inputs.update({"ins_number":ins_number})
-
-        result = db.insert(valid_inputs)
+        inputs = maptodb(valid_inputs)
+        result = db.insert(inputs)
         return result
 
 def clean_site_data(input_dict):
@@ -123,6 +146,7 @@ def clean_site_data(input_dict):
                   "111":4,
                   "112":4,
                   "122":4,
+                  "124":4,
                   "211":5,
                   "212":5,
                   "213":5,

@@ -10,9 +10,9 @@ url = "https://inscriptic.onefd.edu.dz/preinscription/auth/login"
 url2 = "https://inscriptic.onefd.edu.dz/preinscription/Inscriptic"
 url3 = "https://inscriptic.onefd.edu.dz/preinscription/Inscriptic/action"
 url4 = "https://inscriptic.onefd.edu.dz/preinscription/download_pdf/imp_cert_inscription"
-url5 = "https://inscriptic.onefd.edu.dz/preinscription/Auth/logout"
 url6 = "https://inscriptic.onefd.edu.dz/preinscription/Confirmation_preinscriptic/wel"
 refrech_captcha_url = "https://inscriptic.onefd.edu.dz/preinscription/aja_function/refresh_captcha"
+logout_url = "https://inscriptic.onefd.edu.dz/preinscription/Auth/logout"
 
 custom_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
