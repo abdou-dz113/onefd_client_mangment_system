@@ -334,7 +334,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def get_captcha(self,*args, **kwargs):
         self.loading_image()
-        image_req = target=self.site_s.get_captcha()
+        image_req = self.site_s.get_captcha()
         if image_req:
             image = Image.open(io.BytesIO(image_req))
             image_q = ImageQt.ImageQt(image)

@@ -1,14 +1,17 @@
 import sys
+import io
+from PIL import Image, ImageQt
 from PyQt6 import uic
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QMenu, QMessageBox, QLineEdit, QComboBox, QTableWidget, QTableWidgetItem,
-    QHeaderView
+    QHeaderView,QDialog,QVBoxLayout,QGridLayout,QWidget,
 )
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QBrush, QColor
+from PyQt6.QtGui import QBrush, QColor, QPixmap
 import resources_rc
 import settings as s
 from services import client_service as cs
+from services.site_scraper import WebLogin
 
 
 def debug_func(func,):
@@ -23,6 +26,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi(s.mainwinui,self)
+        self.session = WebLogin()
         self.table_1 = TabelWidget(s.table_headers)
         self.dashboard_tabel_layout.addWidget(self.table_1)
         self.initUi()
@@ -41,6 +45,7 @@ class MainWindow(QMainWindow):
         #___ Dashboard buttons signal ______________________
         self.add_button.clicked.connect(self.insert)
         self.refresh_button.clicked.connect(self.reset_inputs)
+        self.get_from_site_button.clicked.connect(self.open_dialog)
 
     def initUi(self):
         #___ input vadlidation stylesheet _________________
@@ -180,7 +185,34 @@ class MainWindow(QMainWindow):
                 self.load_table()
             else:
                 print("error")
+    
+    def open_dialog(self):
+        dialog = CustomDialog(parent=self)
+        dialog.exec()
 
+
+class CustomDialog(QDialog):
+    def __init__(self, parent = None):
+        super().__init__(parent)
+        self.setWindowTitle("web login")
+        uic.loadUi("captcha_dialogbox_ui.ui",self)
+        self.loadinfo()
+        self.loadcaptcha()
+    
+    def loadinfo(self):
+        parent = self.parent()
+        info = parent.get_input()
+        self.username.setText(info.get("login_username_input_1"))
+        self.password.setText(info.get("login_password_input_1"))
+
+    def loadcaptcha(self):
+        captcha_raw = self.parent().session.refresh_captcha()
+        if captcha_raw:
+            image = Image.open(io.BytesIO(captcha_raw))
+            imageqt = ImageQt.ImageQt(image)
+            pixmap = QPixmap.fromImage(imageqt)
+            self.captcha_label.setPixmap(pixmap)
+            
 
 
 
