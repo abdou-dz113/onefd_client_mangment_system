@@ -69,7 +69,59 @@ tabel_css = """
             background-color: none;
 
          }
+         QScrollBar:vertical {
+    background-color: #F5F5F5;
+    width: 14px;
+    margin: 16px 0 16px 0;
+    border: 1px solid #DCDCDC;
+}
 
+   /* The scroll thumb/handle */
+   QScrollBar::handle:vertical {
+      background-color: #C0C0C0;
+      min-height: 20px;
+      border-radius: 4px;
+   }
+
+   /* Thumb hover state */
+   QScrollBar::handle:vertical:hover {
+      background-color: #A8A8A8;
+   }
+
+   /* Thumb pressed state */
+   QScrollBar::handle:vertical:pressed {
+      background-color: #787878;
+   }
+
+   /* The top arrow button */
+   QScrollBar::sub-line:vertical {
+      border: 1px solid #DCDCDC;
+      background-color: #F5F5F5;
+      height: 16px;
+      subcontrol-position: top;
+      subcontrol-origin: margin;
+   }
+
+   /* The bottom arrow button */
+   QScrollBar::add-line:vertical {
+      border: 1px solid #DCDCDC;
+      background-color: #F5F5F5;
+      height: 16px;
+      subcontrol-position: bottom;
+      subcontrol-origin: margin;
+   }
+
+   /* Style the arrows inside the buttons (Optional) */
+   QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+      width: 6px;
+      height: 6px;
+      background-color: #666666;
+   }
+
+   /* Hide the track background above and below the thumb */
+   QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+      background: none;
+   }
 
       """
 
