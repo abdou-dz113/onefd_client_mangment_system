@@ -187,17 +187,23 @@ class MainWindow(QMainWindow):
                 print("error")
     
     def open_dialog(self):
-        dialog = CustomDialog(parent=self)
-        dialog.exec()
-
+        valid = cs.validate_login_inputs(self.get_input())
+        if valid:
+            dialog = CustomDialog(parent=self)
+            dialog.exec()
+        else:
+            print("input not valid")
 
 class CustomDialog(QDialog):
     def __init__(self, parent = None):
         super().__init__(parent)
         self.setWindowTitle("web login")
         uic.loadUi("captcha_dialogbox_ui.ui",self)
+        
         self.loadinfo()
+
         self.loadcaptcha()
+        self.button_box.accepted.connect(self.login)
     
     def loadinfo(self):
         parent = self.parent()
@@ -212,6 +218,15 @@ class CustomDialog(QDialog):
             imageqt = ImageQt.ImageQt(image)
             pixmap = QPixmap.fromImage(imageqt)
             self.captcha_label.setPixmap(pixmap)
+    
+    def login(self):
+        username = self.username.Text()
+        password = self.password.Text()
+        captcha = self.captcha.Text()
+        if all((username,password,captcha)):
+            response = self.parent().session.login(username,password,captcha)
+            if response:
+                self.frame.setHidden()
             
 
 

@@ -1,6 +1,8 @@
 import io
 from PIL import Image
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util import Retry
 from bs4 import BeautifulSoup
 import time
 from functools import wraps
@@ -34,6 +36,23 @@ site_form_map ={
    "كلمة المرور :":"exams_password",
 }
 
+def resilient_session():
+    session = requests.session()
+    retries = Retry(
+        total=5,
+        backoff_factor=1,
+        status_forcelist= [500,502,503,504],
+        raise_on_status= False
+    )
+    adapter = HTTPAdapter(max_retries=retries)
+    session.mount("http://",adapter)
+    session.mount("https://",adapter)
+
+    return session
+
+
+
+
 def expect_error(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -49,7 +68,7 @@ def expect_error(func):
 
 class WebLogin():
     def __init__(self):
-        self.session = requests.session()
+        self.session = resilient_session()
     
     def request(self):
         self.request = self.session.get(url, headers=custom_header)
@@ -61,7 +80,7 @@ class WebLogin():
             "password" :  password,
             "captcha"  :  captcha}
         response = self.session.post(url,data=payload)
-        return response
+        return response.ok
         
 
     def get_captcha(self):
