@@ -172,4 +172,11 @@ def clean_site_data(input_dict):
         print(new_dict)
         return new_dict
         
-
+def validate_login_inputs(username,password):
+    username_pattern = r"user-\d{2}-\d{5}"
+    valid = False
+    if re.fullmatch(username_pattern, username):
+        valid = True
+    if not password == "":
+        valid = True
+    return valid

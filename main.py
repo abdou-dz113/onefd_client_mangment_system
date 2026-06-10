@@ -4,7 +4,7 @@ from PIL import Image, ImageQt
 from PyQt6 import uic
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QMenu, QMessageBox, QLineEdit, QComboBox, QTableWidget, QTableWidgetItem,
-    QHeaderView,QDialog,QVBoxLayout,QGridLayout,QWidget,
+    QHeaderView,QDialog,QVBoxLayout,QGridLayout,QWidget,QAbstractItemView
 )
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QBrush, QColor, QPixmap
@@ -228,6 +228,7 @@ class TabelWidget(QTableWidget):
         self.setColumnCount(len(self.headers))
         self.setHorizontalHeaderLabels(self.headers)
         self.setAlternatingRowColors(False)
+        self.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
 
         horizontal_header = self.horizontalHeader()
         horizontal_header.setStretchLastSection(True)
