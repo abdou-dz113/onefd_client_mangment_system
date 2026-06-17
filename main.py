@@ -6,7 +6,7 @@ from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QMenu, QMessageBox, QLineEdit, QComboBox, QTableWidget, QTableWidgetItem,
     QHeaderView,QDialog,QVBoxLayout,QGridLayout,QWidget,QAbstractItemView
 )
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt,QThread, pyqtSignal
 from PyQt6.QtGui import QBrush, QColor, QPixmap
 import resources_rc
 import settings as s
@@ -88,14 +88,14 @@ class MainWindow(QMainWindow):
         self.stackedWidget.setCurrentIndex(3)
   
     
-    @debug_func
+
     def get_fields(self):
         current_page = self.stackedWidget.currentWidget()
         if current_page:
             self.widgets = current_page.findChildren((QLineEdit, QComboBox))
             self.widgets_map = {w.objectName():w for w in self.widgets}
        
-    @debug_func
+
     def table_setup(self):
         self.clients_tabel_1.setHorizontalHeaderLabels(s.table_headers)
         self.clients_tabel_1.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
@@ -103,12 +103,12 @@ class MainWindow(QMainWindow):
         self.clients_tabel_2.setHorizontalHeaderLabels(s.table_headers)
         self.clients_tabel_2.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
-    @debug_func
+  
     def load_table(self):
         data = cs.table_query()
         self.table_1.fill_table(data)
 
-    @debug_func
+
     def update_table(self, data, table):
        
         current_table = table
@@ -194,17 +194,27 @@ class MainWindow(QMainWindow):
         else:
             print("input not valid")
 
+
+class CaptchaWorker(QThread):
+    captcha_ready = pyqtSignal(object)  # emits raw bytes or None
+
+    def __init__(self, session):
+        super().__init__()
+        self.session = session
+
+    def run(self):
+        captcha_raw = self.session.refresh_captcha()
+        self.captcha_ready.emit(captcha_raw)
+
+
 class CustomDialog(QDialog):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("web login")
-        uic.loadUi("captcha_dialogbox_ui.ui",self)
-        
+        uic.loadUi("captcha_dialogbox_ui.ui", self)
         self.loadinfo()
-
         self.loadcaptcha()
-        self.button_box.accepted.connect(self.login)
-    
+
     def loadinfo(self):
         parent = self.parent()
         info = parent.get_input()
@@ -212,13 +222,21 @@ class CustomDialog(QDialog):
         self.password.setText(info.get("login_password_input_1"))
 
     def loadcaptcha(self):
-        captcha_raw = self.parent().session.refresh_captcha()
+        # Show a placeholder while loading
+        self.captcha_label.setText("Loading captcha...")
+
+        self._worker = CaptchaWorker(self.parent().session)
+        self._worker.captcha_ready.connect(self._on_captcha_ready)
+        self._worker.start()
+
+    def _on_captcha_ready(self, captcha_raw):
         if captcha_raw:
             image = Image.open(io.BytesIO(captcha_raw))
             imageqt = ImageQt.ImageQt(image)
             pixmap = QPixmap.fromImage(imageqt)
             self.captcha_label.setPixmap(pixmap)
-    
+        else:
+            self.captcha_label.setText("Failed to load captcha.") 
     def login(self):
         username = self.username.Text()
         password = self.password.Text()
