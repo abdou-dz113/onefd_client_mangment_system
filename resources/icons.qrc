@@ -1,27 +1,29 @@
-<RCC>
-  <qresource prefix="newPrefix">
-    <file>ic--baseline-keyboard-double-arrow-down.svg</file>
-    <file>ic--baseline-keyboard-double-arrow-up.svg</file>
-    <file>loading.gif</file>
-    <file>ic--baseline-add.svg</file>
-    <file>ic--baseline-arrow-drop-down.svg</file>
-    <file>ic--baseline-dashboard.svg</file>
-    <file>ic--baseline-delete-forever.svg</file>
-    <file>ic--baseline-download-done.svg</file>
-    <file>ic--baseline-exit-to-app.svg</file>
-    <file>ic--baseline-file-download.svg</file>
-    <file>ic--baseline-folder.svg</file>
-    <file>ic--baseline-keyboard-double-arrow-right.svg</file>
-    <file>ic--baseline-local-printshop.svg</file>
-    <file>ic--baseline-menu.svg</file>
-    <file>ic--baseline-people-alt.svg</file>
-    <file>ic--baseline-person.svg</file>
-    <file>ic--baseline-refresh.svg</file>
-    <file>ic--baseline-search.svg</file>
-    <file>ic--baseline-settings.svg</file>
-    <file>ic--baseline-space-dashboard.svg</file>
-    <file>icon.png</file>
-    <file>ic--outline-arrow-drop-up.svg</file>
-    <file>ic--outline-keyboard-double-arrow-left.svg</file>
+<!DOCTYPE RCC><RCC>
+  <qresource prefix="images">
+    <file>img/ic--baseline-add.svg</file>
+    <file>img/ic--baseline-arrow-drop-down.svg</file>
+    <file>img/ic--baseline-arrow-drop-up.svg</file>
+    <file>img/ic--baseline-dashboard.svg</file>
+    <file>img/ic--baseline-delete.svg</file>
+    <file>img/ic--baseline-delete-forever.svg</file>
+    <file>img/ic--baseline-download-done.svg</file>
+    <file>img/ic--baseline-edit.svg</file>
+    <file>img/ic--baseline-exit-to-app.svg</file>
+    <file>img/ic--baseline-file-download.svg</file>
+    <file>img/ic--baseline-folder.svg</file>
+    <file>img/ic--baseline-keyboard-double-arrow-down.svg</file>
+    <file>img/ic--baseline-keyboard-double-arrow-right.svg</file>
+    <file>img/ic--baseline-keyboard-double-arrow-up.svg</file>
+    <file>img/ic--baseline-local-printshop.svg</file>
+    <file>img/ic--baseline-menu.svg</file>
+    <file>img/ic--baseline-people-alt.svg</file>
+    <file>img/ic--baseline-person.svg</file>
+    <file>img/ic--baseline-refresh.svg</file>
+    <file>img/ic--baseline-search.svg</file>
+    <file>img/ic--baseline-settings.svg</file>
+    <file>img/ic--baseline-space-dashboard.svg</file>
+    <file>img/icon.png</file>
+    <file>img/ic--outline-keyboard-double-arrow-left.svg</file>
+    <file>img/loading.gif</file>
   </qresource>
 </RCC>

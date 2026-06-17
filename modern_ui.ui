@@ -131,7 +131,7 @@ QPushButton:checked {
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-people-alt.svg</normalon>
+           <normalon>:/images/img/ic--baseline-people-alt.svg</normalon>
            <disabledon>:/icons/icons/ic--baseline-people-alt.svg</disabledon>
           </iconset>
          </property>
@@ -156,7 +156,7 @@ QPushButton:checked {
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-person.svg</normalon>
+           <normalon>:/images/img/ic--baseline-person.svg</normalon>
            <disabledon>:/icons/icons/ic--baseline-person.svg</disabledon>
           </iconset>
          </property>
@@ -255,7 +255,7 @@ border-bottom: 2px solid #202739;
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="resources/icons.qrc">:/newPrefix/icon.png</pixmap>
+             <pixmap resource="resources/icons.qrc">:/images/img/icon.png</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -275,7 +275,7 @@ border-bottom: 2px solid #202739;
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-exit-to-app.svg</normalon>
+           <normalon>:/images/img/ic--baseline-exit-to-app.svg</normalon>
            <disabledon>:/icons/icons/ic--baseline-exit-to-app.svg</disabledon>
           </iconset>
          </property>
@@ -300,7 +300,7 @@ border-bottom: 2px solid #202739;
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-space-dashboard.svg</normalon>
+           <normalon>:/images/img/ic--baseline-space-dashboard.svg</normalon>
            <disabledon>:/icons/icons/ic--baseline-dashboard.svg</disabledon>
           </iconset>
          </property>
@@ -319,7 +319,7 @@ border-bottom: 2px solid #202739;
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-settings.svg</normalon>
+           <normalon>:/images/img/ic--baseline-settings.svg</normalon>
            <disabledon>:/icons/icons/ic--baseline-settings.svg</disabledon>
           </iconset>
          </property>
@@ -401,7 +401,7 @@ QLineEdit {
          <property name="icon">
           <iconset>
            <normaloff>:/icons/icons/ic--outline-keyboard-double-arrow-left.svg</normaloff>
-           <normalon>:/newPrefix/ic--baseline-menu.svg</normalon>
+           <normalon>:/images/img/ic--baseline-menu.svg</normalon>
            <activeoff>:/newPrefix/ic--outline-keyboard-double-arrow-left.svg</activeoff>:/icons/icons/ic--outline-keyboard-double-arrow-left.svg</iconset>
          </property>
          <property name="checkable">
@@ -455,7 +455,7 @@ QLineEdit {
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-search.svg</normalon>
+           <normalon>:/images/img/ic--baseline-search.svg</normalon>
           </iconset>
          </property>
         </widget>
@@ -665,8 +665,8 @@ border: 1px solid #eaecef;
                 </property>
                 <property name="icon">
                  <iconset resource="resources/icons.qrc">
-                  <normaloff>:/newPrefix/ic--baseline-keyboard-double-arrow-up.svg</normaloff>
-                  <normalon>:/newPrefix/ic--baseline-keyboard-double-arrow-down.svg</normalon>:/newPrefix/ic--baseline-keyboard-double-arrow-up.svg</iconset>
+                  <normaloff>:/images/img/ic--baseline-keyboard-double-arrow-up.svg</normaloff>
+                  <normalon>:/images/img/ic--baseline-keyboard-double-arrow-down.svg</normalon>:/images/img/ic--baseline-keyboard-double-arrow-up.svg</iconset>
                 </property>
                 <property name="checkable">
                  <bool>true</bool>
@@ -1041,7 +1041,7 @@ color: #ffffff;
                       </property>
                       <property name="icon">
                        <iconset>
-                        <normalon>:/newPrefix/ic--baseline-add.svg</normalon>
+                        <normalon>:/images/img/ic--baseline-add.svg</normalon>
                        </iconset>
                       </property>
                      </widget>
@@ -1071,7 +1071,7 @@ color: #ffffff;
                       </property>
                       <property name="icon">
                        <iconset>
-                        <normalon>:/newPrefix/ic--baseline-refresh.svg</normalon>
+                        <normalon>:/images/img/ic--baseline-refresh.svg</normalon>
                        </iconset>
                       </property>
                      </widget>
@@ -1101,7 +1101,7 @@ color: #ffffff;
                       </property>
                       <property name="icon">
                        <iconset>
-                        <normalon>:/newPrefix/ic--baseline-search.svg</normalon>
+                        <normalon>:/images/img/ic--baseline-search.svg</normalon>
                        </iconset>
                       </property>
                      </widget>
@@ -1170,7 +1170,7 @@ color: #ffffff;
                       </property>
                       <property name="icon">
                        <iconset>
-                        <normalon>:/newPrefix/ic--baseline-download-done.svg</normalon>
+                        <normalon>:/images/img/ic--baseline-download-done.svg</normalon>
                        </iconset>
                       </property>
                      </widget>
@@ -1188,7 +1188,7 @@ color: #ffffff;
                       </property>
                       <property name="icon">
                        <iconset>
-                        <normalon>:/newPrefix/ic--baseline-local-printshop.svg</normalon>
+                        <normalon>:/images/img/ic--baseline-local-printshop.svg</normalon>
                        </iconset>
                       </property>
                      </widget>
@@ -2137,7 +2137,7 @@ QPushButton:checked {
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-exit-to-app.svg</normalon>
+           <normalon>:/images/img/ic--baseline-exit-to-app.svg</normalon>
            <disabledon>:/icons/icons/ic--baseline-exit-to-app.svg</disabledon>
           </iconset>
          </property>
@@ -2162,7 +2162,7 @@ QPushButton:checked {
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-people-alt.svg</normalon>
+           <normalon>:/images/img/ic--baseline-people-alt.svg</normalon>
            <disabledon>:/icons/icons/ic--baseline-people-alt.svg</disabledon>
           </iconset>
          </property>
@@ -2187,7 +2187,7 @@ QPushButton:checked {
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-space-dashboard.svg</normalon>
+           <normalon>:/images/img/ic--baseline-space-dashboard.svg</normalon>
            <disabledon>:/icons/icons/ic--baseline-dashboard.svg</disabledon>
            <activeoff>:/icons/icons/ic--baseline-space-dashboard.svg</activeoff>
           </iconset>
@@ -2210,7 +2210,7 @@ QPushButton:checked {
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-settings.svg</normalon>
+           <normalon>:/images/img/ic--baseline-settings.svg</normalon>
            <disabledon>:/icons/icons/ic--baseline-settings.svg</disabledon>
           </iconset>
          </property>
@@ -2251,7 +2251,7 @@ QPushButton:checked {
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/newPrefix/ic--baseline-person.svg</normalon>
+           <normalon>:/images/img/ic--baseline-person.svg</normalon>
            <disabledon>:/icons/icons/ic--baseline-person.svg</disabledon>
           </iconset>
          </property>
@@ -2306,7 +2306,7 @@ QPushButton:checked {
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="resources/icons.qrc">:/newPrefix/icon.png</pixmap>
+             <pixmap resource="resources/icons.qrc">:/images/img/icon.png</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>

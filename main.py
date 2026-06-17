@@ -3,11 +3,11 @@ import io
 from PIL import Image, ImageQt
 from PyQt6 import uic
 from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QMenu, QMessageBox, QLineEdit, QComboBox, QTableWidget, QTableWidgetItem,
-    QHeaderView,QDialog,QVBoxLayout,QGridLayout,QWidget,QAbstractItemView
+    QApplication, QMainWindow, QMenu, QMessageBox, QLineEdit, QComboBox,QLabel, QTableWidget, QTableWidgetItem,
+    QHeaderView,QDialog,QVBoxLayout,QGridLayout,QWidget,QAbstractItemView,QStyledItemDelegate,QStyle
 )
-from PyQt6.QtCore import Qt,QThread, pyqtSignal
-from PyQt6.QtGui import QBrush, QColor, QPixmap
+from PyQt6.QtCore import Qt,QRect,QSize,QThread,pyqtSignal,QObject,QEvent
+from PyQt6.QtGui import QBrush, QColor, QPixmap, QIcon
 import resources_rc
 import settings as s
 from services import client_service as cs
@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         uic.loadUi(s.mainwinui,self)
         self.session = WebLogin()
-        self.table_1 = TabelWidget(s.table_headers)
+        self.table_1 = TabelWidget(s.table_headers, parent=self)
         self.dashboard_tabel_layout.addWidget(self.table_1)
         self.initUi()
         
@@ -77,15 +77,19 @@ class MainWindow(QMainWindow):
     #___ side bar menu buttons functions __________________
     def open_dashboard(self):
         self.stackedWidget.setCurrentIndex(0)
+        self.get_fields()
   
     def open_clients(self):
         self.stackedWidget.setCurrentIndex(2)
+        self.get_fields()
     
     def open_new_client(self):
         self.stackedWidget.setCurrentIndex(1)
+        self.get_fields()
           
     def open_settings(self):
         self.stackedWidget.setCurrentIndex(3)
+        self.get_fields()
   
     
 
@@ -137,6 +141,8 @@ class MainWindow(QMainWindow):
                         value = widget.currentIndex()
                 elif isinstance(widget, QLineEdit):
                         value = widget.text()
+                else:
+                    continue
                 widget_values.update({widget_name:value})
         return widget_values
     
@@ -213,6 +219,9 @@ class CustomDialog(QDialog):
             if response:
                 self.frame.setHidden()
             
+class ActionDelegate(QStyledItemDelegate):
+    edit_requested = pyqtSignal(int)
+    delete_requested = pyqtSignal(int)
 
 
 
@@ -238,6 +247,8 @@ class TabelWidget(QTableWidget):
         self.verticalHeader().setVisible(False)
         self.setShowGrid(False)
         self.verticalHeader().setDefaultSectionSize(40)
+
+        self.set_clients_number()
 
 
     def hide_columns(self, hide=True):
@@ -270,8 +281,9 @@ class TabelWidget(QTableWidget):
             self.setItem(0,1,item)
             self.horizontalHeader().setVisible(False)
             return
+        clients_number = len(data_matrix)
 
-        self.setRowCount(len(data_matrix))
+        self.setRowCount(clients_number)
         self.horizontalHeader().setVisible(True)
         self.setSortingEnabled(False)
         for row_idx, row_data in enumerate(data_matrix):
@@ -279,6 +291,14 @@ class TabelWidget(QTableWidget):
                 table_item = self.item_gen(col_idx,col_data)
                 self.setItem(row_idx, col_idx, table_item)
         self.setSortingEnabled(True)
+    
+        self.set_clients_number()
+    
+    def set_clients_number(self):
+        clients_number = self.rowCount()
+        clients_num_label_text = f"Clients: {clients_number}"
+        clients_num_label = self.parent().findChild(QLabel,"client_num_label_1")
+        clients_num_label.setText(clients_num_label_text)
 
 if __name__ == "__main__":
     app = QApplication([])
