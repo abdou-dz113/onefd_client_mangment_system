@@ -96,45 +96,12 @@ class MainWindow(QMainWindow):
             self.widgets_map = {w.objectName():w for w in self.widgets}
        
 
-    def table_setup(self):
-        self.clients_tabel_1.setHorizontalHeaderLabels(s.table_headers)
-        self.clients_tabel_1.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
-        self.clients_tabel_2.setHorizontalHeaderLabels(s.table_headers)
-        self.clients_tabel_2.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-
-  
     def load_table(self):
         data = cs.table_query()
         self.table_1.fill_table(data)
 
 
-    def update_table(self, data, table):
-       
-        current_table = table
-        
-        if not current_table:
-            print("There is no tabel in this page.")
-            return 
-        
-        if not data:
-            current_table.setRowCount(1)
-            item = QTableWidgetItem("There is nothing to Show")
-            current_table.setItem(0,0,item)
-            print ("There is Nothing to show")
-            return 
-        else:
-            row_count = len(data)
-            column_count = len(data[0])
-            if row_count == 0 or column_count == 0:
-                return
-            current_table.setRowCount(0)
-            current_table.setRowCount(row_count)
-            current_table.setColumnCount(column_count)
-            for row_id, data_row in enumerate(data):
-                for column_id, column in enumerate(data_row):
-                    item = QTableWidgetItem(str(column))
-                    current_table.setItem(row_id,column_id,item)
 
     def redraw_widget(self,widget):
         widget.style().unpolish(widget)
