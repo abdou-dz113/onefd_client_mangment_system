@@ -238,6 +238,7 @@ class TabelWidget(QTableWidget):
         self.setHorizontalHeaderLabels(self.headers)
         self.setAlternatingRowColors(False)
         self.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
 
         horizontal_header = self.horizontalHeader()
         horizontal_header.setStretchLastSection(True)

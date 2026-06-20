@@ -568,7 +568,7 @@ padding: 1px 12px;
 }
 
 QComboBox::drop-down{
-image: url(:/newPrefix/ic--baseline-arrow-drop-down.svg);
+image: url(:/images/img/ic--baseline-arrow-drop-down.svg);
 width: 20px;
 height: 20px;
 }
