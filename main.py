@@ -6,8 +6,8 @@ from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QMenu, QMessageBox, QLineEdit, QComboBox,QLabel, QTableWidget, QTableWidgetItem,
     QHeaderView,QDialog,QVBoxLayout,QGridLayout,QWidget,QAbstractItemView,QStyledItemDelegate,QStyle
 )
-from PyQt6.QtCore import Qt,QRect,QSize,QThread,pyqtSignal,QObject,QEvent
-from PyQt6.QtGui import QBrush, QColor, QPixmap, QIcon
+from PyQt6.QtCore import Qt,QRect,QSize,QThread,pyqtSignal,QObject,QEvent,QRectF
+from PyQt6.QtGui import QPen,QBrush, QColor, QPixmap, QIcon, QPainter
 import resources_rc
 import settings as s
 from services import client_service as cs
@@ -20,6 +20,50 @@ def debug_func(func,):
         func(*arg)
         print(f"finshed running {func.__name__}")
     return wrapper
+
+class Pill_Delegate(QStyledItemDelegate):
+    def paint(self,painter,option,index):
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+        rect = QRectF(option.rect).adjusted(4,4,-4,-4)
+        painter.save()
+        text = index.data().strip()
+        bg,fg = s.level_colors.get(text, s.color_fallback)
+        pen = QPen(QColor(fg))
+        brush = QBrush(QColor(bg))
+        
+        painter.setPen(pen)
+        painter.setBrush(brush)
+        painter.drawRoundedRect(rect,20,20)
+        painter.drawText(
+                        option.rect,
+                        Qt.AlignmentFlag.AlignCenter,
+                        str(index.data()),          
+                )
+        painter.restore()
+
+class ExamDelegate(QStyledItemDelegate):
+    def paint(self,painter,option,index):
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+        rect = QRectF(option.rect).adjusted(4,4,-4,-4)
+        painter.save()
+        text = int(index.data())
+        fg,bg = s.exams_ui_color.get(text, s.color_fallback)
+        label = s.exams_progress_dict.get(text, "###")
+        pen = QPen(QColor(fg))
+        brush = QBrush(QColor(bg))
+        painter.setPen(pen)
+        painter.setBrush(brush)
+        painter.drawRoundedRect(rect,20,20)
+        painter.drawText(
+            option.rect,
+            Qt.AlignmentFlag.AlignCenter,
+            str(label)
+        )
+        painter.restore()
+            
+
+
+
 
 
 class MainWindow(QMainWindow):
@@ -126,7 +170,7 @@ class MainWindow(QMainWindow):
         if not filled_froms:
             return
         for widget_name, widget_obj in self.widgets_map.items():
-            if not widget_name in filled_froms.keys():
+            if widget_name not in filled_froms.keys():
                 widget_obj.setProperty("hasError", "true")
             else:
                 widget_obj.setProperty("hasError", "false")
@@ -250,6 +294,13 @@ class TabelWidget(QTableWidget):
         self.verticalHeader().setDefaultSectionSize(40)
 
         self.set_clients_number()
+        
+        #self.setItemDelegateForColumn(3,Pill_Delegate())
+        exams_cols = (9,10,11,12,13)
+        exam_delgate = ExamDelegate()
+        for i in exams_cols:
+            self.setItemDelegateForColumn(i,exam_delgate)
+        self.setSortingEnabled(True)
 
 
     def hide_columns(self, hide=True):
@@ -259,16 +310,9 @@ class TabelWidget(QTableWidget):
 
     def item_gen(self,col_idx,col_val):
         exam_indexs = (9,10,11,12,13)
-        if col_idx in exam_indexs:
-            item = QTableWidgetItem(str(s.exams_progress_dict.get(col_val)[0]))
-            item.setBackground(QBrush(QColor(s.exams_progress_dict.get(col_val)[1])))
-            item.setForeground(QBrush(QColor("#f9f7f3")))
-            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-            return item
-        else:
-            item = QTableWidgetItem(str(col_val))
-            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-            return item
+        item = QTableWidgetItem(str(col_val))
+        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        return item
         
 
     def fill_table(self, data_matrix):
@@ -291,7 +335,8 @@ class TabelWidget(QTableWidget):
             for col_idx, col_data in enumerate(row_data):
                 table_item = self.item_gen(col_idx,col_data)
                 self.setItem(row_idx, col_idx, table_item)
-        self.setSortingEnabled(True)
+
+
     
         self.set_clients_number()
     
