@@ -59,28 +59,30 @@ def save_edit(changed_info):
             return False
 
 def get_from_id (client_id):
-    client_info = db.search({"id":client_id},level_text=False)
+    client_info = db.search_by_id(int(client_id))
     if not client_info:
         print("Client Not Found.")
         return
-    client_info = client_info[0]
+    print(client_info)
+    return
+    #client_info = client_info[0]
     info_dict = {
-                    'client_id':client_info[0],
-                    'lastname':client_info[1],
-                    'firstname':client_info[2],
-                    'level':client_info[3],
-                    'username_01':client_info[4],
-                    'password_01':client_info[5],
-                    'form_number':client_info[4][8:],
-                    'username_02':client_info[6],
-                    'password_02':client_info[7],
-                    'ins_number':client_info[6][:11],
-                    'phone_number':client_info[8],
-                    'devoir_01':client_info[9],
-                    'devoir_02':client_info[10],
-                    'devoir_03':client_info[11],
-                    'devoir_04':client_info[12],
-                    'devoir_05':client_info[13]
+                    'client_id'     :client_info[0],
+                    'lastname'      :client_info[1],
+                    'firstname'     :client_info[2],
+                    'level'         :client_info[3],
+                    'username_01'   :client_info[4],
+                    'password_01'   :client_info[5],
+                    'form_number'   :client_info[4][8:],
+                    'username_02'   :client_info[6],
+                    'password_02'   :client_info[7],
+                    'ins_number'    :client_info[6][:11],
+                    'phone_number'  :client_info[8],
+                    'devoir_01'     :client_info[9],
+                    'devoir_02'     :client_info[10],
+                    'devoir_03'     :client_info[11],
+                    'devoir_04'     :client_info[12],
+                    'devoir_05'     :client_info[13],
                     }
     return info_dict 
 

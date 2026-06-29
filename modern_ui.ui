@@ -585,7 +585,7 @@ border-radius: 10px;
           <enum>QFrame::Raised</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="dashboard">
           <property name="styleSheet">
@@ -1349,36 +1349,6 @@ border: 1px solid #eaecef;
                   <height>28</height>
                  </size>
                 </property>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
                </widget>
               </item>
               <item row="0" column="4">
@@ -1389,36 +1359,6 @@ border: 1px solid #eaecef;
                   <height>28</height>
                  </size>
                 </property>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
                </widget>
               </item>
               <item row="0" column="0">
@@ -1429,36 +1369,6 @@ border: 1px solid #eaecef;
                   <height>28</height>
                  </size>
                 </property>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
                </widget>
               </item>
               <item row="0" column="2">
@@ -1469,36 +1379,6 @@ border: 1px solid #eaecef;
                   <height>28</height>
                  </size>
                 </property>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
                </widget>
               </item>
               <item row="0" column="3">
@@ -1509,36 +1389,6 @@ border: 1px solid #eaecef;
                   <height>28</height>
                  </size>
                 </property>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>New Item</string>
-                 </property>
-                </item>
                </widget>
               </item>
               <item row="1" column="4">

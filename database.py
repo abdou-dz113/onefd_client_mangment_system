@@ -67,7 +67,8 @@ class Database():
         devoir_04 INTGER DEFAULT 0,
         devoir_05 INTGER DEFAULT 0,
         form_number TEXT,
-        ins_number TEXT                     
+        ins_number TEXT,
+        paid_in_full INTEGER NOT NULL DEFAULT 0 CHECK (paid_in_full IN (0,1))                                         
         )
         """)
         self.connect.commit()
@@ -118,7 +119,7 @@ class Database():
     def delete(self,client_id):
         sql = """DELETE FROM table_01 WHERE id = ? """
         try:
-            self.cursor.execute(sql,(client_id))
+            self.cursor.execute(sql,(client_id,))
             self.connect.commit()
             return True 
         except sqlite3.Error as error:
@@ -148,8 +149,24 @@ class Database():
             return results
 
     def search_by_id(self,client_id):
-        sql = self.table_select_text + " WHERE  id = " + str(client_id)
-        self.cursor.execute(sql)
+        sql = """
+            SELECT 
+            id,
+            lastname,
+            firstname,
+            username_01,
+            password_01,
+            username_02,
+            password_02,
+            phone_number,
+            devoir_01,
+            devoir_02,
+            devoir_03,
+            devoir_04,
+            devoir_05
+            FROM table_01 WHERE id = ?
+                """
+        self.cursor.execute(sql,(client_id,))
         result = self.cursor.fetchone()
         return result
 
@@ -171,7 +188,7 @@ class Database():
         
 if __name__ == "__main__":
     db=Database()
-    db.cursor.execute("""ALTER TABLE table_01 ADD COLUMN ins_number TEXT """)
+    db.cursor.execute("""ALTER TABLE table_01 ADD COLUMN paid_in_full INTEGER """)
     db.connect.commit()
 
 

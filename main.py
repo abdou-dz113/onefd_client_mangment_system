@@ -106,6 +106,18 @@ class Actions_Delegates(QStyledItemDelegate):
         painter.setPen(QColor("white"))
         painter.drawText(rect, Qt.AlignmentFlag.AlignCenter, text)
 
+    def editorEvent(self, event, model, option, index):
+        if event.type() == QEvent.Type.MouseButtonRelease:
+            edit_rect, delete_rect = _btn_rect(option.rect)
+            pos = event.pos()
+            if edit_rect.contains(pos):
+                self.edit.emit(index.row())
+                return True
+            if delete_rect.contains(pos):
+                self.delete.emit(index.row())
+                return True
+        return super().editorEvent(event, model, option, index)
+
 
 
 
@@ -256,6 +268,42 @@ class MainWindow(QMainWindow):
         else:
             print("input not valid")
 
+    def open_edit_client(self, client_id):
+        self.stackedWidget.setCurrentIndex(1)
+        self.new_client_2.setChecked(True)
+        self.get_fields()
+        client_info = cs.get_from_id(client_id)
+        if not client_info:
+            return
+        self._editing_client_id = client_id
+        field_map = {
+        "lastname_input_2":         client_info.get("lastname"),
+        "firstname_input_2":        client_info.get("firstname"),
+        "login_username_input_2":   client_info.get("username_01"),
+        "login_password_input_2":   client_info.get("password_01"),
+        "exams_username_input_2":   client_info.get("username_02"),
+        "exams_password_input_2":   client_info.get("password_02"),
+        "phone_number_input_2":     client_info.get("phone_number","not found"),
+        "form_number_label_2":      client_info.get("form_number","not found"),
+        "inscription_number_input": client_info.get("ins_number", "not found")
+
+        }
+        for widget_name, value in field_map.items():
+            widget = self.widgets_map.get(widget_name)
+            print(widget)
+            if isinstance(widget, QLineEdit) and value is not None:
+                widget.setText(str(value))
+
+        # Set level combobox
+        level_widget = self.widgets_map.get("level_input_2")
+        if isinstance(level_widget, QComboBox):
+            try:
+                level_widget.setCurrentIndex(int(client_info.get("level", -1)))
+            except Exception as e:
+                print(e)
+        
+
+
 
 class CaptchaWorker(QThread):
     captcha_ready = pyqtSignal(object)  # emits raw bytes or None
@@ -320,6 +368,7 @@ class TabelWidget(QTableWidget):
         self.setStyleSheet(s.tabel_css)
 
     def init_table_settings(self):
+        self.main_window = self._get_main_window()
         self.setColumnCount(len(self.headers))
         self.setHorizontalHeaderLabels(self.headers)
         self.setAlternatingRowColors(False)
@@ -351,6 +400,44 @@ class TabelWidget(QTableWidget):
         for i in exams_cols:
             self.setItemDelegateForColumn(i,self.exam_delgate)
         self.setItemDelegateForColumn(14,self.action_delegate)
+
+        #______ connect delgate signals to handlers
+        self.action_delegate.edit.connect(self._on_edit_row)
+        self.action_delegate.delete.connect(self._on_delete_row)
+
+    def _get_main_window(self) -> QMainWindow:
+        widget = self.parent()
+        while widget is not None:
+            if isinstance(widget,QMainWindow):
+                return widget
+            widget = widget.parent()
+        return None
+
+    def set_clients_number(self):
+        if self.main_window:
+            label = self.main_window.findChild(QLabel,"client_num_label_1")
+            if label:
+                label.setText(f"Clients: {self.rowCount()}")
+
+    def _on_edit_row(self,row):
+        client_id = int(self.item(row,0).text())
+        if self.main_window:
+            self.main_window.open_edit_client(client_id)
+
+    def _on_delete_row(self,row):
+        client_id = int(self.item(row,0).text())
+        confirm = QMessageBox.question(
+            self,
+            "Confirm Delete",
+            f"Delete Client ID: {client_id}?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if confirm == QMessageBox.StandardButton.Yes:
+            if cs.delete(client_id):
+                self.removeRow(row)
+                self.set_clients_number()
+
 
 
     def hide_columns(self, hide=True):
@@ -390,11 +477,7 @@ class TabelWidget(QTableWidget):
     
         self.set_clients_number()
     
-    def set_clients_number(self):
-        clients_number = self.rowCount()
-        clients_num_label_text = f"Clients: {clients_number}"
-        clients_num_label = self.parent().findChild(QLabel,"client_num_label_1")
-        clients_num_label.setText(clients_num_label_text)
+
 
 if __name__ == "__main__":
     app = QApplication([])
