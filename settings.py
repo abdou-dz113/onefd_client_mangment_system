@@ -12,7 +12,8 @@ table_headers = ["id",
                "Exame 02",
                "Exame 03",
                "Exame 04",
-               "Exame 05"]
+               "Exame 05",
+               "Actions"]
 
 level_map ={
     0:"أولى متوسط",

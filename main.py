@@ -41,12 +41,16 @@ class Pill_Delegate(QStyledItemDelegate):
                 )
         painter.restore()
 
+
 class ExamDelegate(QStyledItemDelegate):
     def paint(self,painter,option,index):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
         rect = QRectF(option.rect).adjusted(4,4,-4,-4)
         painter.save()
-        text = int(index.data())
+        try:
+            text = int(index.data())
+        except ValueError:
+            print("value error")
         fg,bg = s.exams_ui_color.get(text, s.color_fallback)
         label = s.exams_progress_dict.get(text, "###")
         pen = QPen(QColor(fg))
@@ -60,8 +64,47 @@ class ExamDelegate(QStyledItemDelegate):
             str(label)
         )
         painter.restore()
-            
 
+#__________Action Delegates ______________
+
+btnw = 50
+btnh = 26
+gap = 6
+
+def _btn_rect(cell):
+    total_w = btnw *2 +gap
+    x = cell.x() + (cell.width() - total_w) //2
+    y = cell.y() + (cell.height() - btnh) //2
+    edit_rect = QRect(x,y,btnw,btnh)
+    delete_rect = QRect(x+btnw+gap,y,btnw,btnh)
+    return edit_rect,delete_rect
+
+
+
+class Actions_Delegates(QStyledItemDelegate):
+    edit = pyqtSignal(int)
+    delete = pyqtSignal(int)
+
+
+    def paint(self, painter, option, index):
+        painter.save()
+        row = index.row()
+        edit_rect, delete_rect = _btn_rect(option.rect)
+
+        self._draw_btn(painter,edit_rect,"EDIT","blue",row)
+        self._draw_btn(painter,delete_rect,"DELETE","red",row)
+        painter.restore()
+        
+    def _draw_btn(self,painter,rect,text,color,row):
+        bg = QColor(color)
+        painter.setBrush(bg)
+        painter.setPen(Qt.PenStyle.NoPen)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        painter.drawRoundedRect(rect, 4, 4)
+ 
+        # Label
+        painter.setPen(QColor("white"))
+        painter.drawText(rect, Qt.AlignmentFlag.AlignCenter, text)
 
 
 
@@ -90,6 +133,8 @@ class MainWindow(QMainWindow):
         self.add_button.clicked.connect(self.insert)
         self.refresh_button.clicked.connect(self.reset_inputs)
         self.get_from_site_button.clicked.connect(self.open_dialog)
+
+
 
     def initUi(self):
         #___ input vadlidation stylesheet _________________
@@ -255,17 +300,14 @@ class CustomDialog(QDialog):
         else:
             self.captcha_label.setText("Failed to load captcha.") 
     def login(self):
-        username = self.username.Text()
-        password = self.password.Text()
-        captcha = self.captcha.Text()
+        username = self.username.text()
+        password = self.password.text()
+        captcha = self.captcha.text()
         if all((username,password,captcha)):
             response = self.parent().session.login(username,password,captcha)
             if response:
                 self.frame.setHidden()
             
-class ActionDelegate(QStyledItemDelegate):
-    edit_requested = pyqtSignal(int)
-    delete_requested = pyqtSignal(int)
 
 
 
@@ -295,12 +337,20 @@ class TabelWidget(QTableWidget):
 
         self.set_clients_number()
         
-        #self.setItemDelegateForColumn(3,Pill_Delegate())
-        exams_cols = (9,10,11,12,13)
-        exam_delgate = ExamDelegate()
-        for i in exams_cols:
-            self.setItemDelegateForColumn(i,exam_delgate)
+
+        self.set_cols_delegate()
+
         self.setSortingEnabled(True)
+
+    def set_cols_delegate(self):
+        exams_cols = (9,10,11,12,13)
+        self.exam_delgate = ExamDelegate()
+        self.pill_delegate = Pill_Delegate()
+        self.action_delegate = Actions_Delegates()
+        self.setItemDelegateForColumn(3,self.pill_delegate)
+        for i in exams_cols:
+            self.setItemDelegateForColumn(i,self.exam_delgate)
+        self.setItemDelegateForColumn(14,self.action_delegate)
 
 
     def hide_columns(self, hide=True):
@@ -309,7 +359,6 @@ class TabelWidget(QTableWidget):
             self.setColumnHidden(column,hide)
 
     def item_gen(self,col_idx,col_val):
-        exam_indexs = (9,10,11,12,13)
         item = QTableWidgetItem(str(col_val))
         item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
         return item
@@ -329,6 +378,7 @@ class TabelWidget(QTableWidget):
         clients_number = len(data_matrix)
 
         self.setRowCount(clients_number)
+
         self.horizontalHeader().setVisible(True)
         self.setSortingEnabled(False)
         for row_idx, row_data in enumerate(data_matrix):
