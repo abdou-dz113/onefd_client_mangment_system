@@ -3,7 +3,7 @@ import io
 from PIL import Image, ImageQt
 from PyQt6 import uic
 from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QMenu, QMessageBox, QLineEdit, QComboBox,QLabel, QTableWidget, QTableWidgetItem,
+    QApplication, QMainWindow, QMenu, QMessageBox, QLineEdit, QComboBox,QLabel,QCheckBox, QTableWidget, QTableWidgetItem,
     QHeaderView,QDialog,QVBoxLayout,QGridLayout,QWidget,QAbstractItemView,QStyledItemDelegate,QStyle
 )
 from PyQt6.QtCore import Qt,QRect,QSize,QThread,pyqtSignal,QObject,QEvent,QRectF
@@ -279,6 +279,7 @@ class MainWindow(QMainWindow):
         field_map = {
         "lastname_input_2":         client_info.get("lastname"),
         "firstname_input_2":        client_info.get("firstname"),
+        "level_input_2":            client_info.get("level",-1),
         "login_username_input_2":   client_info.get("username_01"),
         "login_password_input_2":   client_info.get("password_01"),
         "exams_username_input_2":   client_info.get("username_02"),
@@ -290,18 +291,38 @@ class MainWindow(QMainWindow):
         }
         for widget_name, value in field_map.items():
             widget = self.widgets_map.get(widget_name)
-            print(widget)
             if isinstance(widget, QLineEdit) and value is not None:
                 widget.setText(str(value))
+            if isinstance(widget,QComboBox):
+                if widget_name == "level_input_2":
+                    widget.setCurrentIndex(value)
 
-        # Set level combobox
-        level_widget = self.widgets_map.get("level_input_2")
-        if isinstance(level_widget, QComboBox):
-            try:
-                level_widget.setCurrentIndex(int(client_info.get("level", -1)))
-            except Exception as e:
-                print(e)
+        #____ exams status ____________________________
+        exams_fields_map = {
+            "paid_full_checkbox" :client_info.get("paid_in_full",0),
+            "exam_1"             :client_info.get("exam_1"),
+            "exam_2"             :client_info.get("exam_2"),
+            "exam_3"             :client_info.get("exam_3"),
+            "exam_4"             :client_info.get("exam_4"),
+            "exam_5"             :client_info.get("exam_5"),
+        }
         
+        exams_ui_frame = self.findChild(QWidget,"exams_status_frame")
+        if exams_ui_frame:
+            exams_comboxes =exams_ui_frame.findChildren(QComboBox)
+            if exams_comboxes:
+                for cbox in exams_comboxes:
+                    name = cbox.objectName()
+                    index = client_info.get(name,-1)
+                    cbox.setCurrentIndex(index)
+        
+        paid_in_full = self.findChild(QCheckBox,"paid_full_checkbox")
+        if paid_in_full:
+            paid_in_full_status = exams_fields_map.get("paid_full_checkbox")
+
+        if paid_in_full_status:
+            paid_in_full.setChecked(True)
+
 
 
 

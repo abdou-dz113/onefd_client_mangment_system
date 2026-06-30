@@ -64,7 +64,6 @@ def get_from_id (client_id):
         print("Client Not Found.")
         return
     print(client_info)
-    return
     #client_info = client_info[0]
     info_dict = {
                     'client_id'     :client_info[0],
@@ -78,11 +77,12 @@ def get_from_id (client_id):
                     'password_02'   :client_info[7],
                     'ins_number'    :client_info[6][:11],
                     'phone_number'  :client_info[8],
-                    'devoir_01'     :client_info[9],
-                    'devoir_02'     :client_info[10],
-                    'devoir_03'     :client_info[11],
-                    'devoir_04'     :client_info[12],
-                    'devoir_05'     :client_info[13],
+                    'exam_1'     :client_info[9],
+                    'exam_2'     :client_info[10],
+                    'exam_3'     :client_info[11],
+                    'exam_4'     :client_info[12],
+                    'exam_5'     :client_info[13],
+                    'paid_in_full'  :client_info[14]
                     }
     return info_dict 
 

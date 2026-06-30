@@ -154,6 +154,7 @@ class Database():
             id,
             lastname,
             firstname,
+            level,
             username_01,
             password_01,
             username_02,
@@ -163,7 +164,8 @@ class Database():
             devoir_02,
             devoir_03,
             devoir_04,
-            devoir_05
+            devoir_05,
+            paid_in_full
             FROM table_01 WHERE id = ?
                 """
         self.cursor.execute(sql,(client_id,))
@@ -188,7 +190,7 @@ class Database():
         
 if __name__ == "__main__":
     db=Database()
-    db.cursor.execute("""ALTER TABLE table_01 ADD COLUMN paid_in_full INTEGER """)
+    db.cursor.execute("""UPDATE table_01 SET devoir_01 = 3 WHERE id =  8""")
     db.connect.commit()
 
 
