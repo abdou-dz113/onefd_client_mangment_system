@@ -146,10 +146,13 @@ class MainWindow(QMainWindow):
         self.refresh_button.clicked.connect(self.reset_inputs)
         self.get_from_site_button.clicked.connect(self.open_dialog)
 
+        #_____client edit buttons signals___________________
+        self.save_change_button.clicked.connect(self.save_change)
+        self.paid_full_checkbox.stateChanged.connect(self.exams_paid)
 
 
     def initUi(self):
-        #___ input vadlidation stylesheet _________________
+        #___ input vadlidation stylesheet __________________
         self.inputs_frame.setStyleSheet("""
                 QLineEdit[hasError='true']{
                 border: 2px solid #FF4D4D;
@@ -178,18 +181,23 @@ class MainWindow(QMainWindow):
     #___ side bar menu buttons functions __________________
     def open_dashboard(self):
         self.stackedWidget.setCurrentIndex(0)
+        self.search_bar.setHidden(False)
         self.get_fields()
   
     def open_clients(self):
         self.stackedWidget.setCurrentIndex(2)
+        self.search_bar.setHidden(False)
         self.get_fields()
     
     def open_new_client(self):
         self.stackedWidget.setCurrentIndex(1)
+        self.search_bar.setHidden(True)
         self.get_fields()
+
           
     def open_settings(self):
         self.stackedWidget.setCurrentIndex(3)
+        self.search_bar.setHidden(True)
         self.get_fields()
   
     
@@ -261,17 +269,14 @@ class MainWindow(QMainWindow):
                 print("error")
     
     def open_dialog(self):
-        valid = cs.validate_login_inputs(self.get_input())
-        if valid:
-            dialog = CustomDialog(parent=self)
-            dialog.exec()
-        else:
-            print("input not valid")
+        dialog = CustomDialog(parent=self)
+        dialog.exec()
+
 
     def open_edit_client(self, client_id):
         self.stackedWidget.setCurrentIndex(1)
-        self.new_client_2.setChecked(True)
         self.get_fields()
+        self.new_client_2.setChecked(True)
         client_info = cs.get_from_id(client_id)
         if not client_info:
             return
@@ -289,6 +294,12 @@ class MainWindow(QMainWindow):
         "inscription_number_input": client_info.get("ins_number", "not found")
 
         }
+        
+        #_____ set client id_______________________________
+        client_id_value_lable = self.findChild(QLineEdit,"client_id_value")
+        if client_id_value_lable:
+            client_id_value_lable.setText(str(client_id))
+
         for widget_name, value in field_map.items():
             widget = self.widgets_map.get(widget_name)
             if isinstance(widget, QLineEdit) and value is not None:
@@ -322,6 +333,60 @@ class MainWindow(QMainWindow):
 
         if paid_in_full_status:
             paid_in_full.setChecked(True)
+        else:
+            paid_in_full.setChecked(False)
+
+    def exams_paid(self):
+        for wname, wobj in self.widgets_map.items():
+            if isinstance(wobj,QComboBox):
+                if not wname == "level_input_2":
+                    if wobj.currentIndex() < 2:
+                        wobj.setCurrentIndex(2)
+
+    def save_change(self):
+        new_info = self.get_input()
+        paid_in_full = self.findChild(QCheckBox,"paid_full_checkbox")
+        if not new_info:
+            return
+        if paid_in_full:
+            new_info.update({paid_in_full.objectName():1 if paid_in_full.isChecked()else 0})
+        old_info = cs.get_from_id(self._editing_client_id)
+        print(old_info,"\n\n",new_info)
+        new_info_maped = {
+            'lastname': new_info.get("lastname_input_2"),
+            'firstname': new_info.get("firstname_input_2"),
+            'level': new_info.get("level_input_2"),
+            'username_01': new_info.get("login_username_input_2"),
+            'password_01': new_info.get("login_password_input_2"),
+            'form_number': new_info.get("form_number_label_2"),
+            'username_02': new_info.get("exams_username_input_2"),
+            'password_02': new_info.get("exams_password_input_2"),
+            'ins_number': new_info.get("inscription_number_input"),
+            'phone_number': new_info.get("phone_number_input_2"),
+            'devoir_01': new_info.get('exam_1'),
+            'devoir_02': new_info.get('exam_2'),
+            'devoir_03': new_info.get('exam_3'),
+            'devoir_04': new_info.get('exam_4'),
+            'devoir_05': new_info.get('exam_5'),
+            'paid_in_full': new_info.get("paid_full_checkbox") 
+        }
+        changed = cs.if_changed(old_info,new_info_maped)
+        if changed:
+            print(changed)
+            dialog = QMessageBox.question(self,
+            "Save changes",
+            "Do you want to save chages",
+            QMessageBox.StandardButton.Yes|QMessageBox.StandardButton.No)
+            if dialog == QMessageBox.StandardButton.Yes:
+                cs.save_edit(changed)
+                saved = QMessageBox.information(self,"Message","Client informations changed successfully ")
+                print(self.table_1.row_id)
+                self.open_dashboard()
+                self.load_table()
+            
+
+
+        
 
 
 
@@ -434,14 +499,15 @@ class TabelWidget(QTableWidget):
             widget = widget.parent()
         return None
 
-    def set_clients_number(self):
+    def set_clients_number(self,client_num_label="client_num_label_1" ):
         if self.main_window:
-            label = self.main_window.findChild(QLabel,"client_num_label_1")
+            label = self.main_window.findChild(QLabel,client_num_label)
             if label:
                 label.setText(f"Clients: {self.rowCount()}")
 
     def _on_edit_row(self,row):
         client_id = int(self.item(row,0).text())
+        self.row_id = row
         if self.main_window:
             self.main_window.open_edit_client(client_id)
 
@@ -459,7 +525,8 @@ class TabelWidget(QTableWidget):
                 self.removeRow(row)
                 self.set_clients_number()
 
-
+    def update_row(self,row_id,changed_info):
+        pass
 
     def hide_columns(self, hide=True):
         hiden_columns = (0,5,6,7,4)
@@ -475,7 +542,6 @@ class TabelWidget(QTableWidget):
     def fill_table(self, data_matrix):
         if not data_matrix:
             text = "There is nothing to show."
-            print(text)
             self.setRowCount(1)
             self.setColumnCount(2)
             item = QTableWidgetItem(str(text))

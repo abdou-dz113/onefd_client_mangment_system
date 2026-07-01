@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1175</width>
+    <width>1145</width>
     <height>922</height>
    </rect>
   </property>
@@ -218,7 +218,6 @@ border-bottom: 2px solid #202739;
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -335,7 +334,7 @@ border-bottom: 2px solid #202739;
      </widget>
     </item>
     <item row="0" column="3">
-     <widget class="QFrame" name="frame_3">
+     <widget class="QFrame" name="main_frame">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -436,28 +435,49 @@ QLineEdit {
         </spacer>
        </item>
        <item>
-        <widget class="QLineEdit" name="quick_search_input">
-         <property name="minimumSize">
-          <size>
-           <width>200</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="placeholderText">
-          <string>البحث بالأسم ، اللقب، اسم المستخدم ...</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="quick_search_button">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/images/img/ic--baseline-search.svg</normalon>
-          </iconset>
-         </property>
+        <widget class="QWidget" name="search_bar" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLineEdit" name="quick_search_input">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="placeholderText">
+             <string>البحث بالأسم ، اللقب، اسم المستخدم ...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="quick_search_button">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normalon>:/images/img/ic--baseline-search.svg</normalon>
+             </iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -585,7 +605,7 @@ border-radius: 10px;
           <enum>QFrame::Raised</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="dashboard">
           <property name="styleSheet">
@@ -1025,7 +1045,6 @@ border-bottom: 2px solid #4f46e5;
                       </property>
                       <property name="font">
                        <font>
-                        <weight>50</weight>
                         <bold>false</bold>
                         <stylestrategy>PreferAntialias</stylestrategy>
                        </font>
@@ -1062,7 +1081,6 @@ color: #ffffff;
                       </property>
                       <property name="font">
                        <font>
-                        <weight>50</weight>
                         <bold>false</bold>
                        </font>
                       </property>
@@ -1092,7 +1110,6 @@ color: #ffffff;
                       </property>
                       <property name="font">
                        <font>
-                        <weight>50</weight>
                         <bold>false</bold>
                        </font>
                       </property>

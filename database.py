@@ -190,7 +190,7 @@ class Database():
         
 if __name__ == "__main__":
     db=Database()
-    db.cursor.execute("""UPDATE table_01 SET devoir_01 = 3 WHERE id =  8""")
+    db.cursor.execute("""UPDATE table_01 SET paid_in_full = 1 WHERE id = 14 """)
     db.connect.commit()
 
 

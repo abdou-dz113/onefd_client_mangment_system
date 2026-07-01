@@ -63,7 +63,6 @@ def get_from_id (client_id):
     if not client_info:
         print("Client Not Found.")
         return
-    print(client_info)
     #client_info = client_info[0]
     info_dict = {
                     'client_id'     :client_info[0],
