@@ -185,6 +185,18 @@ class Database():
             self.connect.commit()
         except sqlite3.Error as e:
             return print(e)
+    
+    def quick_search(self,search_term):
+        table_select = self.table_select_text
+        conditions = f" WHERE t.username_01 LIKE ? OR t.firstname LIKE ? OR t.lastname LIKE ?; "
+        sql = table_select + conditions
+        search = f"{search_term}%"
+        try:
+            self.cursor.execute(sql,(search,search,search))
+            return self.cursor.fetchall()
+
+        except sqlite3.Error as e:
+            return print(e)    
 
 
         

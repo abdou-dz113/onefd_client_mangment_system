@@ -145,6 +145,9 @@ class MainWindow(QMainWindow):
         self.add_button.clicked.connect(self.insert)
         self.refresh_button.clicked.connect(self.reset_inputs)
         self.get_from_site_button.clicked.connect(self.open_dialog)
+        
+        self.quick_search_button.clicked.connect(self.quick_search)
+        self.quick_search_input.textChanged.connect(self.quick_search)
 
         #_____client edit buttons signals___________________
         self.save_change_button.clicked.connect(self.save_change)
@@ -240,6 +243,16 @@ class MainWindow(QMainWindow):
             else:
                 widget_obj.setProperty("hasError", "false")
             self.redraw_widget(widget_obj)
+
+    def quick_search(self):
+        search_input = self.quick_search_input.text()
+        if search_input:
+            resault = cs.quick_search(search_input)
+            self.table_1.fill_table(resault)
+        else:
+            self.load_table()
+
+
 
     def get_input(self):
         widgets_map = self.widgets_map
@@ -383,6 +396,7 @@ class MainWindow(QMainWindow):
                 print(self.table_1.row_id)
                 self.open_dashboard()
                 self.load_table()
+                self.dashboard_1.setChecked(True)
             
 
 
@@ -433,6 +447,7 @@ class CustomDialog(QDialog):
             self.captcha_label.setPixmap(pixmap)
         else:
             self.captcha_label.setText("Failed to load captcha.") 
+ 
     def login(self):
         username = self.username.text()
         password = self.password.text()
@@ -550,7 +565,7 @@ class TabelWidget(QTableWidget):
             self.horizontalHeader().setVisible(False)
             return
         clients_number = len(data_matrix)
-
+        self.init_table_settings()
         self.setRowCount(clients_number)
 
         self.horizontalHeader().setVisible(True)

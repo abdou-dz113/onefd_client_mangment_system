@@ -98,6 +98,12 @@ def search_by_id(client_id):
     if result:
         return result
 
+def quick_search(inputs):
+    if inputs:
+        results = db.quick_search(inputs)
+        print(results)
+        return results
+
 def delete(client_id):
     result = db.delete(client_id)
     return result
